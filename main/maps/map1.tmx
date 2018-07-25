@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.1.6" orientation="orthogonal" renderorder="right-down" width="16" height="16" tilewidth="32" tileheight="32" infinite="0" nextobjectid="12">
- <tileset firstgid="1" source="../tiles/Tiny32 Basic.tsx"/>
+ <tileset firstgid="1" source="../old/Tiny32 Basic.tsx"/>
  <layer name="Desert" width="16" height="16" locked="1">
   <data encoding="csv">
 60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,
