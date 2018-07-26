@@ -37,3 +37,17 @@ Our plan for the game is to have a game in which the user will have to escape. F
   - decided on [ExcaliburJS](https://excaliburjs.com)
   - !!!!!! Don't forget Tiled and excaliburjs/excalibur-tiled
 
+
+## Classes Required
+- fight class
+- Character Stats
+- Movement
+- Changing rooms
+- Buy/Sell
+
+## Functions Required
+- init
+- spawning/respawning
+- end conditions
+- starting restarting game
+- saving game
