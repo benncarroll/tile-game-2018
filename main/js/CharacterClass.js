@@ -38,7 +38,7 @@ Class Character
 
     get Stats()
     {
-        return this.statAtk, this.statAgi, this.statCha, this.statEnd, this.statInt, this.statLck
+        return this.statAtk, this.statAgi, this.statCha, this.statEnd, this.statInt, this.statLck;
     }
     set Stats(statStr, statAgi, statCha, statEnd, statInt, statLck)
     {
@@ -50,5 +50,5 @@ Class Character
         this.statLck = statLck;
     }
 
-    
+
 }
