@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset name="Tiny32 Basic" tilewidth="16" tileheight="16" tilecount="256" columns="16">
- <image source="set1.png" width="256" height="256"/>
+ <image source="tileset-alt.png" width="256" height="256"/>
  <terraintypes>
   <terrain name="Grass" tile="31"/>
   <terrain name="Air" tile="156"/>
@@ -215,57 +215,58 @@
   </animation>
  </tile>
  <wangsets>
-  <wangset name="Grass" tile="-1">
-   <wangedgecolor name="" color="#ff0000" tile="-1" probability="1"/>
-   <wangedgecolor name="" color="#00ff00" tile="-1" probability="1"/>
-   <wangtile tileid="26" wangid="0x1020201"/>
-   <wangtile tileid="27" wangid="0x2020101"/>
-   <wangtile tileid="28" wangid="0x1020201"/>
-   <wangtile tileid="29" wangid="0x2020101"/>
+  <wangset name="Everything" tile="-1">
+   <wangedgecolor name="Carpet" color="#ff0000" tile="-1" probability="1"/>
+   <wangedgecolor name="Grass" color="#00ff00" tile="-1" probability="1"/>
+   <wangedgecolor name="Nothing" color="#0000ff" tile="-1" probability="1"/>
+   <wangedgecolor name="Sand" color="#ff7700" tile="-1" probability="1"/>
+   <wangedgecolor name="Lava" color="#00e9ff" tile="-1" probability="1"/>
+   <wangedgecolor name="Wall 1" color="#ff00d8" tile="-1" probability="1"/>
+   <wangedgecolor name="Wall 2" color="#ffff00" tile="-1" probability="1"/>
+   <wangtile tileid="8" wangid="0x6000600"/>
+   <wangtile tileid="9" wangid="0x60006"/>
+   <wangtile tileid="10" wangid="0x6000606"/>
+   <wangtile tileid="11" wangid="0x6060600"/>
+   <wangtile tileid="12" wangid="0x7000700"/>
+   <wangtile tileid="13" wangid="0x70007"/>
+   <wangtile tileid="14" wangid="0x7000707"/>
+   <wangtile tileid="15" wangid="0x7070700"/>
+   <wangtile tileid="26" wangid="0x20200"/>
+   <wangtile tileid="27" wangid="0x2020000"/>
+   <wangtile tileid="28" wangid="0x20200"/>
+   <wangtile tileid="29" wangid="0x2020000"/>
    <wangtile tileid="30" wangid="0x2020202"/>
    <wangtile tileid="31" wangid="0x2020202"/>
-   <wangtile tileid="42" wangid="0x1010202"/>
-   <wangtile tileid="43" wangid="0x2010102"/>
-   <wangtile tileid="44" wangid="0x1010202"/>
-   <wangtile tileid="45" wangid="0x2010102"/>
+   <wangtile tileid="42" wangid="0x202"/>
+   <wangtile tileid="43" wangid="0x2000002"/>
+   <wangtile tileid="44" wangid="0x202"/>
+   <wangtile tileid="45" wangid="0x2000002"/>
    <wangtile tileid="46" wangid="0x2020202"/>
    <wangtile tileid="47" wangid="0x2020202"/>
-  </wangset>
-  <wangset name="Carpet" tile="-1">
-   <wangedgecolor name="Not Carpet" color="#ff0000" tile="-1" probability="1"/>
-   <wangedgecolor name="Carpet" color="#00ff00" tile="-1" probability="1"/>
-   <wangtile tileid="93" wangid="0x2020202"/>
-   <wangtile tileid="94" wangid="0x1020201"/>
-   <wangtile tileid="95" wangid="0x2020101"/>
-   <wangtile tileid="110" wangid="0x1010202"/>
-   <wangtile tileid="111" wangid="0x2010102"/>
-  </wangset>
-  <wangset name="Lava" tile="-1">
-   <wangedgecolor name="" color="#ff0000" tile="-1" probability="1"/>
-   <wangedgecolor name="" color="#00ff00" tile="-1" probability="1"/>
-   <wangtile tileid="83" wangid="0x2010102"/>
-   <wangtile tileid="84" wangid="0x1010102"/>
-   <wangtile tileid="85" wangid="0x1010202"/>
-   <wangtile tileid="87" wangid="0x2020202"/>
-   <wangtile tileid="88" wangid="0x2020202"/>
-   <wangtile tileid="99" wangid="0x2010101"/>
-   <wangtile tileid="101" wangid="0x1010201"/>
-   <wangtile tileid="115" wangid="0x2020101"/>
-   <wangtile tileid="116" wangid="0x1020101"/>
-   <wangtile tileid="117" wangid="0x1020201"/>
-  </wangset>
-  <wangset name="Desert" tile="-1">
-   <wangedgecolor name="" color="#ff0000" tile="-1" probability="1"/>
-   <wangedgecolor name="" color="#00ff00" tile="-1" probability="1"/>
-   <wangtile tileid="59" wangid="0x2020202"/>
-   <wangtile tileid="60" wangid="0x1020201"/>
-   <wangtile tileid="61" wangid="0x2020101"/>
-   <wangtile tileid="62" wangid="0x1020201"/>
-   <wangtile tileid="63" wangid="0x2020101"/>
-   <wangtile tileid="76" wangid="0x1010202"/>
-   <wangtile tileid="77" wangid="0x2010102"/>
-   <wangtile tileid="78" wangid="0x1010202"/>
-   <wangtile tileid="79" wangid="0x2010102"/>
+   <wangtile tileid="59" wangid="0x4040404"/>
+   <wangtile tileid="60" wangid="0x40400"/>
+   <wangtile tileid="61" wangid="0x4040000"/>
+   <wangtile tileid="62" wangid="0x40400"/>
+   <wangtile tileid="63" wangid="0x4040000"/>
+   <wangtile tileid="76" wangid="0x404"/>
+   <wangtile tileid="77" wangid="0x4000004"/>
+   <wangtile tileid="78" wangid="0x404"/>
+   <wangtile tileid="79" wangid="0x4000004"/>
+   <wangtile tileid="83" wangid="0x5000005"/>
+   <wangtile tileid="84" wangid="0x5"/>
+   <wangtile tileid="85" wangid="0x505"/>
+   <wangtile tileid="87" wangid="0x5050505"/>
+   <wangtile tileid="88" wangid="0x5050505"/>
+   <wangtile tileid="93" wangid="0x1010101"/>
+   <wangtile tileid="94" wangid="0x10100"/>
+   <wangtile tileid="95" wangid="0x1010000"/>
+   <wangtile tileid="99" wangid="0x5000000"/>
+   <wangtile tileid="101" wangid="0x500"/>
+   <wangtile tileid="110" wangid="0x101"/>
+   <wangtile tileid="111" wangid="0x1000001"/>
+   <wangtile tileid="115" wangid="0x5050000"/>
+   <wangtile tileid="116" wangid="0x50000"/>
+   <wangtile tileid="117" wangid="0x50500"/>
   </wangset>
  </wangsets>
 </tileset>
