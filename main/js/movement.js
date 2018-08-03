@@ -4,4 +4,4 @@ var Movement = (function () {
     }
     return Movement;
 }());
-//# sourceMappingURL=MovementClass.js.map
+//# sourceMappingURL=movement.js.map
