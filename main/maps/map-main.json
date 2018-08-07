@@ -17,13 +17,13 @@
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.1.6",
- "tileheight":16,
+ "tileHeight":16,
  "tilesets":[
         {
          "firstgid":1,
          "source":"..\/tiles\/main.tsx"
         }],
- "tilewidth":16,
+ "tileWidth":16,
  "type":"map",
  "version":1,
  "width":100
