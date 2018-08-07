@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "sourceMap": true
+    },
+    "files": [
+        "character.ts",
+        "movement.ts"
+    ],
+    "compileOnSave": true,
+    "compilerOptions": {
+       "noImplicitAny" : true
+   }
+}
