@@ -1,34 +1,22 @@
-import { ex } from "../lib/excalibur.min.js";
+import Resource from 'scripts/src/lib/excalibur.js';
+import Promise from 'scripts/src/lib/excalibur.js';
+import Texture from 'scripts/src/lib/excalibur.js';
+import TileMap from 'scripts/src/lib/excalibur.js';
+import TileSprite from 'scripts/src/lib/excalibur.js';
+import SpriteSheet from 'scripts/src/lib/excalibur.js';
+import Logger from 'scripts/src/lib/excalibur.js';
 
-var Resource = ex.Resource;
-var Promise = ex.Promise;
-var Texture = ex.Texture;
-var TileMap = ex.TileMap;
-var TileSprite = ex.TilleSprite;
-var SpriteSheet = ex.SpriteSheet;
-var Logger = ex.Logger;
-
+// import * as ex from 'scripts/src/lib/excalibur.js';
 
 import { ITiledMap, ITiledTileSet } from './ITiledMap';
-// import * as pako from 'node_modules/pako/dist/pako.min.js';
 
 export enum TiledMapFormat {
-
-   /**
-    * TMX map layer format
-    * @unsupported
-    */
    TMX,
-
-   /**
-    * JSON map layer format
-    */
    JSON
 }
 
 export default class TiledResource extends Resource<ITiledMap> {
   data: any;
-  // data: any;
   [x: string]: any;
 
    protected mapFormat: TiledMapFormat;

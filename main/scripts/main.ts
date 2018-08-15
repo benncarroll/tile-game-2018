@@ -1,6 +1,6 @@
 // Object.defineProperty(exports, "__esModule", { value: true });
 
-import { ex } from 'scripts/lib/excalibur.min.js';
+import * as ex from 'scripts/src/lib/excalibur.js';
 import TiledResource from 'scripts/src/index.js';
 
 // var ex:any = require('excalibur');

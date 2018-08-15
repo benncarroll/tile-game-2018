@@ -1,9 +1,9 @@
 {
-   "compilerOptions": {
-      "module": "commonjs",
-      "target": "ES5",
-      "declaration": true,
-      "outDir": "../lib",
-      "sourceMap": true
-   }
+  "compilerOptions": {
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "system",
+    "target": "es5",
+    "allowJs": true
+  }
 }

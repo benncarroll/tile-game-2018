@@ -1,6 +1,6 @@
-import * as ex from 'scripts/lib/excalibur.min.js';
+import Actor from 'scripts/src/lib/excalibur.js';
 
-export default class Character extends ex.Actor {
+export default class Character extends Actor {
   readonly name: string;
   lvl: number;
   health: number;
