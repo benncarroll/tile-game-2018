@@ -1,7 +1,13 @@
-var Movement = (function () {
-    function Movement(playerName) {
+/*jshint esversion: 6 */
+class Movement
+{
+    ////////////////////////////
+    //  CONSTRUCTOR FUNCTION  //
+    ////////////////////////////
+
+    constructor(playerName)
+    {
         this.playerName = playerName;
     }
-    return Movement;
-}());
-//# sourceMappingURL=movement.js.map
+
+}
