@@ -261,3 +261,5 @@ __pycache__/
 *.pyc
 
 main/\.Ulysses-Group\.plist
+
+main/scripts/\.Ulysses-Group\.plist
