@@ -1,11 +1,11 @@
-# tile-game-2018
+# FuseBlade
 Carroll & Karozis
 
 ---
 
-### A tile-based game for our 2018 Assessment.
+### A tile-based game for our 2018 11SDD Assessment.
 
-Our plan for the game is to have a game in which the user will have to escape. For the graphic element, we plan to go for a simplistic spritesheet that will be able to flow and connect cleanly without an excess of detail. Our game will be web-based, running on a JavaScript base.
+Our plan for the game is to make a basic RPG with modern technologies that will make it easily expandable in the future. For the graphic element, we plan to go for a simplistic spritesheet that will be able to flow and connect cleanly without an excess of detail. Our game will run in a browser on a JavaScript base.
 
 ## Ideas
 
@@ -25,29 +25,37 @@ Our plan for the game is to have a game in which the user will have to escape. F
     - higher overall level increases health
     - different weapons allow for different likelihoods of hit/miss
 
-- Implementation
-  - JavaScript in canvas, library possibilities:
+## Game Engine Ideas
 
 | Library           | Pros           | Cons     |
 | :-------------    | :------------- | :------- |
-| ExcaliburJS       | Extensive Tile support, support for Tiled map editor, extensive docs | ❌ |
+| ExcaliburJS       | Extensive Tile support, support for Tiled map editor, extensive docs | Requires node modules and packing (big no thankyou) |
 | JSiso | 3D isometric (hence name), detailed | little docs |
-| Phaser | Extremely extensive, good docs | too wide ranging,  |
+| Phaser | Extremely extensive, good docs | Seems to be to wide |
 
   - decided on [ExcaliburJS](https://excaliburjs.com)
-  - !!!!!! Don't forget Tiled and excaliburjs/excalibur-tiled
+  - realised this was a really dumb decision
+  - now transitioned to [Phaser.js](https://phaser.io) and have a working copy
 
+> sidenote:
+>
+> 12+ hours was spent on Excalibur to no avail, the webpage did not even render once.
+> It will not be touched ever again even with a 120-foot carbon fibre shock-absorbent pole
+>
+> conversely, phaser, is amazing.
+> In 3 hours I have been able to load a tilemap, create a movable player with a following camera and even animate the bloody guy.
+> Evidently, phaser will be exalted from here on in.
 
 ## Classes Required
-- fight class
+- Fight class
 - Character Stats
 - Movement
 - Changing rooms
 - Buy/Sell
 
 ## Functions Required
-- init
-- spawning/respawning
-- end conditions
-- starting restarting game
-- saving game
+- Initialisation
+- Spawning/respawning
+- End conditions
+- Starting restarting game
+- Saving game
