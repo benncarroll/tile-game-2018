@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "module": "system",
+    "target": "es5",
+    "allowJs": true
+  }
+}
