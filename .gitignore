@@ -75,3 +75,11 @@ typings/
 # Serverless directories
 .serverless
 
+<<<<<<< HEAD
+main/\.Ulysses-Group\.plist
+
+main/scripts/\.Ulysses-Group\.plist
+=======
+>>>>>>> master
+.Ulysses-Group.plist
+.Ulysses-Group.plist
