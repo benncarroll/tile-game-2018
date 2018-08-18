@@ -7,6 +7,8 @@ Carroll & Karozis
 
 Our plan for the game is to make a basic RPG with modern technologies that will make it easily expandable in the future. For the graphic element, we plan to go for a simplistic spritesheet that will be able to flow and connect cleanly without an excess of detail. Our game will run in a browser on a JavaScript base.
 
+Available live at [http://projects.bencarroll.tech/fuseblade](http://projects.bencarroll.tech/fuseblade) !
+
 ## Ideas
 
 - Gameplay
