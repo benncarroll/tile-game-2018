@@ -1,20 +1,23 @@
-var playerSpeed = 80;
+// var dat;
+
+var playerSpeed = 30;
 
 // var swidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
 // var sheight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-var cam = ""
+var cam;
+var cameraDolly;
+var p;
+var removedLoad = false;
+
 var config = {
   type: Phaser.AUTO,
   width: window.innerWidth,
   height: window.innerHeight,
   pixelArt: true,
+  antialias: false,
   physics: {
     default: 'arcade',
-    arcade: {
-      gravity: {
-        y: 0
-      }
-    }
+    // arcade: { debug: true }
   },
   scene: {
     preload: preload,
@@ -52,41 +55,23 @@ function create() {
   // You can load a layer from the map using the layer name from Tiled, or by using the layer index (0 in this case).
   var layer = map.createStaticLayer(0, tiles, 0, 0);
 
-
-
-  //// Camera Control
-  // var cursors = this.input.keyboard.createCursorKeys();
-  // var controlConfig = {
-  //     camera: this.cameras.main,
-  //     left: cursors.left,
-  //     right: cursors.right,
-  //     up: cursors.up,
-  //     down: cursors.down,
-  //     speed: 0.1
-  // };
-  // controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
-
-  //// Text
-  // var help = this.add.text(16, 16, 'Arrow keys to scroll', {
-  //     fontSize: '18px',
-  //     padding: { x: 10, y: 5 },
-  //     backgroundColor: '#000000',
-  //     fill: '#ffffff'
-  // });
-  // help.setScrollFactor(0);
+  this.physics.world.setBounds(124, 124, 1352, 1352)
 
   // Player
-  player = this.physics.add.sprite(100, 450, 'walker');
+  player = this.physics.add.sprite(184.5, 247, 'walker');
+  p = player
+  player.setScale(0.75)
   player.setCollideWorldBounds(true);
   this.physics.add.collider(player);
   cursors = this.input.keyboard.createCursorKeys();
 
-  createAnims();
+  createAnims(this.anims);
 
-  cam = this.cameras.main
-  this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
-  this.cameras.main.zoom = 2
-  this.cameras.main.startFollow(player)
+  cam = this.cameras.main;
+  cameraDolly = new Phaser.Geom.Point(p.x, p.y)
+  cam.zoom = 4;
+  cam.setBounds(0, 0, map.widthInPixels * cam.zoom, map.heightInPixels * cam.zoom);
+  cam.startFollow(cameraDolly);
   this.events.on('resize', resize, this);
 
 }
@@ -94,7 +79,19 @@ function create() {
 var lastDir = "down"
 
 function update(time, delta) {
-  // controls.update(delta);
+  if (!removedLoad) {
+    var elem = document.querySelector('#loader');
+    elem.parentNode.removeChild(elem);
+    removedLoad = true;
+  }
+  updateCamera()
+  updatePlayer()
+}
+
+//
+// Player update
+//
+function updatePlayer() {
 
   if (cursors.left.isDown) {
     player.setVelocityX(-playerSpeed);
@@ -108,6 +105,7 @@ function update(time, delta) {
     player.setVelocityX(0);
     player.anims.play(lastDir + "-stop", true);
   }
+
   if (cursors.up.isDown) {
     player.setVelocityY(-playerSpeed);
     player.anims.play('up', true);
@@ -119,14 +117,22 @@ function update(time, delta) {
   } else {
     player.setVelocityY(0);
     player.anims.play(lastDir + "-stop", true);
-
   }
+
+}
+
+//
+// Camera update
+//
+function updateCamera() {
+  cameraDolly.x = p.x;
+  cameraDolly.y = p.y;
 }
 
 //
 // Create Animations
 //
-function createAnims() {
+function createAnims(_anims) {
   animDict = [
     ['down', [1, 3]],
     ['left', [4, 5]],
@@ -151,14 +157,14 @@ function createAnims() {
         frame: l[1][0]
       }]
     } else {
-      f = game.anims.generateFrameNumbers('walker', {
+      f = _anims.generateFrameNumbers('walker', {
         start: l[1][0],
         end: l[1][1]
       })
     }
-    console.log(n, f);
+    // console.log(n, f);
 
-    game.anims.create({
+    _anims.create({
       key: n,
       frames: f,
       frameRate: 5,
