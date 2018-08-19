@@ -58,27 +58,7 @@ function create() {
     // layerArray[i].setOrigin(100,100)
   }
 
-
-  //// Camera Control
-  // var cursors = this.input.keyboard.createCursorKeys();
-  // var controlConfig = {
-  //     camera: this.cameras.main,
-  //     left: cursors.left,
-  //     right: cursors.right,
-  //     up: cursors.up,
-  //     down: cursors.down,
-  //     speed: 0.1
-  // };
-  // controls = new Phaser.Cameras.Controls.FixedKeyControl(controlConfig);
-
-  //// Text
-  // var help = this.add.text(16, 16, 'Arrow keys to scroll', {
-  //     fontSize: '18px',
-  //     padding: { x: 10, y: 5 },
-  //     backgroundColor: '#000000',
-  //     fill: '#ffffff'
-  // });
-  // help.setScrollFactor(0);
+  this.physics.world.setBounds(124, 124, 1352, 1352)
 
   // Player
   player = this.physics.add.sprite(100, 450, 'walker');
