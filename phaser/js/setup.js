@@ -25,7 +25,8 @@ var config = {
 var game = new Phaser.Game(config);
 
 function preload() {
-  this.load.image('tiles', 'images/tileset-main.gif', 16, 16);
+  this.load.image('tiles-main', 'images/tileset-main.gif', 16, 16);
+  this.load.image('tiles-alt', 'images/tileset-alt.png', 16, 16);
   this.load.tilemapTiledJSON('map', 'levels/level0.json');
   this.load.spritesheet('walker', 'images/walker.png', {
     frameWidth: 16,
@@ -47,11 +48,15 @@ function create() {
   });
 
   // The first parameter is the name of the tileset in Tiled and the second parameter is the key of the tileset image used when loading the file in preload.
-  var tiles = map.addTilesetImage('main', 'tiles');
+  var tiles = map.addTilesetImage('main', 'tiles-main');
 
-  // You can load a layer from the map using the layer name from Tiled, or by using the layer index (0 in this case).
-  var layer = map.createStaticLayer(0, tiles, 0, 0);
-
+  // You can load a layer from the map using the layer name from Tiled, or by using the layer index
+  layerArray = []
+  for (var i = 0; i < map.layers.length; i++) {
+    map.layers[i]
+    layerArray[i] = map.createStaticLayer(i, tiles, 0, 0);
+    // layerArray[i].setOrigin(100,100)
+  }
 
 
   //// Camera Control

@@ -20,8 +20,30 @@
  "tileHeight":16,
  "tilesets":[
         {
+          "columns":18,
          "firstgid":1,
-         "source":"..\/tiles\/main.tsx"
+         "image":"..\/images\/tileset-main.gif",
+         "imageheight":288,
+         "imagewidth":288,
+         "margin":0,
+         "name":"main",
+         "spacing":0,
+         "tilecount":324,
+         "tileheight":16,
+         "tilewidth":16
+        },
+	{
+          "columns":18,
+         "firstgid":257,
+         "image":"..\/images\/tileset-alt.png",
+         "imageheight":256,
+         "imagewidth":256,
+         "margin":0,
+         "name":"alt",
+         "spacing":0,
+         "tilecount":256,
+         "tileheight":16,
+         "tilewidth":16
         }],
  "tileWidth":16,
  "type":"map",
