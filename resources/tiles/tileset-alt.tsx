@@ -7,15 +7,170 @@
   <terrain name="Desert" tile="59"/>
   <terrain name="Carpet" tile="94"/>
  </terraintypes>
+ <tile id="4">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="5">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="6">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="7">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="8">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="9">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="10">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="11">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="12">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="13">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="14">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="15">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="19">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="20">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="21">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="22">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="23">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="24">
   <animation>
+   <frame tileid="4" duration="100"/>
    <frame tileid="5" duration="100"/>
    <frame tileid="6" duration="100"/>
    <frame tileid="7" duration="100"/>
   </animation>
  </tile>
- <tile id="21">
+ <tile id="25">
   <animation>
+   <frame tileid="20" duration="100"/>
    <frame tileid="21" duration="100"/>
    <frame tileid="22" duration="100"/>
    <frame tileid="23" duration="100"/>
@@ -27,11 +182,57 @@
  <tile id="29" terrain="0,1,0,0"/>
  <tile id="30" terrain="0,0,0,0" probability="0.8"/>
  <tile id="31" terrain="0,0,0,0" probability="0.075"/>
+ <tile id="35">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="36">
+  <objectgroup draworder="index">
+   <object id="1" x="1" y="4" width="14" height="12">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="37">
+  <objectgroup draworder="index">
+   <object id="1" x="1" y="4" width="14" height="12">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="38">
+  <objectgroup draworder="index">
+   <object id="1" x="1" y="4" width="14" height="12">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="39">
+  <objectgroup draworder="index">
+   <object id="1" x="1" y="4" width="14" height="12">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="40">
   <animation>
-   <frame tileid="37" duration="150"/>
-   <frame tileid="38" duration="150"/>
-   <frame tileid="39" duration="150"/>
+   <frame tileid="36" duration="100"/>
+   <frame tileid="37" duration="100"/>
+   <frame tileid="38" duration="100"/>
+   <frame tileid="39" duration="100"/>
   </animation>
  </tile>
  <tile id="42" terrain="1,0,1,1"/>
@@ -40,9 +241,55 @@
  <tile id="45" terrain="0,0,0,1"/>
  <tile id="46" terrain="0,0,0,0" probability="0.075"/>
  <tile id="47" terrain="0,0,0,0" probability="0.05"/>
+ <tile id="51">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="9" width="16" height="7">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="52">
+  <objectgroup draworder="index">
+   <object id="1" x="2" y="4" width="12" height="12">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="53">
+  <objectgroup draworder="index">
+   <object id="1" x="2" y="4" width="12" height="12">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="54">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="55">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="6" width="16" height="9">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="56">
   <animation>
-   <frame tileid="53" duration="500"/>
+   <frame tileid="52" duration="500"/>
+   <frame tileid="53" duration="200"/>
    <frame tileid="54" duration="200"/>
    <frame tileid="55" duration="500"/>
   </animation>
@@ -52,51 +299,256 @@
  <tile id="61" terrain="1,1,2,1"/>
  <tile id="62" terrain=",2,2,2"/>
  <tile id="63" terrain="2,,2,2"/>
+ <tile id="67">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="68">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="69">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="70">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="71">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="72">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="2" width="16" height="14">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="73">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="76" terrain="1,2,1,1"/>
  <tile id="77" terrain="2,1,1,1"/>
  <tile id="78" terrain="2,2,,2"/>
  <tile id="79" terrain="2,2,2,"/>
  <tile id="80">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
   <animation>
-   <frame tileid="80" duration="100"/>
-   <frame tileid="81" duration="100"/>
-   <frame tileid="82" duration="100"/>
+   <frame tileid="81" duration="150"/>
+   <frame tileid="80" duration="150"/>
+   <frame tileid="81" duration="150"/>
+   <frame tileid="82" duration="150"/>
   </animation>
  </tile>
- <tile id="93" terrain="3,3,3,3"/>
- <tile id="94" terrain=",,,3"/>
- <tile id="95" terrain=",,3,"/>
+ <tile id="81">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="82">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="93" terrain="3,3,3,3">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="94" terrain=",,,3">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="95" terrain=",,3,">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="96">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
   <animation>
-   <frame tileid="96" duration="100"/>
-   <frame tileid="97" duration="100"/>
-   <frame tileid="98" duration="100"/>
+   <frame tileid="97" duration="150"/>
+   <frame tileid="96" duration="150"/>
+   <frame tileid="97" duration="150"/>
+   <frame tileid="98" duration="150"/>
   </animation>
  </tile>
- <tile id="110" terrain=",3,,"/>
- <tile id="111" terrain="3,,,"/>
+ <tile id="97">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="98">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="100">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="107">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="110" terrain=",3,,">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="111" terrain="3,,,">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="false"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="112">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
   <animation>
-   <frame tileid="112" duration="100"/>
-   <frame tileid="113" duration="100"/>
-   <frame tileid="114" duration="100"/>
+   <frame tileid="113" duration="150"/>
+   <frame tileid="112" duration="150"/>
+   <frame tileid="113" duration="150"/>
+   <frame tileid="114" duration="150"/>
   </animation>
+ </tile>
+ <tile id="113">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="114">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
  </tile>
  <tile id="129">
   <animation>
+   <frame tileid="128" duration="100"/>
    <frame tileid="129" duration="200"/>
+   <frame tileid="128" duration="100"/>
    <frame tileid="130" duration="200"/>
   </animation>
  </tile>
  <tile id="132">
   <animation>
+   <frame tileid="131" duration="100"/>
    <frame tileid="132" duration="200"/>
+   <frame tileid="131" duration="100"/>
    <frame tileid="133" duration="200"/>
   </animation>
  </tile>
  <tile id="135">
   <animation>
+   <frame tileid="134" duration="100"/>
    <frame tileid="135" duration="200"/>
+   <frame tileid="134" duration="100"/>
    <frame tileid="136" duration="200"/>
   </animation>
  </tile>
@@ -109,23 +561,46 @@
  </tile>
  <tile id="145">
   <animation>
+   <frame tileid="144" duration="100"/>
    <frame tileid="145" duration="200"/>
+   <frame tileid="144" duration="100"/>
    <frame tileid="146" duration="200"/>
   </animation>
  </tile>
  <tile id="148">
   <animation>
+   <frame tileid="147" duration="100"/>
    <frame tileid="148" duration="200"/>
+   <frame tileid="147" duration="100"/>
    <frame tileid="149" duration="200"/>
   </animation>
  </tile>
  <tile id="151">
   <animation>
+   <frame tileid="150" duration="100"/>
    <frame tileid="151" duration="200"/>
+   <frame tileid="150" duration="100"/>
    <frame tileid="152" duration="200"/>
   </animation>
  </tile>
- <tile id="155" terrain="1,1,1,1"/>
+ <tile id="155" terrain="1,1,1,1">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="156">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="157">
   <animation>
    <frame tileid="157" duration="400"/>
@@ -135,19 +610,25 @@
  </tile>
  <tile id="161">
   <animation>
+   <frame tileid="160" duration="100"/>
    <frame tileid="161" duration="200"/>
+   <frame tileid="160" duration="100"/>
    <frame tileid="162" duration="200"/>
   </animation>
  </tile>
  <tile id="164">
   <animation>
+   <frame tileid="163" duration="100"/>
    <frame tileid="164" duration="200"/>
+   <frame tileid="163" duration="100"/>
    <frame tileid="165" duration="200"/>
   </animation>
  </tile>
  <tile id="167">
   <animation>
+   <frame tileid="166" duration="100"/>
    <frame tileid="167" duration="200"/>
+   <frame tileid="166" duration="100"/>
    <frame tileid="168" duration="200"/>
   </animation>
  </tile>
@@ -160,19 +641,25 @@
  </tile>
  <tile id="177">
   <animation>
+   <frame tileid="176" duration="100"/>
    <frame tileid="177" duration="200"/>
+   <frame tileid="176" duration="100"/>
    <frame tileid="178" duration="200"/>
   </animation>
  </tile>
  <tile id="180">
   <animation>
+   <frame tileid="179" duration="100"/>
    <frame tileid="180" duration="200"/>
+   <frame tileid="179" duration="100"/>
    <frame tileid="181" duration="200"/>
   </animation>
  </tile>
  <tile id="183">
   <animation>
+   <frame tileid="182" duration="100"/>
    <frame tileid="183" duration="200"/>
+   <frame tileid="182" duration="100"/>
    <frame tileid="184" duration="200"/>
   </animation>
  </tile>
@@ -185,34 +672,227 @@
  </tile>
  <tile id="193">
   <animation>
+   <frame tileid="192" duration="100"/>
    <frame tileid="193" duration="200"/>
+   <frame tileid="192" duration="100"/>
    <frame tileid="194" duration="200"/>
   </animation>
  </tile>
- <tile id="205">
+ <tile id="196">
   <animation>
+   <frame tileid="196" duration="100"/>
+   <frame tileid="195" duration="100"/>
+  </animation>
+ </tile>
+ <tile id="199">
+  <animation>
+   <frame tileid="199" duration="300"/>
+   <frame tileid="198" duration="300"/>
+  </animation>
+ </tile>
+ <tile id="202">
+  <animation>
+   <frame tileid="202" duration="100"/>
+   <frame tileid="201" duration="100"/>
+  </animation>
+ </tile>
+ <tile id="205">
+  <objectgroup draworder="index">
+   <object id="1" x="3" y="5" width="10" height="11">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+  <animation>
+   <frame tileid="206" duration="150"/>
    <frame tileid="205" duration="150"/>
    <frame tileid="206" duration="150"/>
    <frame tileid="207" duration="150"/>
   </animation>
  </tile>
+ <tile id="206">
+  <objectgroup draworder="index">
+   <object id="1" x="3" y="5" width="10" height="11">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="207">
+  <objectgroup draworder="index">
+   <object id="1" x="3" y="5" width="10" height="11">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="209">
   <animation>
+   <frame tileid="208" duration="100"/>
    <frame tileid="209" duration="200"/>
+   <frame tileid="208" duration="100"/>
    <frame tileid="210" duration="200"/>
   </animation>
  </tile>
+ <tile id="212">
+  <animation>
+   <frame tileid="212" duration="100"/>
+   <frame tileid="211" duration="100"/>
+  </animation>
+ </tile>
+ <tile id="215">
+  <animation>
+   <frame tileid="215" duration="300"/>
+   <frame tileid="214" duration="300"/>
+  </animation>
+ </tile>
+ <tile id="218">
+  <animation>
+   <frame tileid="218" duration="100"/>
+   <frame tileid="217" duration="100"/>
+  </animation>
+ </tile>
+ <tile id="221">
+  <objectgroup draworder="index">
+   <object id="1" x="3" y="5" width="10" height="11">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+  <animation>
+   <frame tileid="222" duration="150"/>
+   <frame tileid="221" duration="150"/>
+   <frame tileid="222" duration="150"/>
+   <frame tileid="223" duration="150"/>
+  </animation>
+ </tile>
+ <tile id="222">
+  <objectgroup draworder="index">
+   <object id="1" x="3" y="5" width="10" height="11">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="223">
+  <objectgroup draworder="index">
+   <object id="1" x="3" y="5" width="10" height="11">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="225">
   <animation>
+   <frame tileid="224" duration="100"/>
    <frame tileid="225" duration="200"/>
+   <frame tileid="224" duration="100"/>
    <frame tileid="226" duration="200"/>
   </animation>
  </tile>
+ <tile id="228">
+  <animation>
+   <frame tileid="228" duration="100"/>
+   <frame tileid="227" duration="100"/>
+  </animation>
+ </tile>
+ <tile id="231">
+  <animation>
+   <frame tileid="231" duration="300"/>
+   <frame tileid="230" duration="300"/>
+  </animation>
+ </tile>
+ <tile id="234">
+  <animation>
+   <frame tileid="234" duration="100"/>
+   <frame tileid="233" duration="100"/>
+  </animation>
+ </tile>
+ <tile id="237">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="238">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="239">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
  <tile id="241">
   <animation>
+   <frame tileid="240" duration="100"/>
    <frame tileid="241" duration="200"/>
+   <frame tileid="240" duration="100"/>
    <frame tileid="242" duration="200"/>
   </animation>
+ </tile>
+ <tile id="244">
+  <animation>
+   <frame tileid="244" duration="100"/>
+   <frame tileid="243" duration="100"/>
+  </animation>
+ </tile>
+ <tile id="247">
+  <animation>
+   <frame tileid="247" duration="300"/>
+   <frame tileid="246" duration="300"/>
+  </animation>
+ </tile>
+ <tile id="250">
+  <animation>
+   <frame tileid="250" duration="100"/>
+   <frame tileid="249" duration="100"/>
+  </animation>
+ </tile>
+ <tile id="253">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="254">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
+ </tile>
+ <tile id="255">
+  <objectgroup draworder="index">
+   <object id="1" x="0" y="0" width="16" height="16">
+    <properties>
+     <property name="block" type="bool" value="true"/>
+    </properties>
+   </object>
+  </objectgroup>
  </tile>
  <wangsets>
   <wangset name="Everything" tile="-1">
