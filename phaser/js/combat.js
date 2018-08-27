@@ -1,18 +1,52 @@
 /*jshint esversion: 6 */
-function combatInit(playerName, tile)
+function combat(playerName, tile)
 {
-    while(true)
+    // initialisation of the combat
+    combatInit();
+
+    // loop variables
+    var loop = true;
+    var outcome = null;
+
+    while(loop)
     {
-        if (checkEnd())
+        // start enemy turn
+        switch (enemyTurn())
         {
-            break;
+            case -1:
+                // case for if the player wins
+                loop = false;
+                outcome = "win";
+                break;
+
+            case -2:
+                // case for if the player loses
+                loop = false;
+                outcome = "lose";
+                break;
+        }
+
+        // start player turn
+        switch (playerTurn())
+        {
+            case -1:
+                // case for if the player wins
+                loop = false;
+                outcome = "win";
+                break;
+
+            case -2:
+                // case for if the player loses
+                loop = false;
+                outcome = "lose";
+                break;
         }
     }
-
+    // if the enemy is defeated then end()
     end();
 }
 
-function checkEnd()
+function combatInit()
 {
 
 }
@@ -23,6 +57,11 @@ function playerTurn()
 }
 
 function enemyTurn()
+{
+
+}
+
+function calcDamage()
 {
 
 }
