@@ -1,57 +1,70 @@
 import json, os
+from pprint import pprint
 
-dir = os.fsencode("../levels")
-print()
+ldir = os.fsencode("../levels")
+tdir = os.fsencode("../tiles")
+
+def readJSON(arg):
+    jstring = ""
+    with open(arg) as f:
+        for l in f:
+            jstring += l.strip()
+    return json.loads(jstring)
 
 
-for filename in os.listdir(dir):
+tilesets = {}
+
+print("\nTilesets:")
+for filename in os.listdir(tdir):
     if str(filename).endswith(".json'"):
-        file=os.path.join(dir, filename)
+        file=os.path.join(tdir, filename)
         print(file)
 
-        jstring = ""
-        with open(file) as f:
-            for l in f:
-                jstring += l.strip()
+        jfile = readJSON(file)
 
-        jfile = json.loads(jstring)
+        # Trim wangsets, not needed in map
+        jfile.pop("wangsets", None)
+
+        # Get image link and change path.
+        image_name = jfile["image"].split("/")[-1]
+        image_path = "..\/images\/" + image_name
+        # print(image_name, image_path)
+        jfile["image"] = image_path
+
+        # Get name
+        ts_name = jfile["image"].split("/")[-1].split(".")[0]
+
+        tilesets[ts_name] = jfile
 
 
-
+print("\nLevels:")
+for filename in os.listdir(ldir):
+    if str(filename).endswith(".json'"):
+        file=os.path.join(ldir, filename)
+        print(file)
+        jfile = readJSON(file)
 
         ##### Begin conversion
 
         # Load phaser-friendly tileset into map file
+        required_tilesets = []
+        for ts in jfile["tilesets"]:
+            ts_name = ts["source"].split("/")[-1].split(".")[0]
+            ts_fgid = ts["firstgid"]
+            print(ts_name)
+            required_tilesets.append((ts_name, ts_fgid))
+            pass
 
-        ts = [{
-            'columns': 18,
-            'firstgid': 1,
-            'image': '..\/images\/tileset-main.gif',
-            'imageheight': 288,
-            'imagewidth': 288,
-            'margin': 0,
-            'name': 'main',
-            'spacing': 0,
-            'tilecount': 324,
-            'tileheight': 16,
-            'tilewidth': 16
-          }, {
-            'columns': 18,
-            'firstgid': 257,
-            'image': '..\/images\/tileset-alt.png',
-            'imageheight': 256,
-            'imagewidth': 256,
-            'margin': 0,
-            'name': 'alt',
-            'spacing': 0,
-            'tilecount': 256,
-            'tileheight': 16,
-            'tilewidth': 16
-          }]
-        if jfile['tilesets'] != ts:
-            jfile['tilesets'] = ts
-            print("Updated tileset.")
+        jfile["tilesets"] = []
+        for ts_group in required_tilesets:
+            if ts_group[0] in tilesets:
+                # print()
 
+                the_ts = tilesets[ts_group[0]]
+                the_ts["firstgid"] = ts_group[1]
+
+                jfile["tilesets"].append(the_ts)
+            pass
 
         # Replace key name
         # Add new ones into keys dict like so:
