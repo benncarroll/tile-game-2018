@@ -1,5 +1,4 @@
-var playerSpeed = 20;
-var cameraMode = 'player';
+/*jshint esversion: 6 */
 
 var cam;
 var cameraDolly;
@@ -7,6 +6,11 @@ var p;
 var m;
 var layerDict;
 var removedLoad = false;
+
+var showTiles = false;
+var showFaces = false;
+var showCollidingTiles = false;
+
 
 var config = {
   type: Phaser.AUTO,
@@ -49,17 +53,19 @@ function create() {
     key: 'level0'
   });
   m = map;
+  map.setCollisionByProperty({
+    block: true
+  }, true);
 
   // The first parameter is the name of the tileset in Tiled and the second parameter is the key of the tileset image used when loading the file in preload.
   var tiles = map.addTilesetImage('main', 'tileset-main');
 
   // You can load a layer from the map using the layer name from Tiled, or by using the layer index
-  layerDict = [];
+  // layerDict = [];
   for (var i = 0; i < map.layers.length; i++) {
     // map.layers[i]
-    layerDict[map.layers[i].name] = map.createStaticLayer(i, tiles, 0, 0);
+    this.groundLayer = map.createStaticLayer(i, tiles, 0, 0);
   }
-
 
   // Player
   player = this.physics.add.sprite(184.5, 247, 'walker');
@@ -70,14 +76,7 @@ function create() {
 
   cursors = this.input.keyboard.createCursorKeys();
 
-  this.physics.add.collider(p);
-
-  map.setCollisionByProperty({
-    block: true
-  });
-  // layerDict["Solids"].setCollisionByExclusion[[-1]]
-
-  // console.log(p, map.layers[0]);
+  this.physics.add.collider(p, this.groundLayer);
   this.physics.world.setBounds(124, 124, 1352, 1352);
 
 
@@ -85,10 +84,33 @@ function create() {
 
   cam = this.cameras.main;
   cameraDolly = new Phaser.Geom.Point(p.x, p.y);
-  cam.zoom = 4;
+  cam.zoom = CONST.CAM_ZOOM;
   cam.setBounds(0, 0, map.widthInPixels * cam.zoom, map.heightInPixels * cam.zoom);
   cam.startFollow(cameraDolly);
   this.events.on('resize', resize, this);
+
+
+  // Collision debug
+  debugGraphics = this.add.graphics();
+  // debugGraphics.setScale(1/CAM_ZOOM);
+
+  this.input.keyboard.on('keydown_ONE', function(event) {
+    showTiles = !showTiles;
+    drawDebug();
+  });
+
+  this.input.keyboard.on('keydown_TWO', function(event) {
+    showCollidingTiles = !showCollidingTiles;
+    drawDebug();
+  });
+
+  this.input.keyboard.on('keydown_THREE', function(event) {
+    showFaces = !showFaces;
+    drawDebug();
+  });
+
+  drawDebug();
+
 
 }
 
@@ -103,7 +125,10 @@ function update(time, delta) {
   updateCamera();
   updatePlayer();
   updateDebug();
-  this.physics.add.collider(p, m);
+
+  // this.physics.world.collide(p, this.groundLayer, function() {
+  //   console.log('hit?');
+  // });
 }
 
 //
@@ -115,12 +140,12 @@ function updatePlayer() {
   movingY = false;
 
   if (cursors.left.isDown) {
-    player.setVelocityX(-playerSpeed);
+    player.setVelocityX(-CONST.PLAYER_SPEED);
     player.play('left', true);
     lastDir = "left";
     movingX = true;
   } else if (cursors.right.isDown) {
-    player.setVelocityX(playerSpeed);
+    player.setVelocityX(CONST.PLAYER_SPEED);
     player.play('right', true);
     lastDir = "right";
     movingX = true;
@@ -130,14 +155,14 @@ function updatePlayer() {
   }
 
   if (cursors.up.isDown) {
-    player.setVelocityY(-playerSpeed);
+    player.setVelocityY(-CONST.PLAYER_SPEED);
     if (!movingX) {
       player.play('up', true);
     }
     lastDir = "up";
     movingY = true;
   } else if (cursors.down.isDown) {
-    player.setVelocityY(playerSpeed);
+    player.setVelocityY(CONST.PLAYER_SPEED);
     if (!movingX) {
       player.play('down', true);
     }
@@ -166,14 +191,14 @@ function updateCamera() {
       cameraDolly.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;
       cameraDolly.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;
 
-      cameraDolly.x = limit(cameraDolly.x, p.x - 100, p.x + 100);
-      cameraDolly.y = limit(cameraDolly.y, p.y - 100, p.y + 100);
+      cameraDolly.x = limit(cameraDolly.x, p.x - CONST.CAM_LIMIT, p.x + CONST.CAM_LIMIT);
+      cameraDolly.y = limit(cameraDolly.y, p.y - CONST.CAM_LIMIT, p.y + CONST.CAM_LIMIT);
 
     } // set new drag origin to current position
     this.game.origDragPoint = this.game.input.activePointer.position.clone();
   } else {
     this.game.origDragPoint = null;
-    if (cameraMode == 'screen') {
+    if (CONST.CAM_MODE == 'screen') {
       blocksX = Math.floor(document.documentElement.clientWidth / 16 * cam.zoom);
       blocksY = Math.floor(document.documentElement.clientHeight / 16 * cam.zoom);
 
@@ -249,6 +274,27 @@ function createAnims(_anims) {
   }
 
 }
+
+//
+// Collider Debug draw
+//
+function drawDebug() {
+  var tileColor = showTiles ? new Phaser.Display.Color(105, 210, 231, 100) : null;
+  var colldingTileColor = showCollidingTiles ? new Phaser.Display.Color(243, 134, 48, 100) : null;
+  var faceColor = showFaces ? new Phaser.Display.Color(40, 39, 37, 255) : null;
+
+  debugGraphics.clear();
+
+  // Pass in null for any of the style options to disable drawing that component
+  m.renderDebug(debugGraphics, {
+    tileColor: tileColor, // Non-colliding tiles
+    collidingTileColor: colldingTileColor, // Colliding tiles
+    faceColor: faceColor // Interesting faces, i.e. colliding edges
+  });
+
+  // helpText.setText(getHelpMessage());
+}
+
 
 //
 // Resize stuff
