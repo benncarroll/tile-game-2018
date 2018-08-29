@@ -4,6 +4,7 @@ var cam;
 var cameraDolly;
 var p;
 var m;
+var f;
 var layerDict;
 var removedLoad = false;
 
@@ -75,17 +76,19 @@ function create() {
   p.setScale(0.75);
   p.setOrigin(0.5, 0.75);
   p.setCollideWorldBounds(true);
-/*
+
+
   // Attack box
-  this.fightBox = Scene.add.graphics();
+  this.fightBox = this.add.graphics();
   f = this.fightBox;
 
-  var screenWidth = this.scene.sys.game.config.width;
-  var screenHeight = this.scene.sys.game.config.height;
+  var sw = this.sys.game.config.width;
+  var sh = this.sys.game.config.height;
+  var cz = CONST.CAM_ZOOM;
+  var fbm = CONST.FIGHT_BOX_MARGIN;
 
-  f.fillRect(p.x - (screenWidth/2) + 50, p.y - (screenHeight/2) + 50, screenWidth - 100, screenHeight - 100);
-  graphics.fillStyle(0xFFFFFF, 0);
-*/
+  f.fillStyle(0x1E1E1E, 1);
+  f.fillRect(p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm, sw/cz - fbm*2, sh/cz - fbm*2);
 
 
   cursors = this.input.keyboard.createCursorKeys();
@@ -125,10 +128,10 @@ function create() {
 
   drawDebug();
 
-/*
-  this.sys.install('DialogModalPlugin');
-  this.sys.dialogModal.init();
-*/
+
+  // this.sys.install('DialogModalPlugin');
+  // this.sys.dialogModal.init();
+
 
 }
 
