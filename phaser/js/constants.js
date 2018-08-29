@@ -1,3 +1,4 @@
+/*jshint esversion: 6 */
 var CONST = {
   'PLAYER_SPEED':20,    // Player pixels/second
   'CAM_ZOOM':4,         // Camera zoom level

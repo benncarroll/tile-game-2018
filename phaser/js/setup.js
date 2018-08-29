@@ -87,10 +87,15 @@ function create() {
   var cz = CONST.CAM_ZOOM;
   var fbm = CONST.FIGHT_BOX_MARGIN;
 
-  this.fightBoxGroup.fillStyle(0x1E1E1E, 1);
-  b = this.fightBoxGroup.fillRect(0, 0, sw / cz - fbm * 2, sh / cz - fbm * 2);
-  b.setVisible(false);
+  b = [
+    this.fightBoxGroup.fillStyle(0xb3b3b3, 1).fillRect(0, 0, sw / cz - fbm * 2, sh / cz - fbm * 2),
+    this.fightBoxGroup.fillStyle(0xd9d9d9, 1).fillRect(2, 2, sw / cz - fbm * 2 - 4, sh / cz - fbm * 2 - 4),
+    this.fightBoxGroup.fillStyle(0x808080, 1).fillRect(4, sh / cz - fbm * 2 - 14, 20, 10).setInteractive().on('pointerdown', function() { console.log('here'); })
+  ];
 
+  for (var x = 0; x < b.length; x++) {
+    b[x].setVisible(false);
+  }
 
   cursors = this.input.keyboard.createCursorKeys();
 
@@ -324,7 +329,11 @@ function drawDebug() {
 function toggleFightBox(state) {
 
   if (!state) {
-    b.setVisible(false);
+    for (var i = 0; i < b.length; i++) {
+        b[i].setVisible(false);
+    }
+
+    return state;
   } else {
 
     // Formula for box coords/width/height
@@ -335,8 +344,11 @@ function toggleFightBox(state) {
     var cz = CONST.CAM_ZOOM;
     var fbm = CONST.FIGHT_BOX_MARGIN;
 
-    b.setPosition(p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm);
-    b.setVisible(true);
+    for (var x = 0; x < b.length; x++) {
+      b[x].setPosition(p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm);
+      b[x].setVisible(true);
+    }
+    return state;
   }
 
 }
