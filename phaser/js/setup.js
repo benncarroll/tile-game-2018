@@ -325,6 +325,7 @@ function toggleFightBox(state) {
 
   if (!state) {
     b.setVisible(false);
+    return state;
   } else {
 
     // Formula for box coords/width/height
@@ -337,6 +338,7 @@ function toggleFightBox(state) {
 
     b.setPosition(p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm);
     b.setVisible(true);
+    return state;
   }
 
 }
