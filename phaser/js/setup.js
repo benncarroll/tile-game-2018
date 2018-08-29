@@ -39,7 +39,7 @@ function preload() {
     frameHeight: 16
   });
 
-  this.load.plugin('DialogModalPlugin', './dialog_plugin.js');
+  this.load.plugin('DialogModalPlugin', 'lib/dialog_plugin.js');
 
   // this.load.scenePlugin({
   //   key: 'AnimatedTilesPlugin',
@@ -75,12 +75,17 @@ function create() {
   p.setScale(0.75);
   p.setOrigin(0.5, 0.75);
   p.setCollideWorldBounds(true);
-
+/*
   // Attack box
-  fightBox = this.physics.add.sprite(0,0);
-  f = fightBox;
-  f.setOrigin(0,0);
-  f.setCollideWorldBounds(false);
+  this.fightBox = Scene.add.graphics();
+  f = this.fightBox;
+
+  var screenWidth = this.scene.sys.game.config.width;
+  var screenHeight = this.scene.sys.game.config.height;
+
+  f.fillRect(p.x - (screenWidth/2) + 50, p.y - (screenHeight/2) + 50, screenWidth - 100, screenHeight - 100);
+  graphics.fillStyle(0xFFFFFF, 0);
+*/
 
 
   cursors = this.input.keyboard.createCursorKeys();
@@ -120,8 +125,10 @@ function create() {
 
   drawDebug();
 
+/*
   this.sys.install('DialogModalPlugin');
   this.sys.dialogModal.init();
+*/
 
 }
 
