@@ -87,20 +87,26 @@ function combatInit()
 //(*)
 function playerTurn(tile)
 {
-    var playerHealth = ;
-    var playerStats = ;
-    var playerWpn = ;
-    var playerArmr = ;
-
-
+    if (player.health <= 0)
+    {
+        return -2;
+    }
+    else if (enemy.health <= 0)
+    {
+        return -1;
+    }
 }
 
 function enemyTurn(tile)
 {
-    var enemyHealth = ;
-    var enemyStats = ;
-    var enemyWpn = ;
-    var enemyArmr = ;
+    if (player.health <= 0)
+    {
+        return -2;
+    }
+    else if (enemy.health <= 0)
+    {
+        return -1;
+    }
 }
 
 function calcDamage()
