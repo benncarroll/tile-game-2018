@@ -39,6 +39,8 @@ function preload() {
     frameHeight: 16
   });
 
+  this.load.plugin('DialogModalPlugin', './dialog_plugin.js');
+
   // this.load.scenePlugin({
   //   key: 'AnimatedTilesPlugin',
   //   url: 'lib/AnimatedTiles.min.js',
@@ -53,18 +55,18 @@ function create() {
     key: 'level0'
   });
   m = map;
-  map.setCollisionByProperty({
+  m.setCollisionByProperty({
     block: true
   }, true);
 
   // The first parameter is the name of the tileset in Tiled and the second parameter is the key of the tileset image used when loading the file in preload.
-  var tiles = map.addTilesetImage('main', 'tileset-main');
+  var tiles = m.addTilesetImage('main', 'tileset-main');
 
   // You can load a layer from the map using the layer name from Tiled, or by using the layer index
   // layerDict = [];
   for (var i = 0; i < map.layers.length; i++) {
     // map.layers[i]
-    this.groundLayer = map.createStaticLayer(i, tiles, 0, 0);
+    this.groundLayer = m.createStaticLayer(i, tiles, 0, 0);
   }
 
   // Player
@@ -73,6 +75,13 @@ function create() {
   p.setScale(0.75);
   p.setOrigin(0.5, 0.75);
   p.setCollideWorldBounds(true);
+
+  // Attack box
+  fightBox = this.physics.add.sprite(0,0);
+  f = fightBox;
+  f.setOrigin(0,0);
+  f.setCollideWorldBounds(false);
+
 
   cursors = this.input.keyboard.createCursorKeys();
 
@@ -111,6 +120,8 @@ function create() {
 
   drawDebug();
 
+  this.sys.install('DialogModalPlugin');
+  this.sys.dialogModal.init();
 
 }
 
