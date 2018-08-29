@@ -90,8 +90,11 @@ function create() {
   b = [
     this.fightBoxGroup.fillStyle(0xb3b3b3, 1).fillRect(0, 0, sw / cz - fbm * 2, sh / cz - fbm * 2),
     this.fightBoxGroup.fillStyle(0xd9d9d9, 1).fillRect(2, 2, sw / cz - fbm * 2 - 4, sh / cz - fbm * 2 - 4),
-    this.fightBoxGroup.fillStyle(0x808080, 1).fillRect(4, sh / cz - fbm * 2 - 14, 20, 10).setInteractive().on('pointerdown', function() { console.log('here'); })
+    this.fightBoxGroup.fillStyle(0x808080, 1).fillRect(4, sh / cz - fbm * 2 - 14, 20, 10).setInteractive()
   ];
+  this.input.on('gameobjectdown', function(pointer, gameObject) {
+    console.log('here', gameObject);
+  });
 
   for (var x = 0; x < b.length; x++) {
     b[x].setVisible(false);
@@ -115,29 +118,8 @@ function create() {
 
   // Collision debug
   debugGraphics = this.add.graphics();
-  // debugGraphics.setScale(1/CAM_ZOOM);
 
-  this.input.keyboard.on('keydown_ONE', function(event) {
-    showTiles = !showTiles;
-    drawDebug();
-  });
-
-  this.input.keyboard.on('keydown_TWO', function(event) {
-    showCollidingTiles = !showCollidingTiles;
-    drawDebug();
-  });
-
-  this.input.keyboard.on('keydown_THREE', function(event) {
-    showFaces = !showFaces;
-    drawDebug();
-  });
-
-  drawDebug();
-
-
-  // this.sys.install('DialogModalPlugin');
-  // this.sys.dialogModal.init();
-
+  assignKeyPresses(this);
 
 }
 
@@ -164,40 +146,43 @@ function update(time, delta) {
 function updatePlayer() {
 
   var movingX = false;
-  movingY = false;
+  var movingY = false;
 
-  if (cursors.left.isDown) {
-    player.setVelocityX(-CONST.PLAYER_SPEED);
-    player.play('left', true);
-    lastDir = "left";
-    movingX = true;
-  } else if (cursors.right.isDown) {
-    player.setVelocityX(CONST.PLAYER_SPEED);
-    player.play('right', true);
-    lastDir = "right";
-    movingX = true;
-  } else {
-    player.setVelocityX(0);
-    movingX = false;
-  }
+  if (GLOBALS.PLAYER_ENABLED) {
 
-  if (cursors.up.isDown) {
-    player.setVelocityY(-CONST.PLAYER_SPEED);
-    if (!movingX) {
-      player.play('up', true);
+    if (cursors.left.isDown) {
+      player.setVelocityX(-CONST.PLAYER_SPEED);
+      player.play('left', true);
+      lastDir = "left";
+      movingX = true;
+    } else if (cursors.right.isDown) {
+      player.setVelocityX(CONST.PLAYER_SPEED);
+      player.play('right', true);
+      lastDir = "right";
+      movingX = true;
+    } else {
+      player.setVelocityX(0);
+      movingX = false;
     }
-    lastDir = "up";
-    movingY = true;
-  } else if (cursors.down.isDown) {
-    player.setVelocityY(CONST.PLAYER_SPEED);
-    if (!movingX) {
-      player.play('down', true);
+
+    if (cursors.up.isDown) {
+      player.setVelocityY(-CONST.PLAYER_SPEED);
+      if (!movingX) {
+        player.play('up', true);
+      }
+      lastDir = "up";
+      movingY = true;
+    } else if (cursors.down.isDown) {
+      player.setVelocityY(CONST.PLAYER_SPEED);
+      if (!movingX) {
+        player.play('down', true);
+      }
+      lastDir = "down";
+      movingY = true;
+    } else {
+      player.setVelocityY(0);
+      movingY = false;
     }
-    lastDir = "down";
-    movingY = true;
-  } else {
-    player.setVelocityY(0);
-    movingY = false;
   }
 
   if (!movingX && !movingY) {
@@ -322,15 +307,58 @@ function drawDebug() {
   // helpText.setText(getHelpMessage());
 }
 
+//
+// Assign Key Press handlers
+//
+function assignKeyPresses(_game) {
+  for (var key in keyPressDict) {
+    if (keyPressDict.hasOwnProperty(key)) {
+      _game.input.keyboard.on('keydown_'+key, function(event) {
+        // console.log(event);
+        var kp = event.key.toUpperCase();
+        // console.log(kp, "\n\n" ,keyPressDict[kp]);
+        eval(keyPressDict[kp]);
+      });
+    }
+  }
+
+  // _game.input.keyboard.on('keydown_ONE', function(event) {
+  //   showTiles = !showTiles;
+  //   drawDebug();
+  // });
+  //
+  // _game.input.keyboard.on('keydown_TWO', function(event) {
+  //   showCollidingTiles = !showCollidingTiles;
+  //   drawDebug();
+  // });
+  //
+  // _game.input.keyboard.on('keydown_THREE', function(event) {
+  //   showFaces = !showFaces;
+  //   drawDebug();
+  // });
+
+  // _game.input.keyboard.on('keydown_F', function(event) {
+  //   toggleFightBox();
+  // });
+
+  // drawDebug();
+
+}
 
 //
 //  Toggles view of fight box
 //
 function toggleFightBox(state) {
 
+  if (state == undefined) {
+    if (b[0].visible) state = false;
+    if (!b[0].visible) state = true;
+  }
+
   if (!state) {
     for (var i = 0; i < b.length; i++) {
-        b[i].setVisible(false);
+      b[i].setVisible(false);
+      GLOBALS.PLAYER_ENABLED = true;
     }
 
     return state;
@@ -348,6 +376,7 @@ function toggleFightBox(state) {
       b[x].setPosition(p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm);
       b[x].setVisible(true);
     }
+    GLOBALS.PLAYER_ENABLED = false;
     return state;
   }
 
