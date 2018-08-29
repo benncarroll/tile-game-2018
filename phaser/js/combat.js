@@ -71,7 +71,7 @@ function combat(tile)
 
 function combatInit()
 {
-
+    toggleFightBox(true);
 }
 
 /*
@@ -129,5 +129,5 @@ function calcDamage()
 
 function end()
 {
-
+    toggleFightBox(true);
 }

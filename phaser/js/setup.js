@@ -4,7 +4,7 @@ var cam;
 var cameraDolly;
 var p;
 var m;
-var f;
+var b;
 var layerDict;
 var removedLoad = false;
 
@@ -12,6 +12,7 @@ var showTiles = false;
 var showFaces = false;
 var showCollidingTiles = false;
 
+var ad;
 
 var config = {
   type: Phaser.AUTO,
@@ -40,7 +41,7 @@ function preload() {
     frameHeight: 16
   });
 
-  this.load.plugin('DialogModalPlugin', 'lib/dialog_plugin.js');
+  // this.load.plugin('DialogModalPlugin', 'lib/dialog_plugin.js');
 
   // this.load.scenePlugin({
   //   key: 'AnimatedTilesPlugin',
@@ -79,16 +80,16 @@ function create() {
 
 
   // Attack box
-  this.fightBox = this.add.graphics();
-  f = this.fightBox;
+  this.fightBoxGroup = this.add.graphics();
 
   var sw = this.sys.game.config.width;
   var sh = this.sys.game.config.height;
   var cz = CONST.CAM_ZOOM;
   var fbm = CONST.FIGHT_BOX_MARGIN;
 
-  f.fillStyle(0x1E1E1E, 1);
-  f.fillRect(p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm, sw/cz - fbm*2, sh/cz - fbm*2);
+  this.fightBoxGroup.fillStyle(0x1E1E1E, 1);
+  b = this.fightBoxGroup.fillRect(0, 0, sw / cz - fbm * 2, sh / cz - fbm * 2);
+  b.setVisible(false);
 
 
   cursors = this.input.keyboard.createCursorKeys();
@@ -314,6 +315,30 @@ function drawDebug() {
   });
 
   // helpText.setText(getHelpMessage());
+}
+
+
+//
+//  Toggles view of fight box
+//
+function toggleFightBox(state) {
+
+  if (!state) {
+    b.setVisible(false);
+  } else {
+
+    // Formula for box coords/width/height
+    // p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm, sw/cz - fbm*2, sh/cz - fbm*2
+
+    var sw = game.config.width;
+    var sh = game.config.height;
+    var cz = CONST.CAM_ZOOM;
+    var fbm = CONST.FIGHT_BOX_MARGIN;
+
+    b.setPosition(p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm);
+    b.setVisible(true);
+  }
+
 }
 
 
