@@ -4,6 +4,7 @@ var cam;
 var cameraDolly;
 var p;
 var m;
+var b;
 var layerDict;
 var removedLoad = false;
 
@@ -11,6 +12,7 @@ var showTiles = false;
 var showFaces = false;
 var showCollidingTiles = false;
 
+var ad;
 
 var config = {
   type: Phaser.AUTO,
@@ -39,6 +41,8 @@ function preload() {
     frameHeight: 16
   });
 
+  // this.load.plugin('DialogModalPlugin', 'lib/dialog_plugin.js');
+
   // this.load.scenePlugin({
   //   key: 'AnimatedTilesPlugin',
   //   url: 'lib/AnimatedTiles.min.js',
@@ -53,18 +57,18 @@ function create() {
     key: 'level0'
   });
   m = map;
-  map.setCollisionByProperty({
+  m.setCollisionByProperty({
     block: true
   }, true);
 
   // The first parameter is the name of the tileset in Tiled and the second parameter is the key of the tileset image used when loading the file in preload.
-  var tiles = map.addTilesetImage('main', 'tileset-main');
+  var tiles = m.addTilesetImage('main', 'tileset-main');
 
   // You can load a layer from the map using the layer name from Tiled, or by using the layer index
   // layerDict = [];
   for (var i = 0; i < map.layers.length; i++) {
     // map.layers[i]
-    this.groundLayer = map.createStaticLayer(i, tiles, 0, 0);
+    this.groundLayer = m.createStaticLayer(i, tiles, 0, 0);
   }
 
   // Player
@@ -73,6 +77,20 @@ function create() {
   p.setScale(0.75);
   p.setOrigin(0.5, 0.75);
   p.setCollideWorldBounds(true);
+
+
+  // Attack box
+  this.fightBoxGroup = this.add.graphics();
+
+  var sw = this.sys.game.config.width;
+  var sh = this.sys.game.config.height;
+  var cz = CONST.CAM_ZOOM;
+  var fbm = CONST.FIGHT_BOX_MARGIN;
+
+  this.fightBoxGroup.fillStyle(0x1E1E1E, 1);
+  b = this.fightBoxGroup.fillRect(0, 0, sw / cz - fbm * 2, sh / cz - fbm * 2);
+  b.setVisible(false);
+
 
   cursors = this.input.keyboard.createCursorKeys();
 
@@ -110,6 +128,10 @@ function create() {
   });
 
   drawDebug();
+
+
+  // this.sys.install('DialogModalPlugin');
+  // this.sys.dialogModal.init();
 
 
 }
@@ -293,6 +315,30 @@ function drawDebug() {
   });
 
   // helpText.setText(getHelpMessage());
+}
+
+
+//
+//  Toggles view of fight box
+//
+function toggleFightBox(state) {
+
+  if (!state) {
+    b.setVisible(false);
+  } else {
+
+    // Formula for box coords/width/height
+    // p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm, sw/cz - fbm*2, sh/cz - fbm*2
+
+    var sw = game.config.width;
+    var sh = game.config.height;
+    var cz = CONST.CAM_ZOOM;
+    var fbm = CONST.FIGHT_BOX_MARGIN;
+
+    b.setPosition(p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm);
+    b.setVisible(true);
+  }
+
 }
 
 
