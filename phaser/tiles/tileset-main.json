@@ -999,7 +999,7 @@
         {
          "block":true
         }
-    /* }, */
+     },
  "tilepropertytypes":
     {
      "0":
@@ -1991,5 +1991,5 @@
          "block":"bool"
         }
     },
-"tilewidth":16,
+"tilewidth":16
 }

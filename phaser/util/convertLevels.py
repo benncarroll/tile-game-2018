@@ -49,7 +49,12 @@ for filename in os.listdir(ldir):
         # Load phaser-friendly tileset into map file
         required_tilesets = []
         for ts in jfile["tilesets"]:
-            ts_name = ts["source"].split("/")[-1].split(".")[0]
+            if "source" in ts:
+                ts_name = ts["source"].split("/")[-1].split(".")[0]
+            else:
+                ts_name = "tileset-"+ts["name"]
+
+
             ts_fgid = ts["firstgid"]
             print(ts_name)
             required_tilesets.append((ts_name, ts_fgid))

@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 6, evil: true */
 
 var cam;
 var cameraDolly;
@@ -313,36 +313,16 @@ function drawDebug() {
 function assignKeyPresses(_game) {
   for (var key in keyPressDict) {
     if (keyPressDict.hasOwnProperty(key)) {
-      _game.input.keyboard.on('keydown_'+key, function(event) {
-        // console.log(event);
-        var kp = event.key.toUpperCase();
-        // console.log(kp, "\n\n" ,keyPressDict[kp]);
-        eval(keyPressDict[kp]);
-      });
+      _game.input.keyboard.on('keydown_' + key, handleKeyPresses);
     }
   }
+}
 
-  // _game.input.keyboard.on('keydown_ONE', function(event) {
-  //   showTiles = !showTiles;
-  //   drawDebug();
-  // });
-  //
-  // _game.input.keyboard.on('keydown_TWO', function(event) {
-  //   showCollidingTiles = !showCollidingTiles;
-  //   drawDebug();
-  // });
-  //
-  // _game.input.keyboard.on('keydown_THREE', function(event) {
-  //   showFaces = !showFaces;
-  //   drawDebug();
-  // });
-
-  // _game.input.keyboard.on('keydown_F', function(event) {
-  //   toggleFightBox();
-  // });
-
-  // drawDebug();
-
+function handleKeyPresses(event) {
+  // console.log(event);
+  var kp = event.key.toUpperCase();
+  // console.log(kp, "\n\n" ,keyPressDict[kp]);
+  eval(keyPressDict[kp]);
 }
 
 //
