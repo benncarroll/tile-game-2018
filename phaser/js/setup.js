@@ -1,4 +1,4 @@
-/*jshint esversion: 6 */
+/*jshint esversion: 6, evil: true */
 
 var cam;
 var cameraDolly;
@@ -322,6 +322,23 @@ function drawDebug() {
   // helpText.setText(getHelpMessage());
 }
 
+//
+// Assign Key Press handlers
+//
+function assignKeyPresses(_game) {
+  for (var key in keyPressDict) {
+    if (keyPressDict.hasOwnProperty(key)) {
+      _game.input.keyboard.on('keydown_' + key, handleKeyPresses);
+    }
+  }
+}
+
+function handleKeyPresses(event) {
+  // console.log(event);
+  var kp = event.key.toUpperCase();
+  // console.log(kp, "\n\n" ,keyPressDict[kp]);
+  eval(keyPressDict[kp]);
+}
 
 //
 //  Toggles view of fight box
