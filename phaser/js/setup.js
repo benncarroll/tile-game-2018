@@ -101,6 +101,13 @@ function create() {
   }
 
   cursors = this.input.keyboard.createCursorKeys();
+  wasd = {
+    up: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
+    down: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
+    left: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
+    right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+  };
+
 
   this.physics.add.collider(p, this.groundLayer);
   this.physics.world.setBounds(124, 124, 1352, 1352);
@@ -150,12 +157,12 @@ function updatePlayer() {
 
   if (GLOBALS.PLAYER_ENABLED) {
 
-    if (cursors.left.isDown) {
+    if (cursors.left.isDown || wasd.left.isDown) {
       player.setVelocityX(-CONST.PLAYER_SPEED);
       player.play('left', true);
       lastDir = "left";
       movingX = true;
-    } else if (cursors.right.isDown) {
+    } else if (cursors.right.isDown || wasd.right.isDown) {
       player.setVelocityX(CONST.PLAYER_SPEED);
       player.play('right', true);
       lastDir = "right";
@@ -165,14 +172,14 @@ function updatePlayer() {
       movingX = false;
     }
 
-    if (cursors.up.isDown) {
+    if (cursors.up.isDown || wasd.up.isDown) {
       player.setVelocityY(-CONST.PLAYER_SPEED);
       if (!movingX) {
         player.play('up', true);
       }
       lastDir = "up";
       movingY = true;
-    } else if (cursors.down.isDown) {
+    } else if (cursors.down.isDown || wasd.down.isDown) {
       player.setVelocityY(CONST.PLAYER_SPEED);
       if (!movingX) {
         player.play('down', true);
