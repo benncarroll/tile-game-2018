@@ -4,15 +4,12 @@ var cam;
 var cameraDolly;
 var p;
 var m;
-var b;
 var layerDict;
 var removedLoad = false;
 
 var showTiles = false;
 var showFaces = false;
 var showCollidingTiles = false;
-
-var ad;
 
 var config = {
   type: Phaser.AUTO,
@@ -78,27 +75,7 @@ function create() {
   p.setOrigin(0.5, 0.75);
   p.setCollideWorldBounds(true);
 
-
-  // Attack box
-  this.fightBoxGroup = this.add.graphics();
-
-  var sw = this.sys.game.config.width;
-  var sh = this.sys.game.config.height;
-  var cz = CONST.CAM_ZOOM;
-  var fbm = CONST.FIGHT_BOX_MARGIN;
-
-  b = [
-    this.fightBoxGroup.fillStyle(0xb3b3b3, 1).fillRect(0, 0, sw / cz - fbm * 2, sh / cz - fbm * 2),
-    this.fightBoxGroup.fillStyle(0xd9d9d9, 1).fillRect(2, 2, sw / cz - fbm * 2 - 4, sh / cz - fbm * 2 - 4),
-    this.fightBoxGroup.fillStyle(0x808080, 1).fillRect(4, sh / cz - fbm * 2 - 14, 20, 10).setInteractive()
-  ];
-  this.input.on('gameobjectdown', function(pointer, gameObject) {
-    console.log('here', gameObject);
-  });
-
-  for (var x = 0; x < b.length; x++) {
-    b[x].setVisible(false);
-  }
+  generateFightBox(this);
 
   cursors = this.input.keyboard.createCursorKeys();
   wasd = {
@@ -333,20 +310,85 @@ function handleKeyPresses(event) {
 }
 
 //
+// Create our fight box
+//
+function generateFightBox(scene) {
+
+  scene.fightBoxGroup = {};
+  var fg = scene.fightBoxGroup;
+
+  fg.boxGraphics = scene.add.graphics();
+
+  // Define some shorthand constants
+  var w = Math.min(CONST.FIGHT_BOX_WIDTH, game.config.width / CONST.CAM_ZOOM);
+  var h = Math.min(CONST.FIGHT_BOX_HEIGHT, game.config.height / CONST.CAM_ZOOM);
+  var cz = CONST.CAM_ZOOM;
+  var fbm = CONST.FIGHT_BOX_MARGIN;
+
+  // Draw outer boxes
+  fg.boxes = [
+    fg.boxGraphics.fillStyle(0xb3b3b3, 1).fillRect(0, 0, w, h),
+    fg.boxGraphics.fillStyle(0xd9d9d9, 1).fillRect(2, 2, w - 4, h - 4)
+  ];
+  for (var x = 0; x < fg.boxes.length; x++) {
+    fg.boxes[x].setVisible(false);
+  }
+
+  // Text offsets
+  fg.textOffsets = {
+    enemyName: {
+      x: 10,
+      y: 10
+    },
+    desc: {
+      x: 10,
+      y: 20
+    }
+  };
+
+  // Draw text
+  // fg.fightData = {
+  //   enemyName: 'Boss',
+  //   desc: 'A magic boss appears.',
+  //   playerHP: 100,
+  //   enemyHP: 20,
+  //   enemyInitial: 'E',
+  //   actions: ['stab', 'heal']
+  // };
+  fg.text = {
+    enemyName: createText(scene, fg.textOffsets.enemyName.x, fg.textOffsets.enemyName.y, "Boss", doNothing, 25),
+    desc: createText(scene, fg.textOffsets.desc.x, fg.textOffsets.desc.y, "A magic boss appears.", doNothing, 12)
+  };
+
+  // console.log(scene.fightBoxGroup);
+
+}
+
+//
 //  Toggles view of fight box
 //
 function toggleFightBox(state) {
 
+  var fg = game.scene.scenes[0].fightBoxGroup;
+
   if (state == undefined) {
-    if (b[0].visible) state = false;
-    if (!b[0].visible) state = true;
+    if (fg.boxes[0].visible) state = false;
+    if (!fg.boxes[0].visible) state = true;
   }
 
   if (!state) {
-    for (var i = 0; i < b.length; i++) {
-      b[i].setVisible(false);
-      GLOBALS.PLAYER_ENABLED = true;
+    // Hide boxes
+    for (var i = 0; i < fg.boxes.length; i++) {
+      fg.boxes[i].setVisible(false);
     }
+    // Hide Text
+    for (var tName in fg.text) {
+      if (fg.text.hasOwnProperty(tName)) {
+        fg.text[tName].setVisible(false);
+      }
+    }
+
+    GLOBALS.PLAYER_ENABLED = true;
 
     return state;
   } else {
@@ -354,21 +396,67 @@ function toggleFightBox(state) {
     // Formula for box coords/width/height
     // p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm, sw/cz - fbm*2, sh/cz - fbm*2
 
-    var sw = game.config.width;
-    var sh = game.config.height;
+    // var sw = game.config.width;
+    // var sh = game.config.height;
+    var w = Math.min(CONST.FIGHT_BOX_WIDTH, game.config.width / CONST.CAM_ZOOM);
+    var h = Math.min(CONST.FIGHT_BOX_HEIGHT, game.config.height / CONST.CAM_ZOOM);
     var cz = CONST.CAM_ZOOM;
     var fbm = CONST.FIGHT_BOX_MARGIN;
 
-    for (var x = 0; x < b.length; x++) {
-      b[x].setPosition(p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm);
-      b[x].setVisible(true);
+    var boxTopLeft = {
+      x: p.x - (w / (2)) + fbm,
+      y: p.y - (h / (2)) + fbm
+    };
+
+    for (var x = 0; x < fg.boxes.length; x++) {
+      fg.boxes[x].setPosition(boxTopLeft.x, boxTopLeft.y);
+      fg.boxes[x].setVisible(true);
     }
+    for (var tName in fg.text) {
+      if (fg.text.hasOwnProperty(tName)) {
+        fg.text[tName].setPosition(boxTopLeft.x + fg.textOffsets[tName].x, boxTopLeft.y + fg.textOffsets[tName].y);
+        fg.text[tName].setVisible(true);
+        console.log(tName);
+      }
+    }
+
     GLOBALS.PLAYER_ENABLED = false;
     return state;
   }
 
 }
 
+//
+// Create a text object
+//
+function createText(ctx, x, y, string, callback_import, size_import, colour_import) {
+  // 'use strict';
+
+  var text;
+
+  var font = 'Arial';
+  var size = size_import || 50;
+  var colour = colour_import || '#1e1e1e';
+  var callback = callback_import || function() {};
+
+  // Text
+  text = ctx.add.text(x, y, string, {
+    fontFamily: font,
+    fontSize: size,
+    fill: colour
+  });
+
+  text.setInteractive().on('pointerdown', callback);
+  text.setScale(1 / CONST.CAM_ZOOM);
+
+  // Returnm
+  return text;
+}
+
+//
+// A very useful function
+//
+function doNothing() { /* Nice! */ }
 
 //
 // Resize stuff
