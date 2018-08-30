@@ -12,7 +12,7 @@ var CONST = {
 
 var GLOBALS = {
   'PLAYER_ENABLED': true, // Player movement toggle
-  'DEBUG_ENABLED': true // Enable/disable debug graphics
+  'DEBUG_ENABLED': false // Enable/disable debug graphics
 };
 
 keyPressDict = {
