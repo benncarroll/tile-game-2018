@@ -1,0 +1,42 @@
+# Installation ---
+# 1. In Bitbucket, add $FTP_USERNAME $FTP_PASSWORD and $FTP_HOST as environment variables.
+# 2. Commit this file to your repo
+# 3. From Bitbucket Cloud > Commits > Commit Number > Run Pipeline > Custom:Init (this will
+#    push everything and initial GitFTP)
+#
+# Usage ---
+# - On each commit to master branch, it'll push all files to the $FTP_HOST
+# - You also have the option to 'init' (from Bitbucket Cloud) - pushes everything and initialises
+# - Finally you can also 'deploy-all' (from Bitbucket Cloud) - if multiple deploys fail, you
+#   can deploy everything to "catch up"
+#
+image: aariacarterweir/lamp-gitftp:latest
+
+pipelines:
+  custom: # Pipelines that are triggered manually via the Bitbucket GUI
+    init: # -- First time init
+    - step:
+        caches:
+          - node
+          - composer
+        script:
+          - npm install
+          - git ftp init -u "$FTP_USERNAME" -p "$FTP_PASSWORD" ftp://$FTP_HOST
+    deploy-all: # -- Deploys all files from the selected commit
+    - step:
+        caches:
+          - node
+          - composer
+        script:
+          - npm install
+          - git ftp push -u "$FTP_USERNAME" -p "$FTP_PASSWORD" ftp://$FTP_HOST --all
+  branches: # Automated triggers on commits to branches
+    master: # -- When committing to master branch
+    - step:
+        deployment: production
+        caches:
+          - node
+          - composer
+        script:
+          - npm install
+          - git ftp push -u "$FTP_USERNAME" -p "$FTP_PASSWORD" ftp://$FTP_HOST
