@@ -5,6 +5,7 @@ var cameraDolly;
 var p;
 var m;
 var layerDict;
+var lastUpdate = 0;
 var removedLoad = false;
 
 var showTiles = false;
@@ -105,6 +106,7 @@ function create() {
 
   assignKeyPresses(this);
 
+  loadUserData();
 }
 
 var lastDir = "down";
@@ -117,11 +119,12 @@ function update(time, delta) {
   }
   updateCamera();
   updatePlayer();
-  updateDebug();
 
-  // this.physics.world.collide(p, this.groundLayer, function() {
-  //   console.log('hit?');
-  // });
+  // Save data every 5 seconds
+  if (time > lastUpdate + 5000) {
+    lastUpdate = time;
+    saveUserData(this);
+  }
 }
 
 //
@@ -175,6 +178,10 @@ function updatePlayer() {
     player.play(lastDir + "-stop", true);
   }
 
+  if (movingX || movingY) {
+    saveUserData();
+  }
+
 }
 
 //
@@ -214,14 +221,6 @@ function updateCamera() {
 
 
 }
-
-//
-// Debug update
-//
-function updateDebug() {
-
-}
-
 
 //
 // Create Animations
@@ -413,8 +412,8 @@ function toggleFightBox(state) {
           // |    x    |
           // |---------|
           textPos = {
-            x: boxTopLeft.x + fg.elements.text[textName].x - fg.text[textName].displayWidth/2,
-            y: boxTopLeft.y + fg.elements.text[textName].y - fg.text[textName].displayHeight/2
+            x: boxTopLeft.x + fg.elements.text[textName].x - fg.text[textName].displayWidth / 2,
+            y: boxTopLeft.y + fg.elements.text[textName].y - fg.text[textName].displayHeight / 2
           };
         } else if (fg.elements.text[textName].a == "right") {
           // Set coords to negative whatever displayed
