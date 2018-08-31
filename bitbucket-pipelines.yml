@@ -19,20 +19,20 @@ pipelines:
         script:
           - apt-get update
           - apt-get -qq install git-ftp
-          - git ftp init -u $FTP_USERNAME -p $FTP_PASSWORD ftp://$FTP_HOST
+          - git ftp init --syncroot "./phaser/" -u $FTP_USERNAME -p $FTP_PASSWORD ftp://$FTP_HOST
     deploy-all: # -- Deploys all files from the selected commit
     - step:
         script:
           - apt-get update
           - apt-get -qq install git-ftp
-          - git ftp push -u $FTP_USERNAME -p $FTP_PASSWORD ftp://$FTP_HOST --all
+          - git ftp push --syncroot "./phaser/" -u $FTP_USERNAME -p $FTP_PASSWORD ftp://$FTP_HOST --all
   branches:
     master:
       - step:
           script:
             - apt-get update
             - apt-get -qq install git-ftp
-            - git ftp push --user $FTP_USERNAME --passwd $FTP_PASSWORD ftp://$FTP_HOST --all
+            - git ftp push --syncroot "./phaser/" --user $FTP_USERNAME --passwd $FTP_PASSWORD ftp://$FTP_HOST --all
 
 
 # pipelines:
