@@ -10,7 +10,7 @@
 # - Finally you can also 'deploy-all' (from Bitbucket Cloud) - if multiple deploys fail, you
 #   can deploy everything to "catch up"
 #
-image: aariacarterweir/lamp-gitftp:latest
+image: madshansen/docker-git-ftp:latest
 
 pipelines:
   custom: # Pipelines that are triggered manually via the Bitbucket GUI
