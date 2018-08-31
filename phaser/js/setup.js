@@ -330,38 +330,22 @@ function generateFightBox(scene) {
     fg.boxGraphics.fillStyle(0xb3b3b3, 1).fillRect(0, 0, w, h),
     fg.boxGraphics.fillStyle(0xd9d9d9, 1).fillRect(2, 2, w - 4, h - 4)
   ];
+  // Make them all hidden
   for (var x = 0; x < fg.boxes.length; x++) {
     fg.boxes[x].setVisible(false);
   }
 
-  // Text offsets
-  fg.textOffsets = {
-    enemyName: {
-      x: 10,
-      y: 10
-    },
-    desc: {
-      x: 10,
-      y: 20
+  // Put Fight box data into game element
+  fg.elements = FIGHT_ELEMENTS;
+
+  // Add text elements
+  fg.text = {};
+  text = fg.elements.text;
+  for (var element in text) {
+    if (text.hasOwnProperty(element)) {
+      fg.text[element] = createText(scene, text[element].x, text[element].y, text[element].d, doNothing, text[element].s || 12);
     }
-  };
-
-  // Draw text
-  // fg.fightData = {
-  //   enemyName: 'Boss',
-  //   desc: 'A magic boss appears.',
-  //   playerHP: 100,
-  //   enemyHP: 20,
-  //   enemyInitial: 'E',
-  //   actions: ['stab', 'heal']
-  // };
-  fg.text = {
-    enemyName: createText(scene, fg.textOffsets.enemyName.x, fg.textOffsets.enemyName.y, "Boss", doNothing, 25),
-    desc: createText(scene, fg.textOffsets.desc.x, fg.textOffsets.desc.y, "A magic boss appears.", doNothing, 12)
-  };
-
-  // console.log(scene.fightBoxGroup);
-
+  }
 }
 
 //
@@ -403,20 +387,58 @@ function toggleFightBox(state) {
     var cz = CONST.CAM_ZOOM;
     var fbm = CONST.FIGHT_BOX_MARGIN;
 
+    // Determine box position constants
     var boxTopLeft = {
       x: p.x - (w / (2)) + fbm,
       y: p.y - (h / (2)) + fbm
     };
 
+    // Update box position
     for (var x = 0; x < fg.boxes.length; x++) {
       fg.boxes[x].setPosition(boxTopLeft.x, boxTopLeft.y);
       fg.boxes[x].setVisible(true);
     }
-    for (var tName in fg.text) {
-      if (fg.text.hasOwnProperty(tName)) {
-        fg.text[tName].setPosition(boxTopLeft.x + fg.textOffsets[tName].x, boxTopLeft.y + fg.textOffsets[tName].y);
-        fg.text[tName].setVisible(true);
-        console.log(tName);
+
+    // Update text position
+    for (var textName in fg.text) {
+      if (fg.text.hasOwnProperty(textName)) {
+
+        var textPos;
+
+        // Determine alignment
+        // x specifies where supllied coordinates will lie
+        if (fg.elements.text[textName].a == "center") {
+          // Set coords to backwards halfway of displayWidth
+          // |---------|
+          // |    x    |
+          // |---------|
+          textPos = {
+            x: boxTopLeft.x + fg.elements.text[textName].x - fg.text[textName].displayWidth/2,
+            y: boxTopLeft.y + fg.elements.text[textName].y - fg.text[textName].displayHeight/2
+          };
+        } else if (fg.elements.text[textName].a == "right") {
+          // Set coords to negative whatever displayed
+          // |---------x
+          // |         |
+          // |---------|
+          textPos = {
+            x: boxTopLeft.x + fg.elements.text[textName].x - fg.text[textName].displayWidth,
+            y: boxTopLeft.y + fg.elements.text[textName].y
+          };
+        } else {
+          // Default to top left
+          // x---------|
+          // |         |
+          // |---------|
+          textPos = {
+            x: boxTopLeft.x + fg.elements.text[textName].x,
+            y: boxTopLeft.y + fg.elements.text[textName].y
+          };
+        }
+
+        fg.text[textName]
+          .setPosition(textPos.x, textPos.y)
+          .setVisible(true);
       }
     }
 
@@ -430,8 +452,6 @@ function toggleFightBox(state) {
 // Create a text object
 //
 function createText(ctx, x, y, string, callback_import, size_import, colour_import) {
-  // 'use strict';
-
   var text;
 
   var font = 'Arial';
@@ -449,7 +469,7 @@ function createText(ctx, x, y, string, callback_import, size_import, colour_impo
   text.setInteractive().on('pointerdown', callback);
   text.setScale(1 / CONST.CAM_ZOOM);
 
-  // Returnm
+  // Return
   return text;
 }
 
