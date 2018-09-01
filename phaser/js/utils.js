@@ -32,3 +32,27 @@ function pickSpawnTile() {
     }
     return {x:cx, y:cy};
 }
+
+//////////////////////////////////////////////////
+//  Calculates the distance between two points  //
+//////////////////////////////////////////////////
+function distBetween(x1, y1, x2, y2)
+{
+    return Math.sqrt(Math.pow(x2 - x1) + Math.pow(y2 - y1));
+}
+
+///////////////////////////////////////////////
+//  Calculates the angle between two points  //
+///////////////////////////////////////////////
+function angleTo(x1, y1, x2, y2)
+{
+    return Math.atan((y2-y1)/(x2-x1)) * 180 / Math.PI;
+}
+
+/////////////////////////////////////////////////////////////////////
+//  Returns a number rounded to the nearest number of your choice  //
+/////////////////////////////////////////////////////////////////////
+function roundTo(num, round)
+{
+    return Math.round(num / round) * round;
+}
