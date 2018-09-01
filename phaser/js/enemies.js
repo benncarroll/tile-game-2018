@@ -73,17 +73,48 @@ class enemy
     //  TYPE GETTER/SETTER  //
     //////////////////////////
 
-    get Type()
+    get TypeNum()
     {
         return this.type;
     }
 
-    set Type(value)
+    set TypeNum(value)
     {
         this.type = value;
         return this.type;
     }
 
+    get Type()
+    {
+        try
+        {
+            return CONST.ENEMY_TYPES[this.type];
+        }
+        catch(err)
+        {
+            if (err.name == "RangeError")
+            {
+                console.error(`ERROR: The "${this.type}" type Number has not been assigned a type`);
+            }
+            else
+            {
+                console.error(err.message);
+            }
+        }
+    }
+
+    set Type(value)
+    {
+        if (CONST.ENEMY_TYPES.indexOf(value) == -1)
+        {
+            console.error(`ERROR: "${value}" is not a type`);
+        }
+        else
+        {
+            this.type = CONST.ENEMY_TYPES.indexOf(value);
+            return this.type;
+        }
+    }
     ///////////////////////////
     //  LEVEL GETTER/SETTER  //
     ///////////////////////////

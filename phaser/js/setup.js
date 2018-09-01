@@ -69,7 +69,7 @@ function create() {
     this.groundLayer = m.createStaticLayer(i, tiles, 0, 0);
   }
 
-  spawnEnemies(this, CONST.AMOUNT_OF_ENEMIES);
+  spawnEnemies(this, CONST.ENEMY_COUNT);
 
   // Player
   player = this.physics.add.sprite(184.5, 247, 'walker');
