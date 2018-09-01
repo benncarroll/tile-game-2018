@@ -114,5 +114,5 @@ function calcDamage() {
 */
 
 function end() {
-  toggleFightBox(true);
+  toggleFightBox(false);
 }

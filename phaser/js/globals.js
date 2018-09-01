@@ -9,7 +9,7 @@ var CONST = {
   'FIGHT_BOX_WIDTH': 100, // Width of fight box
   'FIGHT_BOX_HEIGHT': 70, // Height of fight box
   'ENEMY_COUNT': 2,  // The mount of enemies that will spawn
-  'ENEMY_TYPES': []  // The list of enemy types
+  'ENEMY_TYPES': ["Big", "Small"]  // The list of enemy types
 };
 
 var GLOBALS = {

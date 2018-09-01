@@ -171,8 +171,8 @@ class enemy
 88           88       88  8PP"""""""  88      88      88   `8b   d8'
 88           88       88  "8b,   ,aa  88      88      88    `8b,d8'
 88888888888  88       88   `"Ybbd8"'  88      88      88      Y88'
-d8'
-d8'
+                                                              d8'
+                                                             d8'
 
 88888888888                                             88
 88                                               ,d     ""
@@ -206,11 +206,52 @@ function spawnEnemies(_game, enemyCount)
     }
 }
 
-
-
 function enemyAi()
 {
-
+    
 }
+
+function enemyMove(enemy, dir)
+{
+    switch(dir)
+    {
+        case "up":
+            enemy.GameObj.setY(enemy.GameObj.y + 1);
+            return true;
+
+        case "down":
+            enemy.GameObj.setY(enemy.GameObj.y - 1);
+            return true;
+
+        case "left":
+            enemy.GameObj.setX(enemy.GameObj.x - 1);
+            return true;
+
+        case "right":
+            enemy.GameObj.setX(enemy.GameObj.x + 1);
+            return true;
+
+        case "upLeft":
+            enemy.GameObj.setPosition(enemy.GameObj.x - 1, enemy.GameObj.y + 1);
+            return true;
+
+        case "upRight":
+            enemy.GameObj.setPosition(enemy.GameObj.x + 1, enemy.GameObj.y + 1);
+            return true;
+
+        case "downLeft":
+            enemy.GameObj.setPosition(enemy.GameObj.x - 1, enemy.GameObj.y - 1);
+            return true;
+
+        case "downRight":
+            enemy.GameObj.setPosition(enemy.GameObj.x + 1, enemy.GameObj.y - 1);
+            return true;
+
+        default:
+            console.error(`ERROR: ${dir} is an invalid direction`);
+            return false;
+    }
+}
+
 
 //(**)
