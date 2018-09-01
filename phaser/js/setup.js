@@ -23,8 +23,9 @@ var config = {
     default: 'arcade',
     // arcade: { debug: true }
   },
-  scene: [ MainMap ]
+  scene: [ MainMap , Shop0 ]
 };
+
 var game = new Phaser.Game(config);
 
 // function update(time, delta)
