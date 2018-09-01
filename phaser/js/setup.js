@@ -23,7 +23,7 @@ var config = {
     default: 'arcade',
     // arcade: { debug: true }
   },
-  scene: [ MainMap ]
+  scene: [MainMap]
 };
 var game = new Phaser.Game(config);
 
@@ -91,7 +91,7 @@ function updatePlayer() {
 //
 function updateCamera() {
 
-  if (this.game.input.activePointer.isDown) {
+  if (this.game.input.activePointer.isDown && (GLOBALS.PLAYER_ENABLED || GLOBALS.DEBUG_ENABLED)) {
     if (this.game.origDragPoint) { // move the camera by the amount the mouse has moved since last update
       cameraDolly.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;
       cameraDolly.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;
@@ -244,7 +244,8 @@ function generateFightBox(scene) {
   text = fg.elements.text;
   for (var element in text) {
     if (text.hasOwnProperty(element)) {
-      fg.text[element] = createText(scene, text[element].x, text[element].y, text[element].d, doNothing, text[element].s || 12);
+      fg.text[element] = createText(scene, text[element].x, text[element].y, text[element].d, doNothing, text[element].s || 15, text[element].c);
+      fg.text[element].setVisible(false);
     }
   }
 }
@@ -346,6 +347,41 @@ function toggleFightBox(state) {
     GLOBALS.PLAYER_ENABLED = false;
     return state;
   }
+
+}
+
+//
+// Setup fight box
+//
+function startFight(enemy, player_i) {
+
+  // Example:
+  // startFight({
+  //     health: 12,
+  //     maxHealth: 20,
+  //     type: "Little Badass"
+  //
+  // });
+
+
+  var texts = game.scene.scenes[0].fightBoxGroup.text;
+  console.log(texts);
+  var player = player_i || p;
+
+  if (enemy !== Object(enemy)) {
+    console.warn("No enemy object passed to startFight()");
+  }
+
+  texts.enemyName.setText(enemy.type);
+  texts.desc.setText("You must fight the " + enemy.type + " to the death!");
+
+  texts.playerHP.setText(player.health + "/" + player.maxHealth);
+  texts.enemyHP.setText(enemy.health + "/" + enemy.maxHealth);
+
+  texts.playerInitial.setText("P"); //player.name[0].toUpperCase());
+  texts.enemyInitial.setText(enemy.type.getInitials());
+
+  toggleFightBox(true);
 
 }
 

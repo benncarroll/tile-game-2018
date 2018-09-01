@@ -16,14 +16,6 @@ var GLOBALS = {
 };
 
 var FIGHT_ELEMENTS = {
-  // fg.fightData = {
-  //   enemyName: 'Boss',
-  //   desc: 'A magic boss appears.',
-  //   playerHP: 100,
-  //   enemyHP: 20,
-  //   enemyInitial: 'E',
-  //   actions: ['stab', 'heal']
-  // };
   text: {
     enemyName: {
       x: 10,
@@ -43,29 +35,33 @@ var FIGHT_ELEMENTS = {
       x: 25,
       y: 35,
       a: 'center',
-      s: 15,
-      d: '100/100'
+      s: 30,
+      d: '100/100',
+      c: '#5cb85c'
     },
     enemyHP: {
       x: 75,
       y: 35,
       a: 'center',
-      s: 15,
-      d: '20/20'
+      s: 30,
+      d: '20/20',
+      c: '#d9534f'
     },
     playerInitial: {
       x: 25,
-      y: 40,
+      y: 45,
       a: 'center',
-      s: 10,
-      d: 'P'
+      s: 20,
+      d: 'P',
+      c: '#5cb85c'
     },
     enemyInitial: {
       x: 75,
-      y: 40,
+      y: 45,
       a: 'center',
-      s: 10,
-      d: 'E'
+      s: 20,
+      d: 'E',
+      c: '#d9534f'
     }
   }
 };
