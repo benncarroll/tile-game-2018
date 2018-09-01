@@ -3,6 +3,7 @@
 var cam;
 var cameraDolly;
 var p;
+var enemies = [];
 var m;
 var layerDict;
 var removedLoad = false;
@@ -68,6 +69,8 @@ function create() {
     this.groundLayer = m.createStaticLayer(i, tiles, 0, 0);
   }
 
+  spawnEnemies(this, CONST.AMOUNT_OF_ENEMIES);
+
   // Player
   player = this.physics.add.sprite(184.5, 247, 'walker');
   p = player;
@@ -118,6 +121,7 @@ function update(time, delta) {
   updateCamera();
   updatePlayer();
   updateDebug();
+  enemyAi();
 
   // this.physics.world.collide(p, this.groundLayer, function() {
   //   console.log('hit?');

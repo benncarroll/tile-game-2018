@@ -7,7 +7,8 @@ var CONST = {
   'CAM_LIMIT': 100, // Camera pan distance limit
   'FIGHT_BOX_MARGIN': 0, // Margin around the fight box
   'FIGHT_BOX_WIDTH': 100, // Width of fight box
-  'FIGHT_BOX_HEIGHT': 70 // Height of fight box
+  'FIGHT_BOX_HEIGHT': 70, // Height of fight box
+  'AMOUNT_OF_ENEMIES': 2  // The mount of enemies that will spawn
 };
 
 var GLOBALS = {

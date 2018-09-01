@@ -34,12 +34,14 @@ class enemy
     //  CONSTRUCTOR FUNCTION  //
     ////////////////////////////
 
-    constructor(id, lvl, health)
+    constructor(id, gameObj, type, lvl)
     {
         this.id = name;
+        this.gameObj = gameObj;
+        this.type = type;
         this.lvl = lvl;
         this.maxHealth = 10 + lvl*1.5;
-        this.health = health || this.maxHealth;
+        this.health = this.maxHealth;
         this.stats = [];
     }
 
@@ -52,6 +54,35 @@ class enemy
         return this.name;
     }
 
+    /////////////////////////////
+    //  gameObj GETTER/SETTER  //
+    /////////////////////////////
+
+    get GameObj()
+    {
+        return this.gameObj;
+    }
+
+    set GameObj(value)
+    {
+        this.gameObj = value;
+        return this.gameObj;
+    }
+
+    //////////////////////////
+    //  TYPE GETTER/SETTER  //
+    //////////////////////////
+
+    get Type()
+    {
+        return this.type;
+    }
+
+    set Type(value)
+    {
+        this.type = value;
+        return this.type;
+    }
 
     ///////////////////////////
     //  LEVEL GETTER/SETTER  //
@@ -65,6 +96,7 @@ class enemy
     {
         this.lvl = value;
         this.maxHealth = 10 + this.lvl*1.5;
+        return this.lvl;
     }
 
 
@@ -79,6 +111,7 @@ class enemy
     set Health(value)
     {
         this.health = value;
+        return this.health;
     }
 
 
@@ -93,6 +126,7 @@ class enemy
     set Stats(value)
     {
         this.stats = value;
+        return this.stats;
     }
 }
 
@@ -121,8 +155,29 @@ d8'
 
 //(*)
 
+function spawnEnemies(_game, enemyCount)
+{
+    for (var i = 0; i < enemyCount; i++)
+    {
+        var spawnTile = pickSpawnTile();
+        var type = randNum(0, 1);
+        var lvl = randNum(1, 10);
+        enemies.push(new enemy(i, _game.physics.add.sprite(spawnTile.x, spawnTile.y, 'walker'), type, lvl));
+    }
 
-function spawnEnemies()
+    for (var e = 0; e < enemies.length; e++)
+    {
+        enemies[e].GameObj.setScale(0.75);
+        enemies[e].GameObj.setOrigin(0.5, 0.75);
+        enemies[e].GameObj.setCollideWorldBounds(true);
+        _game.physics.add.collider(enemies[e].GameObj, _game.groundLayer);
+        _game.physics.add.overlap(enemies[e].GameObj, p, combat, null, _game);
+    }
+}
+
+
+
+function enemyAi()
 {
 
 }
