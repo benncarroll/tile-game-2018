@@ -8,6 +8,7 @@ var layerDict;
 var lastUpdate = 0;
 var removedLoad = false;
 var lastDir = "down";
+var inCombat = false;
 
 var showTiles = false;
 var showFaces = false;
@@ -353,20 +354,17 @@ function toggleFightBox(state) {
 //
 // Setup fight box
 //
-function startFight(enemy, player_i) {
-
-  // Example:
-  // startFight({
-  //     health: 12,
-  //     maxHealth: 20,
-  //     type: "Little Badass"
-  //
-  // });
-
+function updateFightBox(enemy, player_i) {
 
   var texts = game.scene.scenes[0].fightBoxGroup.text;
-  console.log(texts);
   var player = player_i || p;
+
+  // TEMP: Get rid when character class implemented
+  if (player.maxHealth == undefined) {
+    player.maxHealth = 100;
+    player.stats = {};
+    player.stats.attack = 5;
+  }
 
   if (enemy !== Object(enemy)) {
     console.warn("No enemy object passed to startFight()");
