@@ -3,11 +3,16 @@
 var cam;
 var cameraDolly;
 var p;
+var enemies = {};
 var m;
 var layerDict;
 var lastUpdate = 0;
 var removedLoad = false;
 var lastDir = "down";
+var inCombat = false;
+var characterId = 'walker';
+var playerDead = false;
+var attacker = 0;
 
 var showTiles = false;
 var showFaces = false;
@@ -18,16 +23,16 @@ var config = {
   width: window.innerWidth,
   height: window.innerHeight,
   pixelArt: true,
-  antialias: false,
+  antialias: false, 
   physics: {
     default: 'arcade',
-    // arcade: { debug: true }
+    // arcade: {
+    //   debug: true
+    // }
   },
-  scene: [ MainMap ]
+  scene: [MainMap]
 };
 var game = new Phaser.Game(config);
-
-// function update(time, delta)
 
 //
 // Player update
@@ -41,12 +46,12 @@ function updatePlayer() {
 
     if (cursors.left.isDown || wasd.left.isDown) {
       player.setVelocityX(-CONST.PLAYER_SPEED);
-      player.play('left', true);
+      player.play(characterId + '-left', true);
       lastDir = "left";
       movingX = true;
     } else if (cursors.right.isDown || wasd.right.isDown) {
       player.setVelocityX(CONST.PLAYER_SPEED);
-      player.play('right', true);
+      player.play(characterId + '-right', true);
       lastDir = "right";
       movingX = true;
     } else {
@@ -57,14 +62,14 @@ function updatePlayer() {
     if (cursors.up.isDown || wasd.up.isDown) {
       player.setVelocityY(-CONST.PLAYER_SPEED);
       if (!movingX) {
-        player.play('up', true);
+        player.play(characterId + '-up', true);
       }
       lastDir = "up";
       movingY = true;
     } else if (cursors.down.isDown || wasd.down.isDown) {
       player.setVelocityY(CONST.PLAYER_SPEED);
       if (!movingX) {
-        player.play('down', true);
+        player.play(characterId + '-down', true);
       }
       lastDir = "down";
       movingY = true;
@@ -77,7 +82,9 @@ function updatePlayer() {
   if (!movingX && !movingY) {
     player.setVelocityX(0);
     player.setVelocityY(0);
-    player.play(lastDir + "-stop", true);
+    if (!playerDead) {
+      player.play(characterId + '-' + lastDir + "-stop", true);
+    }
   }
 
   if (movingX || movingY) {
@@ -91,10 +98,10 @@ function updatePlayer() {
 //
 function updateCamera() {
 
-  if (this.game.input.activePointer.isDown) {
+  if (this.game.input.activePointer.isDown && (GLOBALS.PLAYER_ENABLED || GLOBALS.DEBUG_ENABLED)) {
     if (this.game.origDragPoint) { // move the camera by the amount the mouse has moved since last update
-      cameraDolly.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;
-      cameraDolly.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;
+      cameraDolly.x += (this.game.origDragPoint.x - this.game.input.activePointer.position.x) * 2;
+      cameraDolly.y += (this.game.origDragPoint.y - this.game.input.activePointer.position.y) * 2;
 
       cameraDolly.x = limit(cameraDolly.x, p.x - CONST.CAM_LIMIT, p.x + CONST.CAM_LIMIT);
       cameraDolly.y = limit(cameraDolly.y, p.y - CONST.CAM_LIMIT, p.y + CONST.CAM_LIMIT);
@@ -136,40 +143,45 @@ function createAnims(_anims) {
     ['down-stop', [1]],
     ['left-stop', [4]],
     ['right-stop', [7]],
-    ['up-stop', [10]]
+    ['up-stop', [10]],
+    ['dead', [12]]
   ];
 
-  for (var i = 0; i < animDict.length; i++) {
-    l = animDict[i];
+  var keyArray = ['walker', 'walker2'];
 
-    // console.log(l);
-    // console.log(animDict);
+  for (var keyI = 0; keyI < keyArray.length; keyI++) {
+    for (var i = 0; i < animDict.length; i++) {
+      l = animDict[i];
 
-    n = l[0];
-    if (l[1].length == 1) {
-      f = [{
-        key: 'walker',
-        frame: l[1][0]
-      }];
-    } else {
-      f = _anims.generateFrameNumbers('walker', {
-        start: l[1][0],
-        end: l[1][1]
+      // console.log(l);
+      // console.log(animDict);
+
+      n = keyArray[keyI] + "-" + l[0];
+      if (l[1].length == 1) {
+        f = [{
+          key: keyArray[keyI],
+          frame: l[1][0]
+        }];
+      } else {
+        f = _anims.generateFrameNumbers(keyArray[keyI], {
+          start: l[1][0],
+          end: l[1][1]
+        });
+      }
+      // console.log(n, f);
+
+      _anims.create({
+        key: n,
+        frames: f,
+        frameRate: 4,
+        repeat: -1,
+        yoyo: true
       });
+
+
     }
-    // console.log(n, f);
-
-    _anims.create({
-      key: n,
-      frames: f,
-      frameRate: 4,
-      repeat: -1,
-      yoyo: true
-    });
-
 
   }
-
 }
 
 //
@@ -244,7 +256,8 @@ function generateFightBox(scene) {
   text = fg.elements.text;
   for (var element in text) {
     if (text.hasOwnProperty(element)) {
-      fg.text[element] = createText(scene, text[element].x, text[element].y, text[element].d, doNothing, text[element].s || 12);
+      fg.text[element] = createText(scene, text[element].x, text[element].y, text[element].d, eval(text[element].ac) || doNothing, text[element].s || 15, text[element].c);
+      fg.text[element].setVisible(false);
     }
   }
 }
@@ -346,6 +359,44 @@ function toggleFightBox(state) {
     GLOBALS.PLAYER_ENABLED = false;
     return state;
   }
+
+}
+
+//
+// Setup fight box
+//
+function updateFightBox(enemy, player_i, message_i, actionDesc_i) {
+
+  var texts = game.scene.scenes[0].fightBoxGroup.text;
+  var player = player_i || p;
+  var message = message_i || "";
+  var actionDesc = actionDesc_i || "";
+
+  if (enemy !== Object(enemy)) {
+    console.warn("No enemy object passed to startFight()");
+  }
+
+  texts.enemyName.setText(enemy.type + " - Level " + enemy.lvl);
+  texts.desc.setText("You must fight the " + enemy.type + " to the death!");
+
+  texts.playerHP.setText(player.health + "/" + player.maxHealth);
+  texts.enemyHP.setText(enemy.health + "/" + enemy.maxHealth);
+
+  if (attacker == 0 || enemyDead) {
+    p_icon = "🗡 ";
+    e_icon = "🛡 ";
+  } else {
+    e_icon = "🗡 ";
+    p_icon = "🛡 ";
+  }
+
+  texts.playerInitial.setText(p_icon + "P"); //player.name[0].toUpperCase());
+  texts.enemyInitial.setText(e_icon + enemy.type.getInitials());
+
+  texts.message.setText(message);
+  texts.combatDesc.setText(actionDesc);
+
+  toggleFightBox(true);
 
 }
 

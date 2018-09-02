@@ -21,7 +21,7 @@ function saveUserData(_scene) {
         y: 247
       },
       health: 100,
-      charType: 'fighter',
+      charType: 'walker',
       // inventory:{},
       cs: 0
     };
@@ -41,13 +41,7 @@ function saveUserData(_scene) {
     y: p.y
   };
 
-  // craftedStorage.inventory = {};
-  //
-  // for (var item in _scene.inventory) {
-  //   if (_scene.inventory.hasOwnProperty(item)) {
-  //
-  //   }
-  // }
+  craftedStorage.charType = characterId;
 
   craftedStorage.cs = genChecksum(craftedStorage);
 
@@ -90,7 +84,7 @@ function loadUserData() {
   p.x = userData.playerPosition.x;
   p.y = userData.playerPosition.y;
   p.health = userData.health;
-  p.charType = userData.charType;
+  characterId = userData.charType;
 
   userDataLoaded = true;
 
