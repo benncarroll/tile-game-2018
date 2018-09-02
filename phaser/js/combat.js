@@ -2,14 +2,15 @@
 
 var currentEnemy = null;
 
-function combat(enemy, player) {
+function combat(enemyGameObject, player) {
   // initialisation of the combat
   inCombat = true;
-  updateFightBox(enemy, player);
+  console.log(enemies[enemyGameObject.id]);
+  currentEnemy = enemies[enemyGameObject.id];
 
-  currentEnemy = enemy;
+  updateFightBox(currentEnemy, player);
 
-  enemyTurn(enemy, player);
+  enemyTurn(currentEnemy, player);
 
 }
 
@@ -46,6 +47,7 @@ function enemyTurn(enemy, player) {
 
     // insert enemy attacking stuff here
     // below line is temporary
+    // console.log(enemy);
     player.health -= round(calcDamage(enemy.stats), 1);
 
     updateFightBox(enemy, player);

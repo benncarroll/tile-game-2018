@@ -25,8 +25,9 @@ function pickSpawnTile() {
         var proposedX = Phaser.Math.Between(9,89);
         var proposedY = Phaser.Math.Between(9,89);
         if (m.getTileAt(proposedX, proposedY).index in GLOBALS.PLACEMENT_TILES) {
-            cx = proposedX;
-            cy = proposedY;
+            tilePicked = true;
+            cx = proposedX*16;
+            cy = proposedY*16;
         }
     }
     return {x:cx, y:cy};
@@ -37,15 +38,15 @@ function pickSpawnTile() {
 //////////////////////////////////////////////////
 function distBetween(x1, y1, x2, y2)
 {
-    return Math.sqrt(Math.pow(x2 - x1) + Math.pow(y2 - y1));
+    return Math.sqrt(Math.pow((x2 - x1),2) + Math.pow((y2 - y1),2));
 }
 
 ///////////////////////////////////////////////
 //  Calculates the angle between two points  //
 ///////////////////////////////////////////////
-function angleTo(x1, y1, x2, y2)
+function angleTo(x1, y1, x2, y2, x3, y3)
 {
-    return Math.atan((y2-y1)/(x2-x1)) * 180 / Math.PI;
+    return Phaser.Math.RadToDeg(Math.atan2(y1-y3, x1-x3) - Math.atan2(y2-y3, x2-x3)); //Math.atan((y2-y1)/(x2-x1)) * 180 / Math.PI;
 }
 
 /////////////////////////////////////////////////////////////////////

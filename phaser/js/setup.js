@@ -3,7 +3,7 @@
 var cam;
 var cameraDolly;
 var p;
-var enemies = [];
+var enemies = {};
 var m;
 var layerDict;
 var lastUpdate = 0;
@@ -93,8 +93,8 @@ function updateCamera() {
 
   if (this.game.input.activePointer.isDown && (GLOBALS.PLAYER_ENABLED || GLOBALS.DEBUG_ENABLED)) {
     if (this.game.origDragPoint) { // move the camera by the amount the mouse has moved since last update
-      cameraDolly.x += this.game.origDragPoint.x - this.game.input.activePointer.position.x;
-      cameraDolly.y += this.game.origDragPoint.y - this.game.input.activePointer.position.y;
+      cameraDolly.x += (this.game.origDragPoint.x - this.game.input.activePointer.position.x)*2;
+      cameraDolly.y += (this.game.origDragPoint.y - this.game.input.activePointer.position.y)*2;
 
       cameraDolly.x = limit(cameraDolly.x, p.x - CONST.CAM_LIMIT, p.x + CONST.CAM_LIMIT);
       cameraDolly.y = limit(cameraDolly.y, p.y - CONST.CAM_LIMIT, p.y + CONST.CAM_LIMIT);
@@ -363,20 +363,21 @@ function updateFightBox(enemy, player_i) {
     player.maxHealth = 100;
     player.stats = {};
     player.stats.attack = 5;
+
   }
 
   if (enemy !== Object(enemy)) {
     console.warn("No enemy object passed to startFight()");
   }
 
-  texts.enemyName.setText(enemy.type);
-  texts.desc.setText("You must fight the " + enemy.type + " to the death!");
+  texts.enemyName.setText(enemy.Type);
+  texts.desc.setText("You must fight the " + enemy.Type + " to the death!");
 
   texts.playerHP.setText(player.health + "/" + player.maxHealth);
   texts.enemyHP.setText(enemy.health + "/" + enemy.maxHealth);
 
   texts.playerInitial.setText("P"); //player.name[0].toUpperCase());
-  texts.enemyInitial.setText(enemy.type.getInitials());
+  texts.enemyInitial.setText(enemy.Type.getInitials());
 
   toggleFightBox(true);
 

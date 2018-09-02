@@ -8,15 +8,20 @@ var CONST = {
   'FIGHT_BOX_MARGIN': 0, // Margin around the fight box
   'FIGHT_BOX_WIDTH': 100, // Width of fight box
   'FIGHT_BOX_HEIGHT': 70, // Height of fight box
-  'ENEMY_COUNT': 2,  // The mount of enemies that will spawn
-  'ENEMY_TYPES': ["Big", "Small"],  // The list of enemy types
-  'ENEMY_AGRO_DIST': 2,  // The distance the player needs to be away from an enemy for it to become aggressive
-  'ENEMY_SPEED': 19  // The speed at which an enemy travels
+  'ENEMY_COUNT': 100, // The mount of enemies that will spawn
+  'ENEMY_TYPES': ["Big", "Small"], // The list of enemy types
+  'ENEMY_AGRO_DIST': 5, // The distance the player needs to be away from an enemy for it to become aggressive
+  'ENEMY_SPEED': 10 // The speed at which an enemy travels
 };
 
 var GLOBALS = {
   'PLAYER_ENABLED': true, // Player movement toggle
-  'DEBUG_ENABLED': false // Enable/disable debug graphics
+  'DEBUG_ENABLED': false, // Enable/disable debug graphics
+  'PLACEMENT_TILES': [ // Tiles enemies can be placed on
+    217, 220, 221, 222, 223,
+    234, 239, 240, 241,
+    252, 255, 257, 258, 259
+  ]
 };
 
 var FIGHT_ELEMENTS = {
