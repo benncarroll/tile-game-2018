@@ -7,7 +7,11 @@ var CONST = {
   'CAM_LIMIT': 100, // Camera pan distance limit
   'FIGHT_BOX_MARGIN': 0, // Margin around the fight box
   'FIGHT_BOX_WIDTH': 100, // Width of fight box
-  'FIGHT_BOX_HEIGHT': 70 // Height of fight box
+  'FIGHT_BOX_HEIGHT': 70, // Height of fight box
+  'ENEMY_COUNT': 2,  // The mount of enemies that will spawn
+  'ENEMY_TYPES': ["Big", "Small"],  // The list of enemy types
+  'ENEMY_AGRO_DIST': 2,  // The distance the player needs to be away from an enemy for it to become aggressive
+  'ENEMY_SPEED': 19  // The speed at which an enemy travels
 };
 
 var GLOBALS = {

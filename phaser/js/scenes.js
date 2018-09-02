@@ -40,6 +40,9 @@ var MainMap = new Phaser.Class({
       this.groundLayer = m.createStaticLayer(i, tiles, 0, 0);
     }
 
+    // Spawn our enemies in
+    spawnEnemies(this, CONST.ENEMY_COUNT);
+
     // Player
     player = this.physics.add.sprite(184.5, 247, 'walker');
     p = player;
@@ -88,6 +91,7 @@ var MainMap = new Phaser.Class({
     }
     updateCamera();
     updatePlayer();
+    enemyAi();
 
     // Save data every 5 seconds
     if (time > lastUpdate + 5000) {

@@ -3,6 +3,7 @@
 var cam;
 var cameraDolly;
 var p;
+var enemies = [];
 var m;
 var layerDict;
 var lastUpdate = 0;
@@ -27,8 +28,6 @@ var config = {
   scene: [MainMap]
 };
 var game = new Phaser.Game(config);
-
-// function update(time, delta)
 
 //
 // Player update
