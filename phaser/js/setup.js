@@ -10,6 +10,9 @@ var lastUpdate = 0;
 var removedLoad = false;
 var lastDir = "down";
 var inCombat = false;
+var characterId = 'walker';
+var playerDead = false;
+var attacker = 0;
 
 var showTiles = false;
 var showFaces = false;
@@ -20,10 +23,12 @@ var config = {
   width: window.innerWidth,
   height: window.innerHeight,
   pixelArt: true,
-  antialias: false,
+  antialias: false, 
   physics: {
     default: 'arcade',
-    // arcade: { debug: true }
+    // arcade: {
+    //   debug: true
+    // }
   },
   scene: [MainMap]
 };
@@ -41,12 +46,12 @@ function updatePlayer() {
 
     if (cursors.left.isDown || wasd.left.isDown) {
       player.setVelocityX(-CONST.PLAYER_SPEED);
-      player.play('left', true);
+      player.play(characterId + '-left', true);
       lastDir = "left";
       movingX = true;
     } else if (cursors.right.isDown || wasd.right.isDown) {
       player.setVelocityX(CONST.PLAYER_SPEED);
-      player.play('right', true);
+      player.play(characterId + '-right', true);
       lastDir = "right";
       movingX = true;
     } else {
@@ -57,14 +62,14 @@ function updatePlayer() {
     if (cursors.up.isDown || wasd.up.isDown) {
       player.setVelocityY(-CONST.PLAYER_SPEED);
       if (!movingX) {
-        player.play('up', true);
+        player.play(characterId + '-up', true);
       }
       lastDir = "up";
       movingY = true;
     } else if (cursors.down.isDown || wasd.down.isDown) {
       player.setVelocityY(CONST.PLAYER_SPEED);
       if (!movingX) {
-        player.play('down', true);
+        player.play(characterId + '-down', true);
       }
       lastDir = "down";
       movingY = true;
@@ -77,7 +82,9 @@ function updatePlayer() {
   if (!movingX && !movingY) {
     player.setVelocityX(0);
     player.setVelocityY(0);
-    player.play(lastDir + "-stop", true);
+    if (!playerDead) {
+      player.play(characterId + '-' + lastDir + "-stop", true);
+    }
   }
 
   if (movingX || movingY) {
@@ -136,40 +143,45 @@ function createAnims(_anims) {
     ['down-stop', [1]],
     ['left-stop', [4]],
     ['right-stop', [7]],
-    ['up-stop', [10]]
+    ['up-stop', [10]],
+    ['dead', [12]]
   ];
 
-  for (var i = 0; i < animDict.length; i++) {
-    l = animDict[i];
+  var keyArray = ['walker', 'walker2'];
 
-    // console.log(l);
-    // console.log(animDict);
+  for (var keyI = 0; keyI < keyArray.length; keyI++) {
+    for (var i = 0; i < animDict.length; i++) {
+      l = animDict[i];
 
-    n = l[0];
-    if (l[1].length == 1) {
-      f = [{
-        key: 'walker',
-        frame: l[1][0]
-      }];
-    } else {
-      f = _anims.generateFrameNumbers('walker', {
-        start: l[1][0],
-        end: l[1][1]
+      // console.log(l);
+      // console.log(animDict);
+
+      n = keyArray[keyI] + "-" + l[0];
+      if (l[1].length == 1) {
+        f = [{
+          key: keyArray[keyI],
+          frame: l[1][0]
+        }];
+      } else {
+        f = _anims.generateFrameNumbers(keyArray[keyI], {
+          start: l[1][0],
+          end: l[1][1]
+        });
+      }
+      // console.log(n, f);
+
+      _anims.create({
+        key: n,
+        frames: f,
+        frameRate: 4,
+        repeat: -1,
+        yoyo: true
       });
+
+
     }
-    // console.log(n, f);
-
-    _anims.create({
-      key: n,
-      frames: f,
-      frameRate: 4,
-      repeat: -1,
-      yoyo: true
-    });
-
 
   }
-
 }
 
 //
