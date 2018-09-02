@@ -15,8 +15,7 @@ Y8,            88  ,adPPPPP88   `"Y8ba,    `"Y8ba,
 
 class enemy {
   // stats array
-  // strength, agility, charisma, endurance, intelligence, luck
-
+  // attack, speed, endurance
 
   ////////////////////////////
   //  CONSTRUCTOR FUNCTION  //
@@ -25,15 +24,16 @@ class enemy {
   constructor(id, gameObj, type, lvl) {
 
     this.id = id;
+    this._id = id;
     this.gameObj = gameObj;
     this.gameObj.id = id;
     this._type = type;
     this._lvl = lvl;
-    this._maxHealth = 10 + lvl * 1.5;
+    this._maxHealth = round(10 + lvl * 1.5, 1);
     this._health = this.maxHealth;
-    this._stats = {
-      attack: 5
-    };
+    this._stats = GLOBALS.ENEMY_DATA[GLOBALS.ENEMY_TYPES[this._type]].stats;
+    this._initials = GLOBALS.ENEMY_TYPES[this._type].getInitials()
+    this._speed = this._stats.speed;
     this._lastDir = 'up';
     this._dirTime = 5;
     this._dirCurrentTime = 0;
@@ -67,7 +67,7 @@ class enemy {
 
   get type() {
     try {
-      return CONST.ENEMY_TYPES[this._type];
+      return GLOBALS.ENEMY_TYPES[this._type];
     } catch (err) {
       if (err.name == "RangeError") {
         console.error(`ERROR: The "${this._type}" type Number has not been assigned a type`);
@@ -78,10 +78,10 @@ class enemy {
   }
 
   set type(value) {
-    if (CONST.ENEMY_TYPES.indexOf(value) == -1) {
+    if (GLOBALS.ENEMY_TYPES.indexOf(value) == -1) {
       console.error(`ERROR: "${value}" is not a type`);
     } else {
-      this._type = CONST.ENEMY_TYPES.indexOf(value);
+      this._type = GLOBALS.ENEMY_TYPES.indexOf(value);
       return this._type;
     }
   }
@@ -107,7 +107,7 @@ class enemy {
     return this._health;
   }
   set health(value) {
-    this._health = value;
+    this._health = Math.max(value, 0);
     return this._health;
   }
   get maxHealth() {
@@ -157,6 +157,18 @@ class enemy {
     return this._dirCurrentTime;
   }
 
+  get speed() {
+    return this._speed;
+  }
+  set speed(value) {
+    this._speed = value;
+    return this._speed;
+  }
+
+  kill() {
+    this.gameObj.destroy();
+    delete enemies[this.id];
+  }
 
 }
 
@@ -177,10 +189,10 @@ class enemy {
 function spawnEnemies(_game, enemyCount) {
   for (var i = 0; i < enemyCount; i++) {
     var spawnTile = pickSpawnTile();
-    var type = randNum(0, 1);
-    var lvl = randNum(1, 10);
+    var type = Phaser.Math.Between(0, GLOBALS.ENEMY_TYPES.length - 1);
+    var lvl = Phaser.Math.Between(1, 10);
     // enemies.push(new enemy(i, _game.physics.add.sprite(spawnTile.x, spawnTile.y, 'walker'), type, lvl));
-    enemies[i] = new enemy(i, _game.physics.add.sprite(spawnTile.x, spawnTile.y, 'walker'), type, lvl);
+    enemies[i] = new enemy(i, _game.physics.add.sprite(spawnTile.x, spawnTile.y, GLOBALS.ENEMY_DATA[GLOBALS.ENEMY_TYPES[type]].frame), type, lvl);
 
   }
 
@@ -191,7 +203,8 @@ function spawnEnemies(_game, enemyCount) {
       e.gameObj.setOrigin(0.5, 0.75);
       e.gameObj.setCollideWorldBounds(true);
       _game.physics.add.collider(e.gameObj, _game.groundLayer);
-      _game.physics.add.overlap(e.gameObj, p, combat, null, _game);
+      // _game.physics.add.collider(e.gameObj, p);
+      // _game.physics.add.overlap(e.gameObj, p, combat, null, _game);
     }
   }
 }
@@ -200,16 +213,25 @@ function enemyAi() {
   for (var eIndex in enemies) {
     if (enemies.hasOwnProperty(eIndex)) {
       e = enemies[eIndex];
+      var movementChosen = false;
 
       // if the player is close enough to the enemy then the enemy will chase the player
+      if (!playerDead) {
       db = Math.abs(distBetween(e.GameObj.x, e.GameObj.y, p.x, p.y));
       if (db < 8) {
         enemyMove(e, 'stop');
-      } else if (db < CONST.ENEMY_AGRO_DIST * 16) {
+        movementChosen = true;
+
+        if (!currentEnemy) {
+          combat(e, p);
+        }
+
+      } else if (db < (e.stats.sight) * 16) {
         var dirTo = roundTo(angleTo(e.GameObj.x, e.GameObj.y - 10, p.x, p.y, e.GameObj.x, e.GameObj.y), 45.0);
         if (dirTo < 0) {
           dirTo += 360;
         }
+        movementChosen = true;
         switch (Number(dirTo)) {
           case 0:
             enemyMove(e, "up");
@@ -251,9 +273,9 @@ function enemyAi() {
             console.error(`ERROR: ${dirTo} is an invalid direction`);
             break;
         }
-      }
-      // otherwise it will wonder around randomly
-      else {
+      }}
+      // otherwise it will wander around randomly
+      if (!movementChosen || playerDead) {
         var directions = ["up", "down", "left", "right", "upLeft", "upRight", "downLeft", "downRight"];
 
         var theDir = null;
@@ -282,10 +304,10 @@ function enemyAi() {
 
 function enemyMove(enemy, dir) {
   enemy.gameObj.setVelocity(0, 0);
-  s = CONST.ENEMY_SPEED;
+  s = enemy.speed || CONST.ENEMY_SPEED;
   switch (dir) {
     case "stop":
-      enemy.gameObj.setVelocity(0,0);
+      enemy.gameObj.setVelocity(0, 0);
       return true;
 
     case "up":

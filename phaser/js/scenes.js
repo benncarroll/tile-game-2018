@@ -11,10 +11,21 @@ var MainMap = new Phaser.Class({
     },
 
   preload: function() {
-    this.load.image('tileset-main', 'images/tileset-main.gif', 16, 16);
-    this.load.image('tileset-alt', 'images/tileset-alt.png', 16, 16);
+    this.load.image('tileset-main', 'images/tileset-main.gif');
+    this.load.image('tileset-alt', 'images/tileset-alt.png');
+
+    this.load.image('skeleton', 'images/sprites/skeleton.png');
+    this.load.image('slime', 'images/sprites/slime.png');
+    this.load.image('ghost', 'images/sprites/ghost.png');
+    this.load.image('bat', 'images/sprites/bat.png');
+    this.load.image('spider', 'images/sprites/spider.png');
+
     this.load.tilemapTiledJSON('level0', 'levels/level0.json');
-    this.load.spritesheet('walker', 'images/walker.png', {
+    this.load.spritesheet('walker', 'images/sprites/dude.png', {
+      frameWidth: 16,
+      frameHeight: 16
+    });
+    this.load.spritesheet('walker2', 'images/sprites/dudette.png', {
       frameWidth: 16,
       frameHeight: 16
     });
@@ -40,9 +51,6 @@ var MainMap = new Phaser.Class({
       this.groundLayer = m.createStaticLayer(i, tiles, 0, 0);
     }
 
-    // Spawn our enemies in
-    spawnEnemies(this, CONST.ENEMY_COUNT);
-
     // Player
     player = this.physics.add.sprite(184.5, 247, 'walker');
     p = player;
@@ -50,7 +58,17 @@ var MainMap = new Phaser.Class({
     p.setOrigin(0.5, 0.75);
     p.setCollideWorldBounds(true);
 
+    // Spawn our enemies in
+    spawnEnemies(this, CONST.ENEMY_COUNT);
+
     generateFightBox(this);
+
+    // Player data
+    // TEMP: Should be integrated through player class like enemy is
+    p.stats = {};
+    p.stats.attack = 10;
+    p.stats.heal = 10;
+    p.maxHealth = 100;
 
     cursors = this.input.keyboard.createCursorKeys();
     wasd = {
@@ -70,7 +88,7 @@ var MainMap = new Phaser.Class({
     cam = this.cameras.main;
     cameraDolly = new Phaser.Geom.Point(p.x, p.y);
     cam.zoom = CONST.CAM_ZOOM;
-    cam.setBounds(0, 0, map.widthInPixels * cam.zoom, map.heightInPixels * cam.zoom);
+    cam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     cam.startFollow(cameraDolly);
     this.events.on('resize', resize, this);
 
@@ -81,6 +99,7 @@ var MainMap = new Phaser.Class({
     assignKeyPresses(this);
 
     loadUserData();
+
   },
 
   update: function(time) {

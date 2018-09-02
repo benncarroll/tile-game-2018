@@ -100,8 +100,8 @@ function updateCamera() {
 
   if (this.game.input.activePointer.isDown && (GLOBALS.PLAYER_ENABLED || GLOBALS.DEBUG_ENABLED)) {
     if (this.game.origDragPoint) { // move the camera by the amount the mouse has moved since last update
-      cameraDolly.x += (this.game.origDragPoint.x - this.game.input.activePointer.position.x)*2;
-      cameraDolly.y += (this.game.origDragPoint.y - this.game.input.activePointer.position.y)*2;
+      cameraDolly.x += (this.game.origDragPoint.x - this.game.input.activePointer.position.x) * 2;
+      cameraDolly.y += (this.game.origDragPoint.y - this.game.input.activePointer.position.y) * 2;
 
       cameraDolly.x = limit(cameraDolly.x, p.x - CONST.CAM_LIMIT, p.x + CONST.CAM_LIMIT);
       cameraDolly.y = limit(cameraDolly.y, p.y - CONST.CAM_LIMIT, p.y + CONST.CAM_LIMIT);
@@ -256,7 +256,7 @@ function generateFightBox(scene) {
   text = fg.elements.text;
   for (var element in text) {
     if (text.hasOwnProperty(element)) {
-      fg.text[element] = createText(scene, text[element].x, text[element].y, text[element].d, doNothing, text[element].s || 15, text[element].c);
+      fg.text[element] = createText(scene, text[element].x, text[element].y, text[element].d, eval(text[element].ac) || doNothing, text[element].s || 15, text[element].c);
       fg.text[element].setVisible(false);
     }
   }
@@ -365,31 +365,36 @@ function toggleFightBox(state) {
 //
 // Setup fight box
 //
-function updateFightBox(enemy, player_i) {
+function updateFightBox(enemy, player_i, message_i, actionDesc_i) {
 
   var texts = game.scene.scenes[0].fightBoxGroup.text;
   var player = player_i || p;
-
-  // TEMP: Get rid when character class implemented
-  if (player.maxHealth == undefined) {
-    player.maxHealth = 100;
-    player.stats = {};
-    player.stats.attack = 5;
-
-  }
+  var message = message_i || "";
+  var actionDesc = actionDesc_i || "";
 
   if (enemy !== Object(enemy)) {
     console.warn("No enemy object passed to startFight()");
   }
 
-  texts.enemyName.setText(enemy.Type);
-  texts.desc.setText("You must fight the " + enemy.Type + " to the death!");
+  texts.enemyName.setText(enemy.type + " - Level " + enemy.lvl);
+  texts.desc.setText("You must fight the " + enemy.type + " to the death!");
 
   texts.playerHP.setText(player.health + "/" + player.maxHealth);
   texts.enemyHP.setText(enemy.health + "/" + enemy.maxHealth);
 
-  texts.playerInitial.setText("P"); //player.name[0].toUpperCase());
-  texts.enemyInitial.setText(enemy.Type.getInitials());
+  if (attacker == 0 || enemyDead) {
+    p_icon = "🗡 ";
+    e_icon = "🛡 ";
+  } else {
+    e_icon = "🗡 ";
+    p_icon = "🛡 ";
+  }
+
+  texts.playerInitial.setText(p_icon + "P"); //player.name[0].toUpperCase());
+  texts.enemyInitial.setText(e_icon + enemy.type.getInitials());
+
+  texts.message.setText(message);
+  texts.combatDesc.setText(actionDesc);
 
   toggleFightBox(true);
 
