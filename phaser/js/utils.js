@@ -22,8 +22,8 @@ function pickSpawnTile() {
     var cx;
     var cy;
     while (!tilePicked) {
-        var proposedX = Phaser.Math.Between(9,89);
-        var proposedY = Phaser.Math.Between(9,89);
+        var proposedX = Phaser.Math.Between(0,99);
+        var proposedY = Phaser.Math.Between(0,99);
         if (m.getTileAt(proposedX, proposedY).index in GLOBALS.PLACEMENT_TILES) {
             tilePicked = true;
             cx = proposedX*16;

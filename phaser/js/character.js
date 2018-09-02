@@ -8,12 +8,12 @@ class Character {
   //  CONSTRUCTOR FUNCTION  //
   ////////////////////////////
 
-  constructor(name, lvl, health, stats) {
+  constructor(name, lvl, stats, health) {
     this.name = name || "Steve";
-    this.lvl = lvl || 0;
-    this.maxHealth = 10 + lvl * 2;
-    this.health = health || this.maxHealth;
-    this.stats = stats;
+    this._lvl = lvl || 0;
+    this._maxHealth = 10 + lvl * 2;
+    this._health = health || this._maxHealth;
+    this._stats = stats;
   }
 
 
@@ -21,8 +21,8 @@ class Character {
   //  NAME GETTER  //
   ///////////////////
 
-  get Name() {
-    return this.name;
+  get name() {
+    return this._name;
   }
 
 
@@ -30,12 +30,13 @@ class Character {
   //  LEVEL GETTER/SETTER  //
   ///////////////////////////
 
-  get Lvl() {
-    return this.lvl;
+  get lvl() {
+    return this._lvl;
   }
-  set Lvl(value) {
-    this.lvl = value;
-    this.maxHealth = 5 + this.lvl * 2;
+  set lvl(value) {
+    this._lvl = value;
+    this._maxHealth = 5 + this._lvl * 2;
+    return this._lvl;
   }
 
 
@@ -43,11 +44,12 @@ class Character {
   //  HEALTH GETTER/SETTER  //
   ////////////////////////////
 
-  get Health() {
-    return this.health;
+  get health() {
+    return this._health;
   }
-  set Health(value) {
-    this.health = value;
+  set health(value) {
+    this._health = value;
+    return this._health;
   }
 
 
@@ -55,17 +57,12 @@ class Character {
   //  STAT GETTER/SETTER  //
   //////////////////////////
 
-  get Stats() {
-    return this.stats;
+  get stats() {
+    return this._stats;
   }
-  set Stats(value) {
-    this.stats = value;
-  }
-
-  kill() {
-    // Say some shit u died whataver
-    alert("You died.");
-
+  set stats(value) {
+    this._stats = value;
+    return this._stats;
   }
 
 }
