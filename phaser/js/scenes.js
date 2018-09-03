@@ -52,7 +52,7 @@ var MainMap = new Phaser.Class({
     }
 
     // Player
-    player = this.physics.add.sprite(184.5, 247, 'walker');
+    player = this.physics.add.sprite(184.45, 247.1, 'walker');
     p = player;
     p.setScale(0.75);
     p.setOrigin(0.5, 0.75);
@@ -69,6 +69,7 @@ var MainMap = new Phaser.Class({
     p.stats.attack = 10;
     p.stats.heal = 10;
     p.maxHealth = 100;
+    p.lvl = 1;
 
     cursors = this.input.keyboard.createCursorKeys();
     wasd = {
