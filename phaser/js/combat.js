@@ -110,7 +110,8 @@ function endCombat(finishCase) {
     case 1:
 
       enemyDead = true;
-      updateFightBox(currentEnemy, p, "You won!");
+      p.lvl += 1;
+      updateFightBox(currentEnemy, p, `You won! Level up! (${p.lvl - 1} → ${p.lvl})`);
       currentEnemy.kill();
 
       setTimeout(function() {
@@ -140,7 +141,8 @@ function endCombat(finishCase) {
       setTimeout(function() {
         toggleFightBox(false);
         GLOBALS.PLAYER_ENABLED = false;
-      }, 2000);
+        alert(`Game over man, game over.\n\nYou finished with a level of ${p.lvl}. Nice!`);
+      }, 3000);
 
       break;
 
