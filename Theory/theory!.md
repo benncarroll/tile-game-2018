@@ -2,7 +2,21 @@
 
 ## Problem Definition
 
-Words on a screen blah blah
+FuseBlade is a *Tile-Based RPG Adventure Game* That takes place on an island.
+The problem that this software solves is boredom, as is the nature of most games.
+To solve this problem we will make a coherent working game that
+will include the following features:
+- A large 100x100 map loaded in from a file
+- A spritesheet to handle all the textures
+- An animated Character that can move
+- Enemies
+    - Enemy AI
+    - Enemy stats and textures
+    - random spawning of enemies
+- Combat and Combat UI
+- Leveling up
+- Player and enemy death
+- Player respawning and saving
 
 ## System Flow Chart
 
