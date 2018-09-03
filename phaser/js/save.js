@@ -56,9 +56,12 @@ function saveUserData(_scene) {
 
 function loadUserData() {
 
+  var rtn = true;
+
   console.log("Fetching previous user data...");
 
   if (localStorage.getItem('userData') == null) {
+    rtn = false;
     saveUserData();
   }
 
@@ -66,6 +69,7 @@ function loadUserData() {
     userData = JSON.parse(Base64.decode(localStorage.getItem('userData')));
   } catch (e) {
     console.warn("Stored data parsing error, re-saving.");
+    rtn = false;
     // console.log(e);
     saveUserData();
     return;
@@ -76,6 +80,7 @@ function loadUserData() {
 
   if (cs != Number(userData.cs)) {
     console.warn("Checksum invalid - Setting values to 0.");
+    rtn = false;
     // resetUserData(true);
     return;
   } else {
@@ -91,5 +96,6 @@ function loadUserData() {
   p.lvl = userData.lvl;
 
   userDataLoaded = true;
+  return rtn;
 
 }

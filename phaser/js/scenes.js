@@ -62,6 +62,7 @@ var MainMap = new Phaser.Class({
     spawnEnemies(this, CONST.ENEMY_COUNT);
 
     generateFightBox(this);
+    generateDialogBox(this);
 
     // Player data
     // TEMP: Should be integrated through player class like enemy is
@@ -99,7 +100,13 @@ var MainMap = new Phaser.Class({
 
     assignKeyPresses(this);
 
-    loadUserData();
+    if (!loadUserData()) {
+      updateDialogBox("Choose a character:", "Jeff", "Sarah", function () {
+        characterId = 'walker';
+      }, function () {
+        characterId = 'walker2';
+      });
+    }
 
   },
 
