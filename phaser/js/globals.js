@@ -63,8 +63,8 @@ var GLOBALS = {
       },
       frame: 'ghost'
     }
-  }
-
+  },
+  'ACTIONS':[]
 };
 
 var FIGHT_ELEMENTS = {
@@ -135,7 +135,7 @@ var FIGHT_ELEMENTS = {
       x: 20,
       y: 50,
       a: 'center',
-      s: 12,
+      s: 15,
       d: 'SLASH',
       ac: 'playerHit',
       c: '#0012ff'
@@ -144,10 +144,39 @@ var FIGHT_ELEMENTS = {
       x: 30,
       y: 50,
       a: 'center',
-      s: 12,
+      s: 15,
       d: 'HEAL',
       ac: 'playerHeal',
       c: '#0012ff'
+    }
+  }
+};
+var DIALOG_ELEMENTS = {
+  text: {
+    title: {
+      x: 50,
+      y: 30,
+      a: 'center',
+      s: 25,
+      d: 'Main Title'
+    },
+    option1: {
+      x: 25,
+      y: 40,
+      a: 'center',
+      s: 20,
+      d: 'Action 1',
+      c: '#001880',
+      ac: 'action1'
+    },
+    option2: {
+      x: 75,
+      y: 40,
+      a: 'center',
+      s: 20,
+      d: 'Action 2',
+      c: '#cb00d6',
+      ac: 'action2'
     }
   }
 };

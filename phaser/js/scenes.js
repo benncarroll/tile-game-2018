@@ -57,6 +57,7 @@ var MainMap = new Phaser.Class({
     spawnEnemies(this, CONST.ENEMY_COUNT);
 
     generateFightBox(this);
+    generateDialogBox(this);
 
     cursors = this.input.keyboard.createCursorKeys();
     wasd = {
@@ -84,7 +85,13 @@ var MainMap = new Phaser.Class({
 
     assignKeyPresses(this);
 
-    loadUserData();
+    if (!loadUserData()) {
+      updateDialogBox("Choose a character:", "Jeff", "Sarah", function () {
+        characterId = 'walker';
+      }, function () {
+        characterId = 'walker2';
+      });
+    }
 
   },
 

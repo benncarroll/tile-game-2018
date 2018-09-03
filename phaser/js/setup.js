@@ -114,6 +114,178 @@ function handleKeyPresses(event) {
 }
 
 //
+// Create a dialog box
+//
+function generateDialogBox(scene) {
+
+  scene.dialogBox = {};
+  var db = scene.dialogBox;
+
+  db.boxGraphics = scene.add.graphics();
+
+  // Define some shorthand constants
+  var w = Math.min(CONST.FIGHT_BOX_WIDTH, game.config.width / CONST.CAM_ZOOM);
+  var h = Math.min(CONST.FIGHT_BOX_HEIGHT, game.config.height / CONST.CAM_ZOOM);
+  var cz = CONST.CAM_ZOOM;
+  var fbm = CONST.FIGHT_BOX_MARGIN;
+
+  // Draw outer boxes
+  db.boxes = [
+    db.boxGraphics.fillStyle(0xb3b3b3, 1).fillRect(0, 0, w, h),
+    db.boxGraphics.fillStyle(0xd9d9d9, 1).fillRect(2, 2, w - 4, h - 4)
+  ];
+  // Make them all hidden
+  for (var x = 0; x < db.boxes.length; x++) {
+    db.boxes[x].setVisible(false);
+  }
+
+  // Put Fight box data into game element
+  db.elements = DIALOG_ELEMENTS;
+
+  // Add text elements
+  db.text = {};
+  text = db.elements.text;
+  for (var element in text) {
+    if (text.hasOwnProperty(element)) {
+      db.text[element] = createText(scene, text[element].x, text[element].y, text[element].d, eval(text[element].ac) || doNothing, text[element].s || 15, text[element].c);
+      db.text[element].setVisible(false);
+    }
+  }
+}
+
+//
+//  Toggles view of fight box
+//
+function toggleDialogBox(state) {
+
+  var db = game.scene.scenes[0].dialogBox;
+
+  if (state == undefined) {
+    if (db.boxes[0].visible) state = false;
+    if (!db.boxes[0].visible) state = true;
+  }
+
+  if (!state) {
+    // Hide boxes
+    for (var i = 0; i < db.boxes.length; i++) {
+      db.boxes[i].setVisible(false);
+    }
+    // Hide Text
+    for (var tName in db.text) {
+      if (db.text.hasOwnProperty(tName)) {
+        db.text[tName].setVisible(false);
+      }
+    }
+
+    GLOBALS.PLAYER_ENABLED = true;
+
+    return state;
+  } else {
+
+    // Formula for box coords/width/height
+    // p.x - (sw / (2 * cz)) + fbm, p.y - (sh / (2 * cz)) + fbm, sw/cz - fbm*2, sh/cz - fbm*2
+
+    // var sw = game.config.width;
+    // var sh = game.config.height;
+    var w = Math.min(CONST.FIGHT_BOX_WIDTH, game.config.width / CONST.CAM_ZOOM);
+    var h = Math.min(CONST.FIGHT_BOX_HEIGHT, game.config.height / CONST.CAM_ZOOM);
+    var cz = CONST.CAM_ZOOM;
+    var fbm = CONST.FIGHT_BOX_MARGIN;
+
+    // Determine box position constants
+    var boxTopLeft = {
+      x: p.x - (w / (2)) + fbm,
+      y: p.y - (h / (2)) + fbm
+    };
+
+    // Update box position
+    for (var x = 0; x < db.boxes.length; x++) {
+      db.boxes[x].setPosition(boxTopLeft.x, boxTopLeft.y);
+      db.boxes[x].setVisible(true);
+    }
+
+    // Update text position
+    for (var textName in db.text) {
+      if (db.text.hasOwnProperty(textName)) {
+
+        var textPos;
+
+        // Determine alignment
+        // x specifies where supllied coordinates will lie
+        if (db.elements.text[textName].a == "center") {
+          // Set coords to backwards halfway of displayWidth
+          // |---------|
+          // |    x    |
+          // |---------|
+          textPos = {
+            x: boxTopLeft.x + db.elements.text[textName].x - db.text[textName].displayWidth / 2,
+            y: boxTopLeft.y + db.elements.text[textName].y - db.text[textName].displayHeight / 2
+          };
+        } else if (db.elements.text[textName].a == "right") {
+          // Set coords to negative whatever displayed
+          // |---------x
+          // |         |
+          // |---------|
+          textPos = {
+            x: boxTopLeft.x + db.elements.text[textName].x - db.text[textName].displayWidth,
+            y: boxTopLeft.y + db.elements.text[textName].y
+          };
+        } else {
+          // Default to top left
+          // x---------|
+          // |         |
+          // |---------|
+          textPos = {
+            x: boxTopLeft.x + db.elements.text[textName].x,
+            y: boxTopLeft.y + db.elements.text[textName].y
+          };
+        }
+
+        db.text[textName]
+          .setPosition(textPos.x, textPos.y)
+          .setVisible(true);
+      }
+    }
+
+    GLOBALS.PLAYER_ENABLED = false;
+    return state;
+  }
+
+}
+
+
+//
+// Setup dialog box
+//
+function updateDialogBox(title, data1, data2, act1, act2) {
+
+  GLOBALS.ACTIONS[0] = act1;
+  GLOBALS.ACTIONS[1] = act2;
+
+  var texts = game.scene.scenes[0].dialogBox.text;
+
+  texts.option1.setText(data1);
+  texts.option2.setText(data2);
+
+  texts.title.setText(title);
+
+  toggleDialogBox(true);
+
+}
+
+//
+// Actions for
+//
+function action1() {
+  GLOBALS.ACTIONS[0]();
+  toggleDialogBox(false);
+}
+function action2() {
+  GLOBALS.ACTIONS[1]();
+  toggleDialogBox(false);
+}
+
+//
 // Create our fight box
 //
 function generateFightBox(scene) {
