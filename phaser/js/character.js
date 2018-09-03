@@ -12,7 +12,7 @@ class Character {
     this._name = name || "Steve";
     this.gameObj = gameObj;
     this._lvl = lvl || 0;
-    this._maxHealth = 20 + lvl * 10;
+    this._maxHealth = 90 + this._lvl * 10;
     this._health = this._maxHealth;
     this._stats = stats;
   }
@@ -66,7 +66,7 @@ class Character {
   }
   set lvl(value) {
     this._lvl = value;
-    this._maxHealth = 20 + this._lvl * 10;
+    this._maxHealth = 90 + this.lvl * 10;
     return this._lvl;
   }
 
@@ -103,16 +103,36 @@ class Character {
     this._stats = value;
     return this._stats;
   }
+
+  /////////////////////
+  //  WEAPON GETTER  //
+  /////////////////////
+
+  get weapon() {
+    var wp = Math.min(Math.floor(this.lvl / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length -1 );
+    return GLOBALS.WEAPON_DATA[wp];
+  }
+  get newWeapon() {
+    var wpCurrent = Math.min(Math.floor(this.lvl / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length -1 );
+    var wpOld = Math.min(Math.floor((this.lvl-1) / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length -1 );
+    if (wpCurrent == wpOld) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
 }
 
 function createCharacter(_game, name, level, atk, healing)
 {
-    player = new Character(name, _game.physics.add.sprite(184.45, 247.1, 'walker'), level, {attack: atk, heal: healing});
+    player = new Character(name, _game.physics.add.sprite(664.45, 377.1, 'walker'), level, {attack: atk, heal: healing});
     p = player;
     player.gameObj.setScale(0.75);
     player.gameObj.setOrigin(0.5, 0.75);
     player.gameObj.setCollideWorldBounds(true);
     _game.physics.add.collider(player.gameObj, _game.groundLayer);
+
 }
 
 

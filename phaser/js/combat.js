@@ -42,7 +42,7 @@ function playerTurn(action) {
     // Player action will be decided by passed variable
     // below line is temporary
     if (action == 'hit') {
-      dmg = round(calcDamage(player.stats), 1);
+      dmg = round(calcDamage(player.weapon.stats), 1);
       currentEnemy.health -= dmg;
       actionDesc = `${currentEnemy._initials} took ${dmg} damage.`;
     } else if (action == 'heal') {
@@ -83,11 +83,8 @@ function enemyTurn(enemy, player) {
     // below line is temporary
     // console.log(enemy);
     dmg = round(calcDamage(enemy.stats), 1);
-    console.log(player.health);
     player.health -= dmg;
-    console.log(player.health);
     player.health = Math.max(player.health, 0);
-    console.log(player.health);
 
     actionDesc = `P took ${dmg} damage.`;
 
@@ -105,7 +102,7 @@ function enemyTurn(enemy, player) {
 }
 
 function calcDamage(o) {
-  return o.attack * randDec(0.5, 1.5);
+  return o.attack * randDec(0.8, 1.2);
 }
 
 function endCombat(finishCase) {
@@ -114,7 +111,11 @@ function endCombat(finishCase) {
 
       enemyDead = true;
       p.lvl += 1;
-      updateFightBox(currentEnemy, p, `You won! Level up! (${p.lvl - 1} → ${p.lvl})`);
+      var msg = `Level up! (${p.lvl - 1} → ${p.lvl})`;
+      if (p.newWeapon) {
+        msg = `New Weapon: ${p.weapon.name}! ` + msg;
+      }
+      updateFightBox(currentEnemy, p, msg);
       currentEnemy.kill();
 
       setTimeout(function() {
@@ -123,8 +124,7 @@ function endCombat(finishCase) {
         if (!currentEnemy) {
           toggleFightBox(false);
         }
-
-      }, 1500);
+      }, 2500);
 
       break;
     case 0:
@@ -138,7 +138,7 @@ function endCombat(finishCase) {
       playerDead = true;
       currentEnemy = null;
       inCombat = false;
-      console.log(p.play(characterId + '-dead'));
+      p.gameObj.play(characterId + '-dead');
       // p.setVisible(false);
 
       setTimeout(function() {

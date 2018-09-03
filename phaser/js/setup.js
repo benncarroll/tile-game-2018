@@ -280,6 +280,7 @@ function action1() {
   GLOBALS.ACTIONS[0]();
   toggleDialogBox(false);
 }
+
 function action2() {
   GLOBALS.ACTIONS[1]();
   toggleDialogBox(false);
@@ -440,6 +441,7 @@ function updateFightBox(enemy, player_i, message_i, actionDesc_i) {
   }
 
   texts.enemyName.setText(enemy.type + " - Level " + enemy.lvl);
+  texts.playerName.setText("You - Level " + p.lvl);
   texts.desc.setText("You must fight the " + enemy.type + " to the death!");
 
   texts.playerHP.setText(player.health + "/" + player.maxHealth);
@@ -458,6 +460,7 @@ function updateFightBox(enemy, player_i, message_i, actionDesc_i) {
 
   texts.message.setText(message);
   texts.combatDesc.setText(actionDesc);
+  texts.weapon.setText(`Weapon: ${p.weapon.name} (${p.weapon.stats.attack})`);
 
   toggleFightBox(true);
 
