@@ -223,7 +223,7 @@ function enemyAi() {
         movementChosen = true;
 
         if (!currentEnemy) {
-          combat(e, p);
+          combat(e);
         }
 
       } else if (db < (e.stats.sight) * 16) {

@@ -2,9 +2,10 @@
 
 var cam;
 var cameraDolly;
-var p;
 var enemies = {};
 var m;
+var player;
+var p;
 var layerDict;
 var lastUpdate = 0;
 var removedLoad = false;
@@ -23,7 +24,7 @@ var config = {
   width: window.innerWidth,
   height: window.innerHeight,
   pixelArt: true,
-  antialias: false, 
+  antialias: false,
   physics: {
     default: 'arcade',
     // arcade: {
@@ -34,64 +35,6 @@ var config = {
 };
 var game = new Phaser.Game(config);
 
-//
-// Player update
-//
-function updatePlayer() {
-
-  var movingX = false;
-  var movingY = false;
-
-  if (GLOBALS.PLAYER_ENABLED) {
-
-    if (cursors.left.isDown || wasd.left.isDown) {
-      player.setVelocityX(-CONST.PLAYER_SPEED);
-      player.play(characterId + '-left', true);
-      lastDir = "left";
-      movingX = true;
-    } else if (cursors.right.isDown || wasd.right.isDown) {
-      player.setVelocityX(CONST.PLAYER_SPEED);
-      player.play(characterId + '-right', true);
-      lastDir = "right";
-      movingX = true;
-    } else {
-      player.setVelocityX(0);
-      movingX = false;
-    }
-
-    if (cursors.up.isDown || wasd.up.isDown) {
-      player.setVelocityY(-CONST.PLAYER_SPEED);
-      if (!movingX) {
-        player.play(characterId + '-up', true);
-      }
-      lastDir = "up";
-      movingY = true;
-    } else if (cursors.down.isDown || wasd.down.isDown) {
-      player.setVelocityY(CONST.PLAYER_SPEED);
-      if (!movingX) {
-        player.play(characterId + '-down', true);
-      }
-      lastDir = "down";
-      movingY = true;
-    } else {
-      player.setVelocityY(0);
-      movingY = false;
-    }
-  }
-
-  if (!movingX && !movingY) {
-    player.setVelocityX(0);
-    player.setVelocityY(0);
-    if (!playerDead) {
-      player.play(characterId + '-' + lastDir + "-stop", true);
-    }
-  }
-
-  if (movingX || movingY) {
-    saveUserData();
-  }
-
-}
 
 //
 // Camera update
@@ -131,58 +74,6 @@ function updateCamera() {
 
 }
 
-//
-// Create Animations
-//
-function createAnims(_anims) {
-  animDict = [
-    ['down', [0, 2]],
-    ['left', [3, 5]],
-    ['right', [6, 8]],
-    ['up', [9, 11]],
-    ['down-stop', [1]],
-    ['left-stop', [4]],
-    ['right-stop', [7]],
-    ['up-stop', [10]],
-    ['dead', [12]]
-  ];
-
-  var keyArray = ['walker', 'walker2'];
-
-  for (var keyI = 0; keyI < keyArray.length; keyI++) {
-    for (var i = 0; i < animDict.length; i++) {
-      l = animDict[i];
-
-      // console.log(l);
-      // console.log(animDict);
-
-      n = keyArray[keyI] + "-" + l[0];
-      if (l[1].length == 1) {
-        f = [{
-          key: keyArray[keyI],
-          frame: l[1][0]
-        }];
-      } else {
-        f = _anims.generateFrameNumbers(keyArray[keyI], {
-          start: l[1][0],
-          end: l[1][1]
-        });
-      }
-      // console.log(n, f);
-
-      _anims.create({
-        key: n,
-        frames: f,
-        frameRate: 4,
-        repeat: -1,
-        yoyo: true
-      });
-
-
-    }
-
-  }
-}
 
 //
 // Collider Debug draw
@@ -368,7 +259,7 @@ function toggleFightBox(state) {
 function updateFightBox(enemy, player_i, message_i, actionDesc_i) {
 
   var texts = game.scene.scenes[0].fightBoxGroup.text;
-  var player = player_i || p;
+  var player = p;
   var message = message_i || "";
   var actionDesc = actionDesc_i || "";
 
