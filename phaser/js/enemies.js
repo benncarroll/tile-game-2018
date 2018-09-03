@@ -32,7 +32,7 @@ class enemy {
     this._maxHealth = round(10 + lvl * 1.5, 1);
     this._health = this.maxHealth;
     this._stats = GLOBALS.ENEMY_DATA[GLOBALS.ENEMY_TYPES[this._type]].stats;
-    this._initials = GLOBALS.ENEMY_TYPES[this._type].getInitials()
+    this._initials = GLOBALS.ENEMY_TYPES[this._type].getInitials();
     this._speed = this._stats.speed;
     this._lastDir = 'up';
     this._dirTime = 5;

@@ -8,12 +8,13 @@ class Character {
   //  CONSTRUCTOR FUNCTION  //
   ////////////////////////////
 
-  constructor(name, lvl, stats, health) {
+  constructor(name, gameObj, lvl, stats) {
     this.name = name || "Steve";
-    this._lvl = lvl || 0;
-    this._maxHealth = 10 + lvl * 2;
-    this._health = health || this._maxHealth;
-    this._stats = stats;
+    this.gameObj = gameObj;
+    this.lvl = lvl || 0;
+    this.maxHealth = 10 + lvl * 2;
+    this.health = this._maxHealth;
+    this.stats = stats;
   }
 
 
@@ -25,6 +26,19 @@ class Character {
     return this._name;
   }
 
+
+  /////////////////////////////
+  //  gameObj GETTER/SETTER  //
+  /////////////////////////////
+
+  get GameObj() {
+    return this.gameObj;
+  }
+
+  set GameObj(value) {
+    this.gameObj = value;
+    return this.gameObj;
+  }
 
   ///////////////////////////
   //  LEVEL GETTER/SETTER  //
@@ -64,5 +78,126 @@ class Character {
     this._stats = value;
     return this._stats;
   }
+}
 
+function createCharacter(_game, name, level, atk, healing)
+{
+    player = new Character(name, _game.physics.add.sprite(184.45, 247.1, 'walker'), level, {"attack": atk, "heal": healing});
+    player.gameObj.setScale(0.75);
+    player.gameObj.setOrigin(0.5, 0.75);
+    player.gameObj.setCollideWorldBounds(true);
+    _game.physics.add.collider(player.gameObj, _game.groundLayer);
+}
+
+
+//
+// Player update
+//
+function updatePlayer() {
+
+  var movingX = false;
+  var movingY = false;
+
+  if (GLOBALS.PLAYER_ENABLED) {
+
+    if (cursors.left.isDown || wasd.left.isDown) {
+      player.gameObj.setVelocityX(-CONST.PLAYER_SPEED);
+      player.gameObj.play(characterId + '-left', true);
+      lastDir = "left";
+      movingX = true;
+    } else if (cursors.right.isDown || wasd.right.isDown) {
+      player.gameObj.setVelocityX(CONST.PLAYER_SPEED);
+      player.gameObj.play(characterId + '-right', true);
+      lastDir = "right";
+      movingX = true;
+    } else {
+      player.gameObj.setVelocityX(0);
+      movingX = false;
+    }
+
+    if (cursors.up.isDown || wasd.up.isDown) {
+      player.gameObj.setVelocityY(-CONST.PLAYER_SPEED);
+      if (!movingX) {
+        player.gameObj.play(characterId + '-up', true);
+      }
+      lastDir = "up";
+      movingY = true;
+    } else if (cursors.down.isDown || wasd.down.isDown) {
+      player.gameObj.setVelocityY(CONST.PLAYER_SPEED);
+      if (!movingX) {
+        player.gameObj.play(characterId + '-down', true);
+      }
+      lastDir = "down";
+      movingY = true;
+    } else {
+      player.gameObj.setVelocityY(0);
+      movingY = false;
+    }
+  }
+
+  if (!movingX && !movingY) {
+    player.gameObj.setVelocityX(0);
+    player.gameObj.setVelocityY(0);
+    if (!playerDead) {
+      player.gameObj.play(characterId + '-' + lastDir + "-stop", true);
+    }
+  }
+
+  if (movingX || movingY) {
+    saveUserData();
+  }
+
+}
+
+//
+// Create Animations
+//
+function createAnims(_anims) {
+  animDict = [
+    ['down', [0, 2]],
+    ['left', [3, 5]],
+    ['right', [6, 8]],
+    ['up', [9, 11]],
+    ['down-stop', [1]],
+    ['left-stop', [4]],
+    ['right-stop', [7]],
+    ['up-stop', [10]],
+    ['dead', [12]]
+  ];
+
+  var keyArray = ['walker', 'walker2'];
+
+  for (var keyI = 0; keyI < keyArray.length; keyI++) {
+    for (var i = 0; i < animDict.length; i++) {
+      l = animDict[i];
+
+      // console.log(l);
+      // console.log(animDict);
+
+      n = keyArray[keyI] + "-" + l[0];
+      if (l[1].length == 1) {
+        f = [{
+          key: keyArray[keyI],
+          frame: l[1][0]
+        }];
+      } else {
+        f = _anims.generateFrameNumbers(keyArray[keyI], {
+          start: l[1][0],
+          end: l[1][1]
+        });
+      }
+      // console.log(n, f);
+
+      _anims.create({
+        key: n,
+        frames: f,
+        frameRate: 4,
+        repeat: -1,
+        yoyo: true
+      });
+
+
+    }
+
+  }
 }
