@@ -51,26 +51,13 @@ var MainMap = new Phaser.Class({
       this.groundLayer = m.createStaticLayer(i, tiles, 0, 0);
     }
 
-    // Player
-    player = this.physics.add.sprite(184.45, 247.1, 'walker');
-    p = player;
-    p.setScale(0.75);
-    p.setOrigin(0.5, 0.75);
-    p.setCollideWorldBounds(true);
+    createCharacter(this, "Steve", 1, 10, 10);
 
     // Spawn our enemies in
     spawnEnemies(this, CONST.ENEMY_COUNT);
 
     generateFightBox(this);
     generateDialogBox(this);
-
-    // Player data
-    // TEMP: Should be integrated through player class like enemy is
-    p.stats = {};
-    p.stats.attack = 10;
-    p.stats.heal = 10;
-    p.maxHealth = 100;
-    p.lvl = 1;
 
     cursors = this.input.keyboard.createCursorKeys();
     wasd = {
@@ -80,8 +67,6 @@ var MainMap = new Phaser.Class({
       right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
     };
 
-
-    this.physics.add.collider(p, this.groundLayer);
     this.physics.world.setBounds(124, 124, 1352, 1352);
 
 

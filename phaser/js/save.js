@@ -91,7 +91,7 @@ function loadUserData() {
   // timeStarted = Number(userData.timeStarted);
   p.x = userData.playerPosition.x;
   p.y = userData.playerPosition.y;
-  p.health = userData.health;
+  p.health = Math.min(userData.health, p.maxHealth);
   characterId = userData.charType;
   p.lvl = userData.lvl;
 

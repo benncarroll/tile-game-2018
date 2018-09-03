@@ -4,7 +4,7 @@ var currentEnemy = null;
 var allowPlayerTurn = false;
 var enemyDead = false;
 
-function combat(enemyGameObject, player) {
+function combat(enemyGameObject) {
   // initialisation of the combat
   inCombat = true;
   enemyDead = false;
@@ -14,9 +14,9 @@ function combat(enemyGameObject, player) {
     currentEnemy = enemyGameObject;
   }
 
-  updateFightBox(currentEnemy, player);
+  updateFightBox(currentEnemy, p);
 
-  enemyTurn(currentEnemy, player);
+  enemyTurn(currentEnemy, p);
 
 }
 
@@ -83,8 +83,11 @@ function enemyTurn(enemy, player) {
     // below line is temporary
     // console.log(enemy);
     dmg = round(calcDamage(enemy.stats), 1);
+    console.log(player.health);
     player.health -= dmg;
+    console.log(player.health);
     player.health = Math.max(player.health, 0);
+    console.log(player.health);
 
     actionDesc = `P took ${dmg} damage.`;
 
