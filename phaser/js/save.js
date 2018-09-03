@@ -22,6 +22,7 @@ function saveUserData(_scene) {
       },
       health: 100,
       charType: 'walker',
+      lvl:1,
       // inventory:{},
       cs: 0
     };
@@ -42,6 +43,8 @@ function saveUserData(_scene) {
   };
 
   craftedStorage.charType = characterId;
+
+  craftedStorage.lvl = p.lvl;
 
   craftedStorage.cs = genChecksum(craftedStorage);
 
@@ -85,6 +88,7 @@ function loadUserData() {
   p.y = userData.playerPosition.y;
   p.health = userData.health;
   characterId = userData.charType;
+  p.lvl = userData.lvl;
 
   userDataLoaded = true;
 
