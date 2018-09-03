@@ -22,7 +22,7 @@ function saveUserData(_scene) {
       },
       health: 100,
       charType: 'walker',
-      lvl:1,
+      lvl: 1,
       // inventory:{},
       cs: 0
     };

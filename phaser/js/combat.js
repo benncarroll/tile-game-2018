@@ -23,6 +23,7 @@ function combat(enemyGameObject) {
 function playerHeal() {
   playerTurn('heal');
 }
+
 function playerHit() {
   playerTurn('hit');
 }

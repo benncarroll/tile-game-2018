@@ -86,9 +86,9 @@ var MainMap = new Phaser.Class({
     assignKeyPresses(this);
 
     if (!loadUserData()) {
-      updateDialogBox("Choose a character:", "Jeff", "Sarah", function () {
+      updateDialogBox("Choose a character:", "Jeff", "Sarah", function() {
         characterId = 'walker';
-      }, function () {
+      }, function() {
         characterId = 'walker2';
       });
     }

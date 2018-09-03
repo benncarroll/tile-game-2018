@@ -41,7 +41,7 @@ class Character {
   }
 
   get x() {
-      return this.gameObj.x;
+    return this.gameObj.x;
   }
   set x(value) {
     this.gameObj.x = value;
@@ -49,7 +49,7 @@ class Character {
   }
 
   get y() {
-      return this.gameObj.y;
+    return this.gameObj.y;
   }
   set y(value) {
     this.gameObj.y = value;
@@ -109,12 +109,12 @@ class Character {
   /////////////////////
 
   get weapon() {
-    var wp = Math.min(Math.floor(this.lvl / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length -1 );
+    var wp = Math.min(Math.floor(this.lvl / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length - 1);
     return GLOBALS.WEAPON_DATA[wp];
   }
   get newWeapon() {
-    var wpCurrent = Math.min(Math.floor(this.lvl / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length -1 );
-    var wpOld = Math.min(Math.floor((this.lvl-1) / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length -1 );
+    var wpCurrent = Math.min(Math.floor(this.lvl / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length - 1);
+    var wpOld = Math.min(Math.floor((this.lvl - 1) / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length - 1);
     if (wpCurrent == wpOld) {
       return false;
     } else {
@@ -124,14 +124,16 @@ class Character {
 
 }
 
-function createCharacter(_game, name, level, atk, healing)
-{
-    player = new Character(name, _game.physics.add.sprite(664.45, 377.1, 'walker'), level, {attack: atk, heal: healing});
-    p = player;
-    player.gameObj.setScale(0.75);
-    player.gameObj.setOrigin(0.5, 0.75);
-    player.gameObj.setCollideWorldBounds(true);
-    _game.physics.add.collider(player.gameObj, _game.groundLayer);
+function createCharacter(_game, name, level, atk, healing) {
+  player = new Character(name, _game.physics.add.sprite(664.45, 377.1, 'walker'), level, {
+    attack: atk,
+    heal: healing
+  });
+  p = player;
+  player.gameObj.setScale(0.75);
+  player.gameObj.setOrigin(0.5, 0.75);
+  player.gameObj.setCollideWorldBounds(true);
+  _game.physics.add.collider(player.gameObj, _game.groundLayer);
 
 }
 

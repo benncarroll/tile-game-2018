@@ -1,5 +1,6 @@
 /*jshint esversion: 6, evil: true */
 
+// Define globals
 var cam;
 var cameraDolly;
 var enemies = {};
@@ -15,10 +16,12 @@ var characterId = 'walker';
 var playerDead = false;
 var attacker = 0;
 
+// Define debug globals
 var showTiles = false;
 var showFaces = false;
 var showCollidingTiles = false;
 
+// Phaser config script
 var config = {
   type: Phaser.AUTO,
   width: window.innerWidth,
@@ -41,6 +44,9 @@ var game = new Phaser.Game(config);
 //
 function updateCamera() {
 
+  // Camera drag function
+
+  // cameraDolly is used for the camera to follow
   if (this.game.input.activePointer.isDown && (GLOBALS.PLAYER_ENABLED || GLOBALS.DEBUG_ENABLED)) {
     if (this.game.origDragPoint) { // move the camera by the amount the mouse has moved since last update
       cameraDolly.x += (this.game.origDragPoint.x - this.game.input.activePointer.position.x) * 2;
@@ -56,12 +62,6 @@ function updateCamera() {
     if (CONST.CAM_MODE == 'screen') {
       blocksX = Math.floor(document.documentElement.clientWidth / 16 * cam.zoom);
       blocksY = Math.floor(document.documentElement.clientHeight / 16 * cam.zoom);
-
-      // blocksX = 20;
-      // blocksY = 20;
-
-      // console.log(cam.zoom*16, document.documentElement.clientWidth);
-      // console.log(blocksX, blocksY);
 
       cameraDolly.x = round(p.x, blocksX);
       cameraDolly.y = round(p.y, blocksY);
@@ -107,9 +107,7 @@ function assignKeyPresses(_game) {
 }
 
 function handleKeyPresses(event) {
-  // console.log(event);
   var kp = event.key.toUpperCase();
-  // console.log(kp, "\n\n" ,keyPressDict[kp]);
   eval(keyPressDict[kp]);
 }
 
@@ -139,7 +137,7 @@ function generateDialogBox(scene) {
     db.boxes[x].setVisible(false);
   }
 
-  // Put Fight box data into game element
+  // Put box data into game element
   db.elements = DIALOG_ELEMENTS;
 
   // Add text elements
@@ -252,7 +250,6 @@ function toggleDialogBox(state) {
   }
 
 }
-
 
 //
 // Setup dialog box
@@ -447,6 +444,8 @@ function updateFightBox(enemy, player_i, message_i, actionDesc_i) {
   texts.playerHP.setText(player.health + "/" + player.maxHealth);
   texts.enemyHP.setText(enemy.health + "/" + enemy.maxHealth);
 
+  // Show who's attacking and who's defending
+  // attacker is set in combat.js
   if (attacker == 0 || enemyDead) {
     p_icon = "🗡 ";
     e_icon = "🛡 ";
