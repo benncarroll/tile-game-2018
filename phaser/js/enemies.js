@@ -217,63 +217,64 @@ function enemyAi() {
 
       // if the player is close enough to the enemy then the enemy will chase the player
       if (!playerDead) {
-      db = Math.abs(distBetween(e.GameObj.x, e.GameObj.y, p.x, p.y));
-      if (db < 8) {
-        enemyMove(e, 'stop');
-        movementChosen = true;
+        db = Math.abs(distBetween(e.GameObj.x, e.GameObj.y, p.x, p.y));
+        if (db < 8) {
+          enemyMove(e, 'stop');
+          movementChosen = true;
 
-        if (!currentEnemy) {
-          combat(e);
+          if (!currentEnemy) {
+            combat(e);
+          }
+
+        } else if (db < (e.stats.sight) * 16) {
+          var dirTo = roundTo(angleTo(e.GameObj.x, e.GameObj.y - 10, p.x, p.y, e.GameObj.x, e.GameObj.y), 45.0);
+          if (dirTo < 0) {
+            dirTo += 360;
+          }
+          movementChosen = true;
+          switch (Number(dirTo)) {
+            case 0:
+              enemyMove(e, "up");
+              break;
+
+            case 360:
+              enemyMove(e, "up");
+              break;
+
+            case 45:
+              enemyMove(e, "upLeft");
+              break;
+
+            case 90:
+              enemyMove(e, "left");
+              break;
+
+            case 135:
+              enemyMove(e, "downLeft");
+              break;
+
+            case 180:
+              enemyMove(e, "down");
+              break;
+
+            case 225:
+              enemyMove(e, "downRight");
+              break;
+
+            case 270:
+              enemyMove(e, "right");
+              break;
+
+            case 315:
+              enemyMove(e, "upRight");
+              break;
+
+            default:
+              console.error(`ERROR: ${dirTo} is an invalid direction`);
+              break;
+          }
         }
-
-      } else if (db < (e.stats.sight) * 16) {
-        var dirTo = roundTo(angleTo(e.GameObj.x, e.GameObj.y - 10, p.x, p.y, e.GameObj.x, e.GameObj.y), 45.0);
-        if (dirTo < 0) {
-          dirTo += 360;
-        }
-        movementChosen = true;
-        switch (Number(dirTo)) {
-          case 0:
-            enemyMove(e, "up");
-            break;
-
-          case 360:
-            enemyMove(e, "up");
-            break;
-
-          case 45:
-            enemyMove(e, "upLeft");
-            break;
-
-          case 90:
-            enemyMove(e, "left");
-            break;
-
-          case 135:
-            enemyMove(e, "downLeft");
-            break;
-
-          case 180:
-            enemyMove(e, "down");
-            break;
-
-          case 225:
-            enemyMove(e, "downRight");
-            break;
-
-          case 270:
-            enemyMove(e, "right");
-            break;
-
-          case 315:
-            enemyMove(e, "upRight");
-            break;
-
-          default:
-            console.error(`ERROR: ${dirTo} is an invalid direction`);
-            break;
-        }
-      }}
+      }
       // otherwise it will wander around randomly
       if (!movementChosen || playerDead) {
         var directions = ["up", "down", "left", "right", "upLeft", "upRight", "downLeft", "downRight"];

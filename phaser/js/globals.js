@@ -10,7 +10,8 @@ var CONST = {
   'FIGHT_BOX_HEIGHT': 70, // Height of fight box
   'ENEMY_COUNT': 100, // The mount of enemies that will spawn
   'ENEMY_AGRO_DIST': 5, // The distance the player needs to be away from an enemy for it to become aggressive
-  'ENEMY_SPEED': 10 // The speed at which an enemy travels
+  'ENEMY_SPEED': 10, // The speed at which an enemy travels
+  'LVL_PER_WEAPON': 3 // How many lvls are required for the players weapon to lvl up
 };
 
 var GLOBALS = {
@@ -64,28 +65,82 @@ var GLOBALS = {
       frame: 'ghost'
     }
   },
-  'ACTIONS':[]
+  'ACTIONS': [],
+  'WEAPON_DATA': {
+    "0": {
+      name: "Hand",
+      stats: {
+        attack: 5,
+        accuracy: 0.4,
+        cooldown: 1
+      },
+      frame: 'hand'
+    },
+    "1": {
+      name: "Dagger",
+      stats: {
+        attack: 10,
+        accuracy: 0.5,
+        cooldown: 1
+      },
+      frame: 'dagger'
+    },
+    "2": {
+      name: "Axe",
+      stats: {
+        attack: 20,
+        accuracy: 0.7,
+        cooldown: 3
+      },
+      frame: 'axe'
+    },
+    "3": {
+      name: "Sword",
+      stats: {
+        attack: 50,
+        accuracy: 0.9,
+        cooldown: 2
+      },
+      frame: 'sword'
+    },
+    "4": {
+      name: "Hammer",
+      stats: {
+        attack: 100,
+        accuracy: 0.7,
+        cooldown: 4
+      },
+      frame: 'hammer'
+    }
+  }
 };
 
 var FIGHT_ELEMENTS = {
   text: {
-    enemyName: {
-      x: 10,
+    playerName: {
+      x: 25,
       y: 10,
-      a: 'left',
+      a: 'center',
+      s: 25,
+      d: 'PlayerName'
+    },
+    enemyName: {
+      x: 75,
+      y: 10,
+      a: 'center',
       s: 25,
       d: 'EnemyName'
     },
     desc: {
-      x: 10,
+      x: 50,
       y: 20,
-      a: 'left',
+      a: 'center',
       s: 15,
       d: 'A wild Enemy appeared.'
     },
     playerHP: {
       x: 25,
-      y: 35,
+      y: 30,
       a: 'center',
       s: 30,
       d: '100/100',
@@ -93,7 +148,7 @@ var FIGHT_ELEMENTS = {
     },
     enemyHP: {
       x: 75,
-      y: 35,
+      y: 30,
       a: 'center',
       s: 30,
       d: '20/20',
@@ -101,7 +156,7 @@ var FIGHT_ELEMENTS = {
     },
     playerInitial: {
       x: 25,
-      y: 45,
+      y: 40,
       a: 'center',
       s: 20,
       d: '🗡 P',
@@ -109,7 +164,7 @@ var FIGHT_ELEMENTS = {
     },
     enemyInitial: {
       x: 75,
-      y: 45,
+      y: 40,
       a: 'center',
       s: 20,
       d: '🛡 E',
@@ -117,7 +172,7 @@ var FIGHT_ELEMENTS = {
     },
     combatDesc: {
       x: 50,
-      y: 40,
+      y: 35,
       a: 'center',
       s: 15,
       d: 'E took 4 damage.',
@@ -131,17 +186,25 @@ var FIGHT_ELEMENTS = {
       d: '',
       c: '#082691'
     },
+    weapon: {
+      x: 25,
+      y: 45,
+      a: 'center',
+      s: 17,
+      d: 'haND',
+      c: '#6c6c6c'
+    },
     action1: {
-      x: 20,
+      x: 18,
       y: 50,
       a: 'center',
       s: 15,
-      d: 'SLASH',
+      d: 'HIT',
       ac: 'playerHit',
       c: '#0012ff'
     },
     action2: {
-      x: 30,
+      x: 32,
       y: 50,
       a: 'center',
       s: 15,
