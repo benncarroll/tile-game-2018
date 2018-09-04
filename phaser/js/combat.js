@@ -1,118 +1,154 @@
 /*jshint esversion: 6 */
 
-/*
-  ,ad8888ba,                                    88
- d8"'    `"8b                                   88                         ,d
-d8'                                             88                         88
-88              ,adPPYba,   88,dPYba,,adPYba,   88,dPPYba,   ,adPPYYba,  MM88MMM
-88             a8"     "8a  88P'   "88"    "8a  88P'    "8a  ""     `Y8    88
-Y8,            8b       d8  88      88      88  88       d8  ,adPPPPP88    88
- Y8a.    .a8P  "8a,   ,a8"  88      88      88  88b,   ,a8"  88,    ,88    88,
-  `"Y8888Y"'    `"YbbdP"'   88      88      88  8Y"Ybbd8"'   `"8bbdP"Y8    "Y888
-*/
+var currentEnemy = null;
+var allowPlayerTurn = false;
+var enemyDead = false;
 
-function combat(tile) {
+function combat(enemyGameObject) {
   // initialisation of the combat
-  combatInit();
+  inCombat = true;
+  enemyDead = false;
+  if (enemyGameObject.hasOwnProperty("gameObj")) {
+    currentEnemy = enemies[enemyGameObject.id];
+  } else {
+    currentEnemy = enemyGameObject;
+  }
 
-  // loop variables
-  var loop = true;
-  var outcome = null;
+  updateFightBox(currentEnemy, p);
 
-  while (loop) {
-    // start enemy turn
-    switch (enemyTurn(tile)) {
-      case -1:
-        // case for if the player wins
-        loop = false;
-        outcome = "win";
-        break;
+  enemyTurn(currentEnemy, p);
 
-      case -2:
-        // case for if the player loses
-        loop = false;
-        outcome = "lose";
-        break;
+}
+
+function playerHeal() {
+  playerTurn('heal');
+}
+
+function playerHit() {
+  playerTurn('hit');
+}
+
+function playerTurn(action) {
+  // console.log("Hit!", action);
+  if (!allowPlayerTurn) {
+    console.log('action blocked, slow down.');
+    return;
+  }
+  allowPlayerTurn = false;
+  // Called by button press
+  if (inCombat && !enemyDead) {
+    var result = 0;
+    var player = p;
+
+    // Player action will be decided by passed variable
+    // below line is temporary
+    if (action == 'hit') {
+      dmg = round(calcDamage(player.weapon.stats), 1);
+      currentEnemy.health -= dmg;
+      actionDesc = `${currentEnemy._initials} took ${dmg} damage.`;
+    } else if (action == 'heal') {
+      p.health += p.stats.heal;
+      p.health = Math.min(p.health, p.maxHealth);
+      actionDesc = `P healed, gaining ${p.stats.heal}hp.`;
     }
 
-    // start player turn
-    switch (playerTurn(tile)) {
-      case -1:
-        // case for if the player wins
-        loop = false;
-        outcome = "win";
-        break;
+    attacker = 1;
+    updateFightBox(currentEnemy, player, "", actionDesc);
 
-      case -2:
-        // case for if the player loses
-        loop = false;
-        outcome = "lose";
-        break;
+    if (player.health <= 0) {
+      // case for if the player loses
+      endCombat(0);
+    } else if (currentEnemy.health <= 0) {
+      // case for if the player wins
+      endCombat(1);
+      result = 1;
+    }
+
+    setTimeout(function() {
+      if (!enemyDead) {
+        enemyTurn(currentEnemy, player);
+      }
+    }, Phaser.Math.Between(1000, 1200));
+
+  }
+}
+
+function enemyTurn(enemy, player) {
+  if (inCombat) {
+    setTimeout(function() {
+      allowPlayerTurn = true;
+    }, 200);
+    var result = 0;
+
+    // insert enemy attacking stuff here
+    // below line is temporary
+    // console.log(enemy);
+    dmg = round(calcDamage(enemy.stats), 1);
+    player.health -= dmg;
+    player.health = Math.max(player.health, 0);
+
+    actionDesc = `P took ${dmg} damage.`;
+
+    attacker = 0;
+    updateFightBox(enemy, player, "", actionDesc);
+
+    if (player.health <= 0) {
+      // case for if the player loses
+      endCombat(0);
+    } else if (enemy.health <= 0) {
+      // case for if the player wins
+      endCombat(1);
     }
   }
-  // if the enemy is defeated then end()
-  end();
 }
 
-/*
-88               88
-88               ""    ,d
-88                     88
-88  8b,dPPYba,   88  MM88MMM
-88  88P'   `"8a  88    88
-88  88       88  88    88
-88  88       88  88    88,
-88  88       88  88    "Y888
-*/
-
-function combatInit() {
-  toggleFightBox(true);
+function calcDamage(o) {
+  return o.attack * randDec(0.8, 1.2);
 }
 
-/*
-888888888888
-     88
-     88
-     88  88       88  8b,dPPYba,  8b,dPPYba,   ,adPPYba,
-     88  88       88  88P'   "Y8  88P'   `"8a  I8[    ""
-     88  88       88  88          88       88   `"Y8ba,
-     88  "8a,   ,a88  88          88       88  aa    ]8I
-     88   `"YbbdP'Y8  88          88       88  `"YbbdP"'
-*/
-//(*)
-function playerTurn(tile) {
-  if (player.health <= 0) {
-    return -2;
-  } else if (enemy.health <= 0) {
-    return -1;
+function endCombat(finishCase) {
+  switch (finishCase) {
+    case 1:
+
+      enemyDead = true;
+      p.lvl += 1;
+      var msg = `Level up! (${p.lvl - 1} → ${p.lvl})`;
+      if (p.newWeapon) {
+        msg = `New Weapon: ${p.weapon.name}! ` + msg;
+      }
+      updateFightBox(currentEnemy, p, msg);
+      currentEnemy.kill();
+
+      setTimeout(function() {
+        currentEnemy = null;
+        inCombat = false;
+        if (!currentEnemy) {
+          toggleFightBox(false);
+        }
+      }, 2500);
+
+      break;
+    case 0:
+
+      document.addEventListener("click", function(evnt) {
+        localStorage.removeItem("userData");
+        location.reload();
+      });
+
+      updateFightBox(currentEnemy, p, "You died! Click anywhere to restart.");
+      playerDead = true;
+      currentEnemy = null;
+      inCombat = false;
+      p.gameObj.play(characterId + '-dead');
+      // p.setVisible(false);
+
+      setTimeout(function() {
+        toggleFightBox(false);
+        GLOBALS.PLAYER_ENABLED = false;
+        alert(`Game over man, game over.\n\nYou finished with a level of ${p.lvl}. Nice!`);
+      }, 3000);
+
+      break;
+
   }
-}
-
-function enemyTurn(tile) {
-  if (player.health <= 0) {
-    return -2;
-  } else if (enemy.health <= 0) {
-    return -1;
-  }
-}
-
-function calcDamage() {
-
-}
-
-//(**)
-
-/*
-88888888888                        88
-88                                 88
-88                                 88
-88aaaaa      8b,dPPYba,    ,adPPYb,88
-88"""""      88P'   `"8a  a8"    `Y88
-88           88       88  8b       88
-88           88       88  "8a,   ,d88
-88888888888  88       88   `"8bbdP"Y8
-*/
-
-function end() {
-  toggleFightBox(false);
 }

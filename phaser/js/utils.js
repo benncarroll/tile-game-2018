@@ -10,51 +10,51 @@ function round(x, amt) {
 //////////////////////////////////////////
 //  Ease of use random number function  //
 //////////////////////////////////////////
-function randNum(min, max)
-{
-    return Math.floor((Math.random() * max+1) + min);
+function randNum(min, max) {
+  return Math.floor((Math.random() * max + 1) + min);
 }
 
 ////////////////////////////////
 //  picks a valid spawn tile  //
 ////////////////////////////////
 function pickSpawnTile() {
-    var tilePicked = false;
-    var cx;
-    var cy;
-    while (!tilePicked) {
-        var proposedX = Phaser.Math.Between(9,89);
-        var proposedY = Phaser.Math.Between(9,89);
-        if (m.getTileAt(proposedX, proposedY).index in GLOBALS.PLACEMENT_TILES) {
-            cx = proposedX;
-            cy = proposedY;
-        }
+  var tilePicked = false;
+  var cx;
+  var cy;
+  while (!tilePicked) {
+    var proposedX = Phaser.Math.Between(0, 99);
+    var proposedY = Phaser.Math.Between(0, 99);
+    if (m.getTileAt(proposedX, proposedY).index in GLOBALS.PLACEMENT_TILES) {
+      tilePicked = true;
+      cx = proposedX * 16;
+      cy = proposedY * 16;
     }
-    return {x:cx, y:cy};
+  }
+  return {
+    x: cx,
+    y: cy
+  };
 }
 
 //////////////////////////////////////////////////
 //  Calculates the distance between two points  //
 //////////////////////////////////////////////////
-function distBetween(x1, y1, x2, y2)
-{
-    return Math.sqrt(Math.pow(x2 - x1) + Math.pow(y2 - y1));
+function distBetween(x1, y1, x2, y2) {
+  return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
 }
 
 ///////////////////////////////////////////////
 //  Calculates the angle between two points  //
 ///////////////////////////////////////////////
-function angleTo(x1, y1, x2, y2)
-{
-    return Math.atan((y2-y1)/(x2-x1)) * 180 / Math.PI;
+function angleTo(x1, y1, x2, y2, x3, y3) {
+  return Phaser.Math.RadToDeg(Math.atan2(y1 - y3, x1 - x3) - Math.atan2(y2 - y3, x2 - x3)); //Math.atan((y2-y1)/(x2-x1)) * 180 / Math.PI;
 }
 
 /////////////////////////////////////////////////////////////////////
 //  Returns a number rounded to the nearest number of your choice  //
 /////////////////////////////////////////////////////////////////////
-function roundTo(num, round)
-{
-    return Math.round(num / round) * round;
+function roundTo(num, round) {
+  return Math.round(num / round) * round;
 }
 
 /**
@@ -194,3 +194,21 @@ var Base64 = {
   }
 
 };
+
+String.prototype.getInitials = function(glue) {
+  if (typeof glue == "undefined") {
+    glue = true;
+  }
+
+  var initials = this.replace(/[^a-zA-Z- ]/g, "").match(/\b\w/g);
+
+  if (glue) {
+    return initials.join('');
+  }
+
+  return initials;
+};
+
+function randDec(min, max) {
+  return round((Math.random() * (max - min) + min), 0.0001);
+}

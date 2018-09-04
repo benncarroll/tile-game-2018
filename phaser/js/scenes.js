@@ -11,10 +11,21 @@ var MainMap = new Phaser.Class({
     },
 
   preload: function() {
-    this.load.image('tileset-main', 'images/tileset-main.gif', 16, 16);
-    this.load.image('tileset-alt', 'images/tileset-alt.png', 16, 16);
+    this.load.image('tileset-main', 'images/tileset-main.gif');
+    this.load.image('tileset-alt', 'images/tileset-alt.png');
+
+    this.load.image('skeleton', 'images/sprites/skeleton.png');
+    this.load.image('slime', 'images/sprites/slime.png');
+    this.load.image('ghost', 'images/sprites/ghost.png');
+    this.load.image('bat', 'images/sprites/bat.png');
+    this.load.image('spider', 'images/sprites/spider.png');
+
     this.load.tilemapTiledJSON('level0', 'levels/level0.json');
-    this.load.spritesheet('walker', 'images/walker.png', {
+    this.load.spritesheet('walker', 'images/sprites/dude.png', {
+      frameWidth: 16,
+      frameHeight: 16
+    });
+    this.load.spritesheet('walker2', 'images/sprites/dudette.png', {
       frameWidth: 16,
       frameHeight: 16
     });
@@ -40,17 +51,13 @@ var MainMap = new Phaser.Class({
       this.groundLayer = m.createStaticLayer(i, tiles, 0, 0);
     }
 
+    createCharacter(this, "Steve", 1, 10, 10);
+
     // Spawn our enemies in
     spawnEnemies(this, CONST.ENEMY_COUNT);
 
-    // Player
-    player = this.physics.add.sprite(184.5, 247, 'walker');
-    p = player;
-    p.setScale(0.75);
-    p.setOrigin(0.5, 0.75);
-    p.setCollideWorldBounds(true);
-
     generateFightBox(this);
+    generateDialogBox(this);
 
     cursors = this.input.keyboard.createCursorKeys();
     wasd = {
@@ -60,8 +67,6 @@ var MainMap = new Phaser.Class({
       right: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
     };
 
-
-    this.physics.add.collider(p, this.groundLayer);
     this.physics.world.setBounds(124, 124, 1352, 1352);
 
 
@@ -70,7 +75,7 @@ var MainMap = new Phaser.Class({
     cam = this.cameras.main;
     cameraDolly = new Phaser.Geom.Point(p.x, p.y);
     cam.zoom = CONST.CAM_ZOOM;
-    cam.setBounds(0, 0, map.widthInPixels * cam.zoom, map.heightInPixels * cam.zoom);
+    cam.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
     cam.startFollow(cameraDolly);
     this.events.on('resize', resize, this);
 
@@ -80,7 +85,14 @@ var MainMap = new Phaser.Class({
 
     assignKeyPresses(this);
 
-    loadUserData();
+    if (!loadUserData()) {
+      updateDialogBox("Choose a character:", "Jeff", "Sarah", function() {
+        characterId = 'walker';
+      }, function() {
+        characterId = 'walker2';
+      });
+    }
+
   },
 
   update: function(time) {

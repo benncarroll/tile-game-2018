@@ -1,127 +1,251 @@
 /*jshint esversion: 6 */
-class Character
-{
-    // stats array
-    // strength, agility, charisma, endurance, intelligence, luck
+class Character {
+  // stats array
+  // attack, speed, endurance
 
 
-    ////////////////////////////
-    //  CONSTRUCTOR FUNCTION  //
-    ////////////////////////////
+  ////////////////////////////
+  //  CONSTRUCTOR FUNCTION  //
+  ////////////////////////////
 
-    constructor(name, lvl, health, stats)
-    {
-        this.name = name || "Steve";
-        this.lvl = lvl || 0;
-        this.maxHealth = 10 + lvl*2;
-        this.health = health || this.maxHealth;
-        this.stats = stats;
+  constructor(name, gameObj, lvl, stats) {
+    this._name = name || "Steve";
+    this.gameObj = gameObj;
+    this._lvl = lvl || 0;
+    this._maxHealth = 90 + this._lvl * 10;
+    this._health = this._maxHealth;
+    this._stats = stats;
+  }
+
+
+  ///////////////////
+  //  NAME GETTER  //
+  ///////////////////
+
+  get name() {
+    return this._name;
+  }
+
+
+  /////////////////////////////
+  //  gameObj GETTER/SETTER  //
+  /////////////////////////////
+
+  get GameObj() {
+    return this.gameObj;
+  }
+
+  set GameObj(value) {
+    this.gameObj = value;
+    return this.gameObj;
+  }
+
+  get x() {
+    return this.gameObj.x;
+  }
+  set x(value) {
+    this.gameObj.x = value;
+    return this.gameObj.x;
+  }
+
+  get y() {
+    return this.gameObj.y;
+  }
+  set y(value) {
+    this.gameObj.y = value;
+    return this.gameObj.y;
+  }
+
+
+  ///////////////////////////
+  //  LEVEL GETTER/SETTER  //
+  ///////////////////////////
+
+  get lvl() {
+    return this._lvl;
+  }
+  set lvl(value) {
+    this._lvl = value;
+    this._maxHealth = 90 + this.lvl * 10;
+    return this._lvl;
+  }
+
+
+  ////////////////////////////
+  //  HEALTH GETTER/SETTER  //
+  ////////////////////////////
+
+  get health() {
+    return this._health;
+  }
+  set health(value) {
+    this._health = value;
+    return this._health;
+  }
+
+  get maxHealth() {
+    return this._maxHealth;
+  }
+  set maxHealth(value) {
+    this._maxHealth = value;
+    return this._maxHealth;
+  }
+
+
+  //////////////////////////
+  //  STAT GETTER/SETTER  //
+  //////////////////////////
+
+  get stats() {
+    return this._stats;
+  }
+  set stats(value) {
+    this._stats = value;
+    return this._stats;
+  }
+
+  /////////////////////
+  //  WEAPON GETTER  //
+  /////////////////////
+
+  get weapon() {
+    var wp = Math.min(Math.floor(this.lvl / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length - 1);
+    return GLOBALS.WEAPON_DATA[wp];
+  }
+  get newWeapon() {
+    var wpCurrent = Math.min(Math.floor(this.lvl / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length - 1);
+    var wpOld = Math.min(Math.floor((this.lvl - 1) / CONST.LVL_PER_WEAPON), Object.keys(GLOBALS.WEAPON_DATA).length - 1);
+    if (wpCurrent == wpOld) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+}
+
+function createCharacter(_game, name, level, atk, healing) {
+  player = new Character(name, _game.physics.add.sprite(664.45, 377.1, 'walker'), level, {
+    attack: atk,
+    heal: healing
+  });
+  p = player;
+  player.gameObj.setScale(0.75);
+  player.gameObj.setOrigin(0.5, 0.75);
+  player.gameObj.setCollideWorldBounds(true);
+  _game.physics.add.collider(player.gameObj, _game.groundLayer);
+
+}
+
+
+//
+// Player update
+//
+function updatePlayer() {
+
+  var movingX = false;
+  var movingY = false;
+
+  if (GLOBALS.PLAYER_ENABLED) {
+
+    if (cursors.left.isDown || wasd.left.isDown) {
+      player.gameObj.setVelocityX(-CONST.PLAYER_SPEED);
+      player.gameObj.play(characterId + '-left', true);
+      lastDir = "left";
+      movingX = true;
+    } else if (cursors.right.isDown || wasd.right.isDown) {
+      player.gameObj.setVelocityX(CONST.PLAYER_SPEED);
+      player.gameObj.play(characterId + '-right', true);
+      lastDir = "right";
+      movingX = true;
+    } else {
+      player.gameObj.setVelocityX(0);
+      movingX = false;
     }
 
-
-
-
-
-/*
-
-  ,ad8888ba,                                                                             d8
- d8"'    `"8b                ,d       ,d                                               ,8P'
-d8'                          88       88                                              d8"
-88              ,adPPYba,  MM88MMM  MM88MMM  ,adPPYba,  8b,dPPYba,  ,adPPYba,       ,8P'
-88      88888  a8P_____88    88       88    a8P_____88  88P'   "Y8  I8[    ""      d8"
-Y8,        88  8PP"""""""    88       88    8PP"""""""  88           `"Y8ba,     ,8P'
- Y8a.    .a88  "8b,   ,aa    88,      88,   "8b,   ,aa  88          aa    ]8I   d8"
-  `"Y88888P"    `"Ybbd8"'    "Y888    "Y888  `"Ybbd8"'  88          `"YbbdP"'  8P'
-
-
-
- ad88888ba
-d8"     "8b                ,d       ,d
-Y8,                        88       88
-`Y8aaaaa,     ,adPPYba,  MM88MMM  MM88MMM  ,adPPYba,  8b,dPPYba,  ,adPPYba,
-  `"""""8b,  a8P_____88    88       88    a8P_____88  88P'   "Y8  I8[    ""
-        `8b  8PP"""""""    88       88    8PP"""""""  88           `"Y8ba,
-Y8a     a8P  "8b,   ,aa    88,      88,   "8b,   ,aa  88          aa    ]8I
- "Y88888P"    `"Ybbd8"'    "Y888    "Y888  `"Ybbd8"'  88          `"YbbdP"'
-
-*/
-//(*)
-
-
-    ///////////////////
-    //  NAME GETTER  //
-    ///////////////////
-
-    get Name()
-    {
-        return this.name;
+    if (cursors.up.isDown || wasd.up.isDown) {
+      player.gameObj.setVelocityY(-CONST.PLAYER_SPEED);
+      if (!movingX) {
+        player.gameObj.play(characterId + '-up', true);
+      }
+      lastDir = "up";
+      movingY = true;
+    } else if (cursors.down.isDown || wasd.down.isDown) {
+      player.gameObj.setVelocityY(CONST.PLAYER_SPEED);
+      if (!movingX) {
+        player.gameObj.play(characterId + '-down', true);
+      }
+      lastDir = "down";
+      movingY = true;
+    } else {
+      player.gameObj.setVelocityY(0);
+      movingY = false;
     }
+  }
 
-
-    ///////////////////////////
-    //  LEVEL GETTER/SETTER  //
-    ///////////////////////////
-
-    get Lvl()
-    {
-        return this.lvl;
+  if (!movingX && !movingY) {
+    player.gameObj.setVelocityX(0);
+    player.gameObj.setVelocityY(0);
+    if (!playerDead) {
+      player.gameObj.play(characterId + '-' + lastDir + "-stop", true);
     }
-    set Lvl(value)
-    {
-        this.lvl = value;
-        this.maxHealth = 10 + this.lvl*2;
-    }
+  }
 
+  if (movingX || movingY) {
+    saveUserData();
+  }
 
-    ////////////////////////////
-    //  HEALTH GETTER/SETTER  //
-    ////////////////////////////
+}
 
-    get Health()
-    {
-        return this.health;
-    }
-    set Health(value)
-    {
-        this.health = value;
-    }
+//
+// Create Animations
+//
+function createAnims(_anims) {
+  animDict = [
+    ['down', [0, 2]],
+    ['left', [3, 5]],
+    ['right', [6, 8]],
+    ['up', [9, 11]],
+    ['down-stop', [1]],
+    ['left-stop', [4]],
+    ['right-stop', [7]],
+    ['up-stop', [10]],
+    ['dead', [12]]
+  ];
 
+  var keyArray = ['walker', 'walker2'];
 
-    //////////////////////////
-    //  STAT GETTER/SETTER  //
-    //////////////////////////
+  for (var keyI = 0; keyI < keyArray.length; keyI++) {
+    for (var i = 0; i < animDict.length; i++) {
+      l = animDict[i];
 
-    get Stats()
-    {
-        return this.stats;
-    }
-    set Stats(value)
-    {
-        this.stats = value;
-    }
+      // console.log(l);
+      // console.log(animDict);
 
-//(**)
+      n = keyArray[keyI] + "-" + l[0];
+      if (l[1].length == 1) {
+        f = [{
+          key: keyArray[keyI],
+          frame: l[1][0]
+        }];
+      } else {
+        f = _anims.generateFrameNumbers(keyArray[keyI], {
+          start: l[1][0],
+          end: l[1][1]
+        });
+      }
+      // console.log(n, f);
 
+      _anims.create({
+        key: n,
+        frames: f,
+        frameRate: 4,
+        repeat: -1,
+        yoyo: true
+      });
 
-/*
-88888888888                                             88
-88                                               ,d     ""
-88                                               88
-88aaaaa  88       88  8b,dPPYba,    ,adPPYba,  MM88MMM  88   ,adPPYba,   8b,dPPYba,   ,adPPYba,
-88"""""  88       88  88P'   `"8a  a8"     ""    88     88  a8"     "8a  88P'   `"8a  I8[    ""
-88       88       88  88       88  8b            88     88  8b       d8  88       88   `"Y8ba,
-88       "8a,   ,a88  88       88  "8a,   ,aa    88,    88  "8a,   ,a8"  88       88  aa    ]8I
-88        `"YbbdP'Y8  88       88   `"Ybbd8"'    "Y888  88   `"YbbdP"'   88       88  `"YbbdP"'
-*/
-//(*)
-
-
-
-    kill()
-    {
-        // Say some shit u died whataver
 
     }
 
-//(**)
+  }
 }

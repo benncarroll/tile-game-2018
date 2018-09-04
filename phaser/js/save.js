@@ -21,7 +21,8 @@ function saveUserData(_scene) {
         y: 247
       },
       health: 100,
-      charType: 'fighter',
+      charType: 'walker',
+      lvl: 1,
       // inventory:{},
       cs: 0
     };
@@ -41,13 +42,9 @@ function saveUserData(_scene) {
     y: p.y
   };
 
-  // craftedStorage.inventory = {};
-  //
-  // for (var item in _scene.inventory) {
-  //   if (_scene.inventory.hasOwnProperty(item)) {
-  //
-  //   }
-  // }
+  craftedStorage.charType = characterId;
+
+  craftedStorage.lvl = p.lvl;
 
   craftedStorage.cs = genChecksum(craftedStorage);
 
@@ -59,9 +56,12 @@ function saveUserData(_scene) {
 
 function loadUserData() {
 
+  var rtn = true;
+
   console.log("Fetching previous user data...");
 
   if (localStorage.getItem('userData') == null) {
+    rtn = false;
     saveUserData();
   }
 
@@ -69,6 +69,7 @@ function loadUserData() {
     userData = JSON.parse(Base64.decode(localStorage.getItem('userData')));
   } catch (e) {
     console.warn("Stored data parsing error, re-saving.");
+    rtn = false;
     // console.log(e);
     saveUserData();
     return;
@@ -79,6 +80,7 @@ function loadUserData() {
 
   if (cs != Number(userData.cs)) {
     console.warn("Checksum invalid - Setting values to 0.");
+    rtn = false;
     // resetUserData(true);
     return;
   } else {
@@ -89,9 +91,11 @@ function loadUserData() {
   // timeStarted = Number(userData.timeStarted);
   p.x = userData.playerPosition.x;
   p.y = userData.playerPosition.y;
-  p.health = userData.health;
-  p.charType = userData.charType;
+  p.health = Math.min(userData.health, p.maxHealth);
+  characterId = userData.charType;
+  p.lvl = userData.lvl;
 
   userDataLoaded = true;
+  return rtn;
 
 }
