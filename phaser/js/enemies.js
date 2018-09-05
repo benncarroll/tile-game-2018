@@ -227,52 +227,8 @@ function enemyAi() {
           }
 
         } else if (db < (e.stats.sight) * 16) {
-          var dirTo = roundTo(angleTo(e.GameObj.x, e.GameObj.y - 10, p.x, p.y, e.GameObj.x, e.GameObj.y), 45.0);
-          if (dirTo < 0) {
-            dirTo += 360;
-          }
           movementChosen = true;
-          switch (Number(dirTo)) {
-            case 0:
-              enemyMove(e, "up");
-              break;
-
-            case 360:
-              enemyMove(e, "up");
-              break;
-
-            case 45:
-              enemyMove(e, "upLeft");
-              break;
-
-            case 90:
-              enemyMove(e, "left");
-              break;
-
-            case 135:
-              enemyMove(e, "downLeft");
-              break;
-
-            case 180:
-              enemyMove(e, "down");
-              break;
-
-            case 225:
-              enemyMove(e, "downRight");
-              break;
-
-            case 270:
-              enemyMove(e, "right");
-              break;
-
-            case 315:
-              enemyMove(e, "upRight");
-              break;
-
-            default:
-              console.error(`ERROR: ${dirTo} is an invalid direction`);
-              break;
-          }
+          enemyMove(e, 'player');
         }
       }
       // otherwise it will wander around randomly
@@ -307,6 +263,10 @@ function enemyMove(enemy, dir) {
   enemy.gameObj.setVelocity(0, 0);
   s = enemy.speed || CONST.ENEMY_SPEED;
   switch (dir) {
+    case "player":
+      _game.physics.moveToObject(enemy.gameObj, p.gameObj, s);
+      return true;
+
     case "stop":
       enemy.gameObj.setVelocity(0, 0);
       return true;

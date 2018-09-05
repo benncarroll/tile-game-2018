@@ -1,6 +1,7 @@
 /*jshint esversion: 6, evil: true */
 
 // Define globals
+var _game;
 var cam;
 var cameraDolly;
 var enemies = {};

@@ -93,6 +93,8 @@ var MainMap = new Phaser.Class({
       });
     }
 
+    _game = this;
+
   },
 
   update: function(time) {
